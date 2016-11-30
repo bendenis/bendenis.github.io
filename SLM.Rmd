@@ -1,0 +1,73 @@
+---
+title: "STATS_500_HW_2"
+author: "Ben Denis Shaffer"
+date: "September 26, 2016"
+---
+
+Here we use a model to evaluate the multivariate relationship between our response of interest, the amount gambled, and covariates that include gender, social status, income, and the verbal test score. We implicitly assume a linear relationship between the response and the covariates.
+
+```{r, echo=FALSE}
+library(faraway)
+data(teengamb)
+model <- lm(teengamb$gamble ~ teengamb$sex + teengamb$status + teengamb$income + teengamb$verbal)
+```
+
+What percentage of variation in the response is explained by these predictors?
+$R^2$ is the measure for how much variability is explained by the included predictors:
+```{r, echo=FALSE}
+summary(model)$r.squared
+```
+
+Our model explains about 30% of the variation in the amount that teens gamble. This shows that our model is better than simply guessing using how much a teen would gamble using the overall average. Still this might not be satisfying and we might wish to include more variables or features(functions of variables) that we believe impact the amount gambled.
+
+Which observation has the largest (positive) residual? Give the case number.
+For this we just print the last value from the array of sorted residuals obtained from the model fit. Residuals are the vertical deviations of the observed value from the fitted line produced by the model. They show the statistical error of the model at each point where data is observed and help us evaluate how well the model fits the data, and whether the model is appropriate for the problem at hand.
+
+```{r, echo=FALSE}
+sort(model$residuals)[length(model$residuals)]
+```
+24th residual is the largest positive residual with an error over 94 £/month which is quite large from a practical point of view.
+
+
+Compute the mean and median of the residuals. Explain what the difference between the mean and the median indicates.
+```{r,echo=FALSE}
+mean(model$residuals)                           #mean
+median(model$residuals)                         #median
+mean(model$residuals) - median(model$residuals) #difference
+```
+The difference suggests that the distribution of the residuals is not symmetric. However if you compare this difference to the spread of the residuals it's clear that the difference is relatively small:
+
+```{r, echo=FALSE}
+
+mean(model$residuals) - median(model$residuals) / (range(model$residuals)[2] - range(model$residuals)[1])
+
+```
+
+This is important because we once we begin to make inferences from the model we will need to make the assumption that the residuals are normally distributed, which is a symmetric distribution. Otherwise we would need to look for outliers or employ remedial measures to normalize the data.
+
+Compute the correlation of the residuals with the fitted values. Plot residuals against fitted values.
+```{r, echo=FALSE}
+
+cor(model$residuals,model$fitted.values)
+plot(model$fitted.values,model$residuals)
+
+```
+
+Here we see that the correlation between the fitted values based on the fitted model and the residuals is quite small. While this doesn't imply that they are independent, it makes a stronger case for that assumption. From the plot however we see a bit of a pattern which is undesirable. We want a completely random plot basque that would suggest independent errors. It seems that the point in the top right corner is influential, and could be an `outlier`.
+
+Compute the correlation of the residuals with the income.
+```{r, echo=FALSE}
+
+cor(model$residuals,teengamb$income)
+
+```
+
+The correlation between the response and the residuals is very small which is desirable because we hope that the error is independent of the observed value i.e. the error is random.
+
+For all other predictors held constant, what would be the difference in predicted expenditure on gambling for a male compared to a female?
+
+The estimated parameter for the dummy variable `sex` is the adjusted difference in the mean of gambling expenditure between males and females. The estimate indicates the amount by which (about 22£/month) a female, all else equal, would spend less then a male.
+
+```{r, echo=FALSE}
+model$coefficients[2]
+```

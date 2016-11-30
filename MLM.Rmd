@@ -1,0 +1,73 @@
+---
+title: "STATS_500_HW_3"
+author: "Ben Denis Shaffer"
+date: "October 5, 2016"
+---
+
+We begin by fitting a linear model based on the `Acetic , H2S , Lactic` covariates to see how they relate to the taste of cheddar.
+
+```{r, echo=F}
+
+library(faraway)
+data("cheddar")
+dt <- cheddar
+attach(dt)
+
+m1 <- lm(taste ~ Acetic + H2S + Lactic)
+summary(m1)
+
+```
+
+Next we fit a second model with the `Acetic , H2S` trandformed to their original scale through the `exp` trandfomration appplied to both.
+
+```{r, echo=F}
+
+m2 <- lm(taste ~ exp(Acetic) + exp(H2S) + Lactic)
+summary(m2)
+
+```
+
+If we wanted to compare the models we wouldn't use an F-test because the two models are not nested, and the covariates in model two are not a subset or a subspace of the variables in model 1. Instead we use $R^2$ to get a feel for how well the models fit the data, and model judging by $R^2$ model 1 provides a better fit.
+
+```{r}
+
+summary(m1)$r.squared #model 1
+summary(m2)$r.squared #model 2
+
+```
+
+If we increase `H2S` by 0.01 the change in taste, all else being equal, is the change times the estimated coef.
+
+```{r, echo=F}
+
+m1$coefficients[3]*0.01
+
+```
+
+To get a percent change in `H2S` when it is transformed by an `exp`, corresponding to a 0.01 addetive change on the original scale we would take the ratio of $exp(H2S + 0.01) / exp(H2S)$ and multiply by 100.
+
+```{r}
+
+(exp(0.01) - 1)*100 #About 1% change
+
+```
+
+To derive the confidence intervals for the first model we compute the standard errors and use t-value assosiated with type I error rate of 5%.
+
+```{r}
+
+confint(m1)
+
+```
+
+Next we plot the confidence region for the `H2S , Lactic` variables which produces a region bounded by an ellipse. 
+
+
+```{r, echo=F}
+
+library(ellipse)
+plot(ellipse(cov(H2S, Lactic)), type = "l", col=2, ylab = "SD(Lactic)", xlab = "SD(H2S)", main = "Confidence Region")
+points((Lactic - mean(Lactic))/sd(Lactic),(H2S - mean(H2S))/sd(H2S), pch = 20)
+
+
+```

@@ -21,14 +21,13 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="site_libs/highlight/default.css"
-      type="text/css" />
-<script src="site_libs/highlight/highlight.js"></script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
@@ -155,7 +154,6 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
@@ -294,10 +292,9 @@ rug(log(teengamb$gamble), ticksize = 0.1, lwd=1, col = 5)</code></pre>
 <div id="quick-look-at-the-covariates" class="section level2">
 <h2>Quick look at the Covariates</h2>
 <p>We have <code>4</code> covariats, two categorical (<code>Sex</code>, <code>Verbal</code>) and two continuous (<code>Income</code>,<code>Status</code>). From the summary we see that for the continuous covariates the distributions are more or less symmetric. We also see that there are 9 more males so the sample is not quite balanced. To explore the <code>Verbal</code> factor we plot a histogram, and further fill by <code>Sex</code>. We see two things here: 1st, verbal test scores are skewed towards higher scores. 2nd, the best and the worst scores are both observed from the male population. This might suggest that male test scores are more variable, though the sample is unbalanced and such a hypothesis would require testing.</p>
-<pre class="r"><code>library(ggplot2)</code></pre>
-<pre><code>## Stackoverflow is a great place to get help:
-## http://stackoverflow.com/tags/ggplot2.</code></pre>
-<pre class="r"><code>dt &lt;-data.frame(factor(teengamb$sex),teengamb$status, teengamb$income, factor(teengamb$verbal))
+<pre class="r"><code>library(ggplot2)
+
+dt &lt;-data.frame(factor(teengamb$sex),teengamb$status, teengamb$income, factor(teengamb$verbal))
 levels(dt$factor.teengamb.sex.) &lt;- c(&quot;Male&quot;,&quot;Female&quot;)
 colnames(dt) &lt;- c(&quot;Sex&quot;,&quot;Status&quot;,&quot;Income&quot;,&quot;Verbal&quot;)
 
@@ -333,8 +330,11 @@ corrplot.mixed(corr, upper = &quot;ellipse&quot;)</code></pre>
 <script>
 
 // add bootstrap table styles to pandoc tables
-$(document).ready(function () {
+function bootstrapStylePandocTables() {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
 });
 
 

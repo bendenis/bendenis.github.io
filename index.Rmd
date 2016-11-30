@@ -1,0 +1,8 @@
+---
+title: "Topics"
+---
+
+- Statistical Learning I: Regression [STATS:500]
+- Statistical Learning II: Multivariate Analysis [STATS:503]
+- Computational Methods & Tools [STATS:506]
+- Spatial Statistics [BIOSTAT:696]

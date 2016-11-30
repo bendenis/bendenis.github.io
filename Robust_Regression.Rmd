@@ -1,0 +1,90 @@
+---
+title: "STATS_500_HW5"
+author: "Ben Denis Shaffer"
+date: "November 3, 2016"
+---
+
+Here we will explore robust methods of regression and compare results to a regular regression analysis with diagnostics. The focus is on the question of how to best remedy outliers. The following is a snipet of the dataset being used.
+
+```{r, message=FALSE,warning=FALSE, echo=FALSE}
+library(knitr)
+library(faraway)
+library(MASS)
+library(quantreg)
+
+data("stackloss")
+attach(stackloss)
+kable(head(stackloss))
+```
+
+LS Model: Least squares
+```{r, message=FALSE, echo=FALSE}
+m1 <- lm(stack.loss ~ Air.Flow + Water.Temp + Acid.Conc.)
+tb <- as.data.frame(summary(m1)$coefficients)
+summary(m1)$call
+kable(tb)
+```
+
+LAD Model: Least absolute deviations
+```{r, message=FALSE, echo=FALSE}
+m2 <- rq(stack.loss ~ Air.Flow + Water.Temp + Acid.Conc.)
+tb <- as.data.frame(summary(m2)$coefficients)
+summary(m2)$call
+kable(tb)
+```
+
+Huber Model: Huber’s robust regression
+```{r, message=FALSE, echo=FALSE}
+m3 <- rlm(stack.loss ~ Air.Flow + Water.Temp + Acid.Conc.)
+tb <- as.data.frame(summary(m3)$coefficients)
+summary(m3)$call
+kable(tb)
+```
+
+LTS Model: Least trimmed squares
+```{r, message=FALSE, echo=FALSE}
+m4 <- ltsreg(stack.loss ~ Air.Flow + Water.Temp + Acid.Conc.)
+tb <- as.data.frame(m4$coefficients)
+m4$call
+kable(tb)
+
+```
+
+The inferences on the results are not directly comparable, but we can directly compare the estimated coefficients. First we note that the coefficient for `Air.Flow` as well as the intercept don't change dramatically. We would also suspect that `Air.Flow` is statistically significant based on all the regressions where a t-statistic of a confidence bound is available . Coefficient for `Water.Temp` does shrink noticeably, however the sign, and thus the qualitative interpretation would not change. This variable also seems significant. The qualitative interpretation of `Acid.Conc.` also doesn't change except for the LTS method where the variable is effectively ignored. All in all the results are quite similar in terms of the qualitative interpretation of the coefficients, and also comparable in quantitative effect on the outcome in some cases.
+
+Now we can try to improve our LS model by preforming diagnostics and taking appropriate measures. We will focus on the analysis of extreme points since the goal of robust regression methods is to remedy the extreme points.
+
+
+First we look if there are point with high leverage
+```{r}
+halfnorm(lm.influence(m1)$hat)
+cut = 2*(dim(stackloss)[2]+1)/dim(stackloss)[1]
+sum(lm.influence(m1)$hat > cut)
+```
+There appear to be some points with more leverage then others, like point 17, but no extreme values are observed. So, there don't seem to be points with too high a leverage.
+
+Next we test for outliers
+```{r}
+p_val <- (1 - pt(abs(rstudent(m1)), nrow(stackloss) - ncol(stackloss - 1)))*2
+plot(sort(p_val), ylab = "p-value", main = "Testing Outliers, Bonferroni Adjustment")
+abline(h = 0.05/nrow(stackloss), col = 2, lty = 2)
+sort(p_val)[1:2]
+```
+
+From the Bonferroni Adjusted test we see that point 21 would be considered an outlier. Bonferroni Adjustment is quite conservative however, so the second point could also be a suspect.
+
+The next step would be to remove these two points (21,4) from the dataset and refit the LS model
+
+```{r}
+
+dts <- stackloss[-c(4,21),]
+
+m5 <- lm(stack.loss ~ Air.Flow + Water.Temp + Acid.Conc., data = dts)
+tb <- as.data.frame(summary(m5)$coefficients)
+summary(m5)$call
+kable(tb)
+
+```
+
+Now when we compare the two LS models we see that the qualitative results are again the same. Now `Water.Temp` is less significant. The model without outliers however provides a better fit ($R^2$ increased to `0.9693` from `0.9136`) to the data. This is not necessarily good however. Furthermore if we look at the residual plots the problems of heteroskedastisity and possibly non-linearity remain, if not worsen. Without the outliers however the data does seem to follow the normal distribution more closely.
+
