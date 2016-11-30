@@ -1,2 +1,0 @@
-# bendenis.github.io
-website
