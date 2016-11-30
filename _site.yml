@@ -1,0 +1,37 @@
+name: "my-website"
+output_dir: "."
+navbar:
+  title: "Portfolio"
+  type: inverse
+  left:
+        - text: "STATS 500"
+          icon: ion-ios-pulse
+          menu:
+            - text: "About"
+              href: about_stl1.html
+            - text: "EDA"
+              href: EDA.html
+            - text: "SLM"
+              href: SLM.html
+            - text: "MLM"
+              href: MLM.html
+            - text: "Diagnostics"
+              href: Diagnostics.html
+            - text: "Robust Regression"
+              href: Robust_Regression.html
+        - text: "STATS 506"
+          icon: fa-laptop 
+          menu:
+            - text: "About"
+              href: about_comp.html
+        - text: "BIOSTAT 696"
+          icon: fa-map
+          menu:
+            - text: "About"
+              href: about_spatial.html
+  right:
+      - text: "Data Blog"
+        icon: fa-book
+        href: sample_page.html
+  
+      

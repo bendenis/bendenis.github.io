@@ -1,0 +1,30 @@
+---
+title: "Statistical Learning I"
+---
+
+Topics Explored:
+
+* Mathematical Foundations
+* Regression Model Framework
+* Parameter Estimation
+* Inferences
+* Model Diagnistics
+* Problems with Predictors
+* Robust Regression
+    + Least Absolute Deviation
+    + Huber Regression
+    + Least Trimmed Squares
+* Variable Transformations
+* Model Selection
+    + Information Criteria
+    + Stepwise Regression
+    + Adjusted $R^2$
+    + Mallows Cp
+* Shrinkage Methods
+    + Principal Component Regression
+    + Partial Least Squares
+    + Ridge Regression
+    + Lasso Regression
+* Missing Values
+* Analysis of Covariance
+

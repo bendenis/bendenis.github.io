@@ -1,0 +1,19 @@
+---
+title: "Statistical Learning I"
+---
+
+Topics Explored:
+
+- Mathematical Foundations
+- Regression Model Framework
+- Parameter Estimation
+- Inferences
+- Model Diagnistics
+- Problems with Predictors
+- Robust Regression
+- Variable Transformations
+- Model Selection
+- Shrinkage Methods
+- Missing Values
+- Analysis of Covariance
+

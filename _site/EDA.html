@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Ben Denis Shaffer" />
+
+<meta name="date" content="2016-09-15" />
+
+<title>STATS_500_HW_1_with_code</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Portfolio</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="ion ion-ios-pulse"></span>
+     
+    STATS 500
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about_stl1.html">About</a>
+    </li>
+    <li>
+      <a href="EDA.html">EDA</a>
+    </li>
+    <li>
+      <a href="SLM.html">SLM</a>
+    </li>
+    <li>
+      <a href="MLM.html">MLM</a>
+    </li>
+    <li>
+      <a href="Diagnostics.html">Diagnostics</a>
+    </li>
+    <li>
+      <a href="Robust_Regression.html">Robust Regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    STATS 506
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about_comp.html">About</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-map"></span>
+     
+    BIOSTAT 696
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about_spatial.html">About</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="sample_page.html">
+    <span class="fa fa-book"></span>
+     
+    Data Blog
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">STATS_500_HW_1_with_code</h1>
+<h4 class="author"><em>Ben Denis Shaffer</em></h4>
+<h4 class="date"><em>September 15, 2016</em></h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The following document provides a quick snapshot of the <code>teengable</code> data-set. This data contains observations on <code>47</code> different teenagers from the UK spending on gambling in one year, as well as variables characterizing these subjects. <code>Amount Gambled</code> is considered as the response variable <code>Y</code> in this data, with the rest of the variables acting as covariates <code>X</code>.</p>
+</div>
+<div id="exploring-amount-gambled" class="section level2">
+<h2>Exploring <code>Amount Gambled</code></h2>
+<p>First we produce a summary of the <code>Amount Gambled</code>. In the summary notice that the mean of <code>19.3</code> is more that <code>3</code> time that of the median. In fact the mean is almost equal to the 4th quantile, indicating that almost <code>75%</code> of the observations are below the mean. This suggests that the distribution of data is skewed, and might require a transformation.</p>
+<pre class="r"><code>library(faraway)
+data(teengamb)
+summary(teengamb$gamble)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     0.0     1.1     6.0    19.3    19.4   156.0</code></pre>
+<p>In the top two plots we see a graphical representation of the numeric summary. First plot uses the raw data, and suggests that there are outlieres. The second plot uses the <code>log</code> scale, which normalizes that data and suggests no outlieres. Thus the <code>log</code> transformations seems appropriate.</p>
+<pre class="r"><code>par(mfrow = c(2,2))
+
+boxplot(teengamb$gamble, main = &quot;Summary of Expenditure on Gambling in Pounds per Year&quot;)
+boxplot(log(teengamb$gamble+1), main = &quot;Summary of LOG Expenditure on Gambling in Pounds per Year&quot;)
+
+
+plot(teengamb$gamble, col = factor(teengamb$sex),main = &quot;Expenditure on Gambling in Pounds per Year&quot;, xlab = &quot;Teenager&quot;, ylab = &quot;Amount Gambled&quot;, pch = 20)
+legend(&quot;topleft&quot;, fill = 2:1, legend = c(&quot;Female&quot;,&quot;Male&quot;))
+
+
+plot(density(log(teengamb$gamble)), main = &quot;Empirical Density of LOG Expenditure on Gambling&quot;, xlab = &quot;Log Expenditure on Gambling&quot;)
+rug(log(teengamb$gamble), ticksize = 0.1, lwd=1, col = 5)</code></pre>
+<p><img src="EDA_files/figure-html/unnamed-chunk-2-1.png" width="1056" /></p>
+<p>In the bottom two plots displayed above further explore <code>Amount Gambled</code>. The dot plot reveals two things. 1st, the data might suggest that females gamble less, and that some males gamble significantly more than others. 2nd, there are a number of subjects that don’t gamble at all; this means that the <code>log</code> transformation needs to be modified such that no <code>log(0)</code> computations are attempted. The second plot shows the empirical distribution of the transformed data, which resembles a normal distribution. This is good news, since this is what we desire for a response variable.</p>
+</div>
+<div id="quick-look-at-the-covariates" class="section level2">
+<h2>Quick look at the Covariates</h2>
+<p>We have <code>4</code> covariats, two categorical (<code>Sex</code>, <code>Verbal</code>) and two continuous (<code>Income</code>,<code>Status</code>). From the summary we see that for the continuous covariates the distributions are more or less symmetric. We also see that there are 9 more males so the sample is not quite balanced. To explore the <code>Verbal</code> factor we plot a histogram, and further fill by <code>Sex</code>. We see two things here: 1st, verbal test scores are skewed towards higher scores. 2nd, the best and the worst scores are both observed from the male population. This might suggest that male test scores are more variable, though the sample is unbalanced and such a hypothesis would require testing.</p>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<pre><code>## Stackoverflow is a great place to get help:
+## http://stackoverflow.com/tags/ggplot2.</code></pre>
+<pre class="r"><code>dt &lt;-data.frame(factor(teengamb$sex),teengamb$status, teengamb$income, factor(teengamb$verbal))
+levels(dt$factor.teengamb.sex.) &lt;- c(&quot;Male&quot;,&quot;Female&quot;)
+colnames(dt) &lt;- c(&quot;Sex&quot;,&quot;Status&quot;,&quot;Income&quot;,&quot;Verbal&quot;)
+
+summary(dt)</code></pre>
+<pre><code>##      Sex         Status          Income           Verbal  
+##  Male  :28   Min.   :18.00   Min.   : 0.600   6      :12  
+##  Female:19   1st Qu.:28.00   1st Qu.: 2.000   8      :10  
+##              Median :43.00   Median : 3.250   7      : 9  
+##              Mean   :45.23   Mean   : 4.642   9      : 6  
+##              3rd Qu.:61.50   3rd Qu.: 6.210   4      : 4  
+##              Max.   :75.00   Max.   :15.000   5      : 3  
+##                                               (Other): 3</code></pre>
+<pre class="r"><code>dtt &lt;-data.frame(teengamb$sex,teengamb$status, teengamb$income, teengamb$verbal)
+colnames(dtt) &lt;- c(&quot;Sex&quot;,&quot;Status&quot;,&quot;Income&quot;,&quot;Verbal&quot;)
+corr &lt;- cor(dtt)
+
+qplot(dt$Verbal, fill = dt$Sex, ylab = &quot;Verbal Test Score&quot;, xlab = &quot;&quot;)</code></pre>
+<p><img src="EDA_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>From the second plot we see again that among the males these seems to be more variability in <code>Income</code> on the <code>log</code> scale.</p>
+<pre class="r"><code>qplot(1:length(log(dt$Income)),log(dt$Income) , col=dt$Sex, ylab = &quot;Log Income&quot;, xlab = &quot;&quot;)</code></pre>
+<p><img src="EDA_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Next we look at the correlation among the covariates themselves. We are hoping for low covariances, because high covariance among pairs of covariates might suggest that they carry the same information and only one should be used for modeling. In the plot we see that <code>Status</code> and <code>Income</code> are positively correlated with a coefficient slightly above <code>0.5</code>. While not dramatic, this calls for attention during the modeling stage of analysis.</p>
+<pre class="r"><code>library(corrplot)
+corrplot.mixed(corr, upper = &quot;ellipse&quot;)</code></pre>
+<p><img src="EDA_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

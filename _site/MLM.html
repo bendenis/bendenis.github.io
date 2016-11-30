@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Ben Denis Shaffer" />
+
+
+<title>STATS_500_HW_3</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Portfolio</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="ion ion-ios-pulse"></span>
+     
+    STATS 500
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about_stl1.html">About</a>
+    </li>
+    <li>
+      <a href="EDA.html">EDA</a>
+    </li>
+    <li>
+      <a href="SLM.html">SLM</a>
+    </li>
+    <li>
+      <a href="MLM.html">MLM</a>
+    </li>
+    <li>
+      <a href="Diagnostics.html">Diagnostics</a>
+    </li>
+    <li>
+      <a href="Robust_Regression.html">Robust Regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    STATS 506
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about_comp.html">About</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-map"></span>
+     
+    BIOSTAT 696
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about_spatial.html">About</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="sample_page.html">
+    <span class="fa fa-book"></span>
+     
+    Data Blog
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">STATS_500_HW_3</h1>
+<h4 class="author"><em>Ben Denis Shaffer</em></h4>
+<h4 class="date"><em>October 5, 2016</em></h4>
+
+</div>
+
+
+<p>We begin by fitting a linear model based on the <code>Acetic , H2S , Lactic</code> covariates to see how they relate to the taste of cheddar.</p>
+<pre><code>## 
+## Call:
+## lm(formula = taste ~ Acetic + H2S + Lactic)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -17.390  -6.612  -1.009   4.908  25.449 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept) -28.8768    19.7354  -1.463  0.15540   
+## Acetic        0.3277     4.4598   0.073  0.94198   
+## H2S           3.9118     1.2484   3.133  0.00425 **
+## Lactic       19.6705     8.6291   2.280  0.03108 * 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 10.13 on 26 degrees of freedom
+## Multiple R-squared:  0.6518, Adjusted R-squared:  0.6116 
+## F-statistic: 16.22 on 3 and 26 DF,  p-value: 3.81e-06</code></pre>
+<p>Next we fit a second model with the <code>Acetic , H2S</code> trandformed to their original scale through the <code>exp</code> trandfomration appplied to both.</p>
+<pre><code>## 
+## Call:
+## lm(formula = taste ~ exp(Acetic) + exp(H2S) + Lactic)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -16.209  -7.266  -1.651   7.385  26.335 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) -1.897e+01  1.127e+01  -1.684   0.1042  
+## exp(Acetic)  1.891e-02  1.562e-02   1.210   0.2371  
+## exp(H2S)     7.668e-04  4.188e-04   1.831   0.0786 .
+## Lactic       2.501e+01  9.062e+00   2.760   0.0105 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 11.19 on 26 degrees of freedom
+## Multiple R-squared:  0.5754, Adjusted R-squared:  0.5264 
+## F-statistic: 11.75 on 3 and 26 DF,  p-value: 4.746e-05</code></pre>
+<p>If we wanted to compare the models we wouldn’t use an F-test because the two models are not nested, and the covariates in model two are not a subset or a subspace of the variables in model 1. Instead we use <span class="math inline">\(R^2\)</span> to get a feel for how well the models fit the data, and model judging by <span class="math inline">\(R^2\)</span> model 1 provides a better fit.</p>
+<pre class="r"><code>summary(m1)$r.squared #model 1</code></pre>
+<pre><code>## [1] 0.6517747</code></pre>
+<pre class="r"><code>summary(m2)$r.squared #model 2</code></pre>
+<pre><code>## [1] 0.575407</code></pre>
+<p>If we increase <code>H2S</code> by 0.01 the change in taste, all else being equal, is the change times the estimated coef.</p>
+<pre><code>##        H2S 
+## 0.03911841</code></pre>
+<p>To get a percent change in <code>H2S</code> when it is transformed by an <code>exp</code>, corresponding to a 0.01 addetive change on the original scale we would take the ratio of <span class="math inline">\(exp(H2S + 0.01) / exp(H2S)\)</span> and multiply by 100.</p>
+<pre class="r"><code>(exp(0.01) - 1)*100 #About 1% change</code></pre>
+<pre><code>## [1] 1.005017</code></pre>
+<p>To derive the confidence intervals for the first model we compute the standard errors and use t-value assosiated with type I error rate of 5%.</p>
+<pre class="r"><code>confint(m1)</code></pre>
+<pre><code>##                  2.5 %    97.5 %
+## (Intercept) -69.443503 11.689964
+## Acetic       -8.839420  9.494902
+## H2S           1.345656  6.478026
+## Lactic        1.933267 37.407820</code></pre>
+<p>Next we plot the confidence region for the <code>H2S , Lactic</code> variables which produces a region bounded by an ellipse.</p>
+<p><img src="MLM_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
