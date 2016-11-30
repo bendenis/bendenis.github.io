@@ -1,0 +1,364 @@
+---
+title: "BIOSTAT_696_HW_1"
+author: "Ben Denis Shaffer"
+date: "September 19, 2016"
+output: html_document
+---
+
+```{r, echo=F, message=F, warning=F}
+library(ggplot2)
+library(maps)
+library(RgoogleMaps)
+library(sp)
+library(rgdal)
+library(fields)
+library(RColorBrewer)
+library(classInt)
+library(gstat)
+library(manipulate)
+library(MASS)
+library(fields)
+library(akima)
+library(geoR)
+```
+
+
+##(a) Maps
+Map of observed daily average concentration of PM2.5 on August 22, 2015.
+We use three different maps of the same data. The first plot uses the base package, the second map uses the `map` function, and the third map uses the `RgoogleMaps` package.
+
+```{r, echo=F}
+
+setwd("/Users/bendenisshaffer/Box Sync/UM Fall 2016/BIOSTAT 696/Data")
+data <- read.table("Particulate_matter_aug22_midwest.txt", header = T)
+attach(data)
+
+plotclr <- brewer.pal(9,"PuBuGn")
+class <- classIntervals(Obs_value,9,style="fixed",fixedBreaks=seq(min(Obs_value),max(Obs_value),length=9+1))
+colcode <- findColours(class,plotclr)
+
+#plot1
+plot(Longitude,Latitude, pch=20, col=colcode, main = "PM2.5 Measumrments on Select Sates")
+US(xlim=range(Longitude),ylim=range(Latitude),add=T,lwd=1,col="gray")
+
+#plot2
+map('state', region = c('illinois', 'indiana', 'kentucky', 'michigan', 'ohio', 'wisconsin'), fill=TRUE, col="gray95")
+points(Longitude,Latitude,col=colcode,pch = 20)
+
+#plot3
+map <- GetMap.bbox(lonR = range(Longitude), latR = range(Latitude), size = c(640,640), maptype = "hybrid")
+PlotOnStaticMap(map)
+convert_points <- LatLon2XY.centered(map,Latitude,Longitude)
+points(convert_points$newX,convert_points$newY, col = colcode, pch = 19)
+
+```
+
+##(b) Surface Plot
+Next we plot the interpolated surface for the observed daily average concentration of PM2.5 and add contour lines to the plot. This plot gives us a ruff idea about how the PM2.5 concentrations vary spatially over our region of exploration.
+
+```{r,echo=F, results="hide"}
+
+x <- Longitude
+y <- Latitude
+x_2 <- Longitude^2
+y_2 <- Latitude^2
+x_y <- Longitude*Latitude
+
+
+model <- lm(log(Obs_value) ~ x + y + State)
+summary(model)
+```
+
+```{r, echo=F}
+surf_est_surface <- interp(x,y,model$fitted.values)
+plotvar <- surf_est_surface$z[!is.na(surf_est_surface$z)]
+
+plotclr <- brewer.pal(9,"PuBuGn")
+class <- classIntervals(plotvar,9,style="fixed",fixedBreaks=seq(min(plotvar),max(plotvar),length=9+1))
+colcode <- findColours(class,plotclr)
+
+image.plot(surf_est_surface$x, surf_est_surface$y, surf_est_surface$z, col=plotclr, breaks=seq(1.5,2.5,length=10), zlim=c(1.5,2.5),xlab="X",ylab="Y",main="Estimated spatial trend")
+US(xlim=range(Longitude),ylim=range(Latitude),add=T,lwd=1,col="gray")
+```
+
+##(c) E.D.A
+The first thing to look at is the summary of the observed PM2.5 concentrations. This gives us a feel for global distribution of observed values. Furthermore, we take a look at the boxplot which summarizes this information graphically and also highlights some extreme points. From the boxplot we see that there seem to be a number of somewhat extreme observed values.
+
+```{r}
+summary(Obs_value)
+boxplot(Obs_value)
+```
+
+Next we look at the histograms and estimated densities of the PM2.5 concentrations by state. From the histogram we can see that the extreme values occur in Ohio and Kentucky for the most part, indicating that observations are more variable in these states. This observation is also consistent with the surface plot and the map plots.
+
+
+```{r}
+qplot(log(Obs_value), fill = State)
+g <- ggplot(data, aes(log(Obs_value))) + geom_density(aes(group = State, fill = State), alpha = 0.4); g
+```
+
+The density plots above show similar information, however it also suggests that there might be statistical difference in the mean observed values between some of the states. For example Michigan and Illinois have quite distinct peaks.
+
+
+The next two boxplots look at how the means vary given other factors, type of location and type of land use at the location. From these plots these two factors seem not to vary with PM2.5 concentration.
+```{r}
+qplot(Location_monitor_type, log(Obs_value), geom = "boxplot")
+qplot(Land_use, log(Obs_value), geom = "boxplot")
+```
+
+Looking at the correlation plot it seems that there is no obvious linear relationship between PM2.5 concentrations and any of the geographic data including the coordinates or elevation. However based on the maps and surface plot these seems to be spacial dependence.
+```{r}
+plot(data[,c(2,3,4,8)])
+
+```
+
+##(d) Modeling: Large Scale Variation
+
+In the model for the global trend I include the Longitude, Latitude, as well as State as explanatory variables. The Motivation behind including the coordinates comes from the plotted maps and the surface image. It appears that higher concentrations of PM_2.5 are observed towards the south-west. The motivation for including States comes from the observation that the variation in the PM_2.5 due to elevations is captured by the State variable. Also it is plausible that state regulations or standards vary, and possibly impact the global trend of observed PM_2.5 concentrations.
+
+```{r,echo=F}
+
+x <- Longitude
+y <- Latitude
+x_2 <- Longitude^2
+y_2 <- Latitude^2
+x_y <- Longitude*Latitude
+```
+
+We do quick variable selections by adding additional variables, but none seem to provide significant information about the variation in the response, thus we use a model with just the coordinates and State.
+```{r}
+anova(lm(log(Obs_value) ~ x + y + State), lm(log(Obs_value) ~ x + y + State + Elevation), lm(log(Obs_value) ~ x + y + State + Elevation + Land_use), lm(log(Obs_value) ~ x + y + State + Elevation + Land_use + Location_monitor_type))
+
+model <- lm(log(Obs_value) ~ x + y + State)
+summary(model)
+```
+
+From the estimated parameters it appears that increasing x or y i.e. moving in the direction of north-east is associated with lower values of PM_2.5. Also, it appears that the difference in the mean observed concentration between Michigan and Illinois is statistically significant. Overall the model for the global trend explains about 30% of the variation in the observed PM_2.5 variation. Thus there is a motivation to model the small scale variation too.
+
+##(d) Variogram: Small-Scale Variation
+
+Having modeled the global trend we proceed to modeling the small scale variation. For this analysis we produce the empirical variaogram and then fit parametric variaograms models. We then choose the model that fits best based on the weighted sum of squares criteria.
+
+```{r, echo=F}
+
+n <- nrow(data)
+dist_matrix <- matrix(0 , nrow = n , ncol = n)
+diff_matrix <- matrix(0, nrow = n , ncol = n)
+
+coordinates <- matrix( cbind(Longitude , Latitude), nrow = n , ncol=2)
+
+dist_matrix <- rdist(coordinates, coordinates)
+
+for(i in 1:n){
+        for(j in 1:n){
+                diff_matrix[i,j] <- (1/2)*(model$residuals[i]-model$residuals[j])^2	
+        }
+}
+
+
+# This is a plot of the variogram cloud
+plot(as.numeric(dist_matrix), as.numeric(diff_matrix), type="p", pch=20, col="black", xlab="Distance", ylab="Squared differences")
+```
+Above is the plot of the variogram cloud. The cloud reflects that at close distances the the variation in PM2.5 concentrations is small, and as we begin to move away the variation increases. The cloud however dips down after a certain distance. This is not a problem because this analysis focuses on the small scale variation, while the variation at larger distances is modeled by the global trend. For this reason we produce an empirical variogram which groups the concentration variations into unequal bins that increase in size and hence weigh small scale variation higher.
+
+Below is the result of an empirical variogram that uses 10 bins. From the plot we can see that the variance or semi-variance increases and levels out pretty quickly and begin to fluctuate somewhat.
+
+```{r}
+bins <- (0.1)*((1:10)^1.8)
+
+dt <- data.frame(cbind(x,y,(model$residuals)))
+empirical_variogram <- variogram(model$residuals ~ 1 ,locations = ~ x + y ,dt, boundaries = bins)
+plot(empirical_variogram,col="black",type="p",pch=20)
+```
+
+We furthermore explore whether the spacial process that we are modeling is isotropic or anisotropic. If the process is isotropic the semi-variance is a function of only the distance, and is independent  of direction of movement away from a point. To answer the question we produce a directional semivariogram where we use the same method to produce a variogram, only fix a vector/degree along which differences are computed. 
+
+Looking at the directional variogram below it becomes evident the the process is in fact anisotropic. Along the movement at 90 degrees we get a desirable variogram, while looking at 0,45, and 135 degrees produces undesirable behavior that looks more normal random.
+
+```{r}
+directional_empirical_variogram <- variogram(model$residuals ~ 1,locations = ~ x + y ,dt, alpha=c(0,45,90,135),boundaries = bins)
+plot(directional_empirical_variogram)
+
+```
+
+##(f) Parametric Variogram
+
+Despite having an anisotropic process we proceed to fitting parametric variogram models and assessing their goodness of fit via weighted sum of squares.
+
+Below are the plots of the fitted Exponential, Spherical, Gaussian, and Matern models. All appear quite similar, with the main differences in behavior along distances below 1.
+
+```{r}
+exp_veriogram_model <- fit.variogram(empirical_variogram,vgm(psill=0.03,"Exp",1,0.01),fit.method=2)
+print(plot(empirical_variogram,exp_veriogram_model))
+```
+
+```{r}
+sph_veriogram_model <- fit.variogram(empirical_variogram,vgm(psill=0.03,"Sph",1,0.01),fit.method=2)
+print(plot(empirical_variogram,sph_veriogram_model))
+```
+
+```{r}
+gau_veriogram_model <- fit.variogram(empirical_variogram,vgm(psill=0.03,"Gau",1,0.01),fit.method=2)
+print(plot(empirical_variogram,gau_veriogram_model))
+```
+
+```{r}
+mat_veriogram_model <- fit.variogram(empirical_variogram,vgm(psill=0.03,"Mat",1,0.01, kappa = 1),fit.method=2)
+print(plot(empirical_variogram,mat_veriogram_model))
+
+
+```
+
+The estimated parameters for all of the fitted models are summarized in the table below.
+
+```{r, echo=F}
+rnames <- c("sigam2","phi","tau2", "nugget")
+c1 <- c(exp_veriogram_model$psill[2],exp_veriogram_model$range[2],exp_veriogram_model$psill[1],exp_veriogram_model$range[1])
+c2 <- c(sph_veriogram_model$psill[2],sph_veriogram_model$range[2],sph_veriogram_model$psill[1],sph_veriogram_model$range[1])
+c3 <- c(gau_veriogram_model$psill[2],gau_veriogram_model$range[2],gau_veriogram_model$psill[1],gau_veriogram_model$range[1])
+c4 <- c(mat_veriogram_model$psill[2],mat_veriogram_model$range[2],mat_veriogram_model$psill[1],mat_veriogram_model$range[1])
+
+
+params <- cbind(c1,c2,c3,c4)
+row.names(params) <- c("sigam2","phi","tau2", "nugget")
+colnames(params) <- c("Exp", "Sph", "Gau","Mat")
+params
+```
+
+##(g) Comparing WSS
+
+```{r, echo=F, warning=F, message=F}
+dist <- empirical_variogram$dist
+
+sigma2 <- exp_veriogram_model$psill[2]
+phi <- exp_veriogram_model$range[2]
+tau2 <- exp_veriogram_model$psill[1]
+
+fitted_exp_variogram <- function(sigma2,phi,tau2,dist){
+        n <- length(dist)
+        exp.variog.vec <- rep(0,n)
+        for(i in 1:n){
+                exp.variog.vec[i] <- tau2+(sigma2*(1-exp(-dist[i]/phi)))
+        }
+        return(exp.variog.vec)
+}
+
+fitted1 <- fitted_exp_variogram(sigma2,phi,tau2,dist)
+sse1 <- sum((empirical_variogram$gamma - fitted1)^2)
+
+sigma2 <- sph_veriogram_model$psill[2]
+phi <- sph_veriogram_model$range[2]
+tau2 <- sph_veriogram_model$psill[1]
+
+fitted_sph_variogram <- function(sigma2,phi,tau2,dist){
+        n <- length(dist)
+        sph.variog.vec <- rep(0,n)
+        for(i in 1:n){
+                if(dist[i] < phi){
+                        sph.variog.vec[i] <- tau2+(sigma2*(((3*dist[i])/(2*phi))-((dist[i]^3)/(2*(phi^3)))))
+                }
+                if(dist[i] >= phi){
+                        sph.variog.vec[i] <- tau2+sigma2	
+                }
+        }
+        return(sph.variog.vec)
+}
+
+fitted2 <- fitted_sph_variogram(sigma2,phi,tau2,dist)
+sse2 <- sum((empirical_variogram$gamma - fitted2)^2)
+
+
+sigma2 <- gau_veriogram_model$psill[2]
+phi <- gau_veriogram_model$range[2]
+tau2 <- gau_veriogram_model$psill[1]
+
+fitted_gau_variogram <- function(sigma2,phi,tau2,dist){
+        n <- length(dist)
+        gau_variog_vec <- rep(0,n)
+        for(i in 1:n){
+                gau_variog_vec[i] <- tau2+(sigma2*(1-exp(-(dist[i]/phi)^2)))
+        }
+        return(gau_variog_vec)
+}
+
+fitted3 <- fitted_gau_variogram(sigma2,phi,tau2,dist)
+sse3 <- sum((empirical_variogram$gamma - fitted3)^2)
+
+sigma2 <- mat_veriogram_model$psill[2]
+phi <- mat_veriogram_model$range[2]
+tau2 <- mat_veriogram_model$psill[1]
+
+fitted_mat_variogram <- function(sigma2,phi,tau2,dist){
+        n <- length(dist)
+        mat_variog_vec <- rep(0,n)
+        for(i in 1:n){
+                mat_variog_vec[i] <- tau2+(sigma2*(1 - 2*(dist/phi)*besselI(2*(dist/phi),1)))
+        }
+        return(mat_variog_vec)
+}
+
+fitted4 <- fitted_mat_variogram(sigma2,phi,tau2,dist)
+sse4 <- sum((empirical_variogram$gamma - fitted4)^2)
+
+wss_results_table <- data.frame(WSS = round(c(sse1,sse2,sse3,sse4),8),Ratio = round(1/round(c(sse1,sse2,sse3,sse4)/sse1,8),3), row.names = c("Exponential","Spherical","Gaussian","Matern"))
+```
+
+Having fitted the models we compute the weighted sums of squared differences to assess the goodness of fit. The table below summarizes the computations. Based on this criteria only we would select the Exponential variogram model.
+
+```{r}
+
+wss_results_table
+
+```
+
+##(h,i) Restricted Maximum Likelihood and Information Criteria
+
+Now we repeat the same analysis, using the same model for the global fit, except we use the Restricted Maximum Likelihood criteria for estimation of the parameters, and we use the Akaike and Bayesian Information criteria as tools for model selection.
+
+```{r, echo=F, message=F, warning=F, results="hide"}
+
+dt <- data.frame(Longitude,Latitude,log(Obs_value))
+geo_data <- as.geodata(dt)
+
+sigma2 <- exp_veriogram_model$psill[2]
+phi <- exp_veriogram_model$range[2]
+tau2 <- exp_veriogram_model$psill[1]
+
+exp_reml <- likfit(geo_data, trend = ~ Elevation + State, cov.model = "exponential", ini = c(sigma2,phi), nugget = tau2, fix.nugget = F, lik.method = "REML")
+
+sigma2 <- sph_veriogram_model$psill[2]
+phi <- sph_veriogram_model$range[2]
+tau2 <- sph_veriogram_model$psill[1]
+
+sph_reml <- likfit(geo_data, trend = ~ Elevation + State, cov.model = "spherical", ini = c(sigma2,phi), nugget = tau2, fix.nugget = F, lik.method = "REML")
+
+sigma2 <- gau_veriogram_model$psill[2]
+phi <- gau_veriogram_model$range[2]
+tau2 <- gau_veriogram_model$psill[1]
+
+gau_reml <- likfit(geo_data, trend = ~ Elevation + State, cov.model = "gaussian", ini = c(sigma2,phi), nugget = tau2, fix.nugget = F, lik.method = "REML")
+
+sigma2 <- mat_veriogram_model$psill[2]
+phi <- mat_veriogram_model$range[2]
+tau2 <- mat_veriogram_model$psill[1]
+
+mat_reml <- likfit(geo_data, trend = ~ Elevation + State, cov.model = "matern", ini = c(sigma2,phi), nugget = tau2, kappa = 1 , fix.nugget = F, lik.method = "REML")
+
+reml_results_table <- cbind(exp_reml$parameters.summary,sph_reml$parameters.summary,gau_reml$parameters.summary,mat_reml$parameters.summary)[1:11,-c(3,5,7)]
+colnames(reml_results_table) <- c("status", "Exp", "Sph", "Gau","Mat")
+
+
+IC <- cbind(rbind("computed","computed"),rbind(exp_reml$AIC,exp_reml$BIC),rbind(sph_reml$AIC,sph_reml$BIC),rbind(gau_reml$AIC,gau_reml$BIC),rbind(mat_reml$AIC,mat_reml$BIC))
+colnames(IC) <- c("status", "Exp", "Sph", "Gau","Mat")
+row.names(IC) <- c("AIC", "BIC")
+
+results <- rbind(reml_results_table,IC)
+
+```
+
+The parameter estimates and IC's are all presented in the table of results below. Based on the REML analysis, and both the AIC and BIC we would select the Matern model for the variogram, over the Exponential as suggested by the OLS driven analysis in previously.
+
+```{r}
+results
+```
+

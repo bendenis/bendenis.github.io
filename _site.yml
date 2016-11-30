@@ -29,6 +29,8 @@ navbar:
           menu:
             - text: "About"
               href: about_spatial.html
+            - text: "HW1"
+              href: BIOSTAT_HW_1.html
   right:
       - text: "Data Blog"
         icon: fa-book
