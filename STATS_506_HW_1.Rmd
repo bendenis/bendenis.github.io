@@ -1,0 +1,101 @@
+---
+title: "STATS_506_HW_1"
+author: "Ben Denis Shaffer"
+date: "October 4, 2016"
+output: html_document
+---
+
+## Question 1
+
+Use the RECS data answer the following questions
+
+The data can be obtained by running the following command in a terminal window, or by following the link through a browser:
+
+> wget http://www.eia.gov/consumption/residential/data/2009/csv/recs2009_public.csv
+
+#### (a) What state has the greatest proportion of stucco-walled construction?
+
+> Reportable Domain #25: Arizona
+
+#### (b) Based ont the proportion of each type of wall material for all houses built in each decade, what type of wall material is most consistently dropping in popularity over time?
+
+> Wall Material #5: Composition
+
+## Question 2
+
+This question is based on a dataset from a umich database, and contains information about “notable people” throughout history.
+
+#### (a) What do you observe about the relationship between the lifespans of notable women and notable men in the 18th and 19th centuries?
+
+> The lifespans for both are increasing, though more dramatically for the females. Spesifically, between 1850-60 lifespan for notable women over took the lifespan of notable men.
+
+#### (b) Calculate the haversine distance between each person’s birth and death location. Then create a table formatted showing the mean distance by decade of birth and gender. How has this mean distance changed over time?
+
+> This distance has been increasing for both genders.
+
+#### (c) Calculate the centroid of birth locations for people born in each decade from 1700 to the present. Scale this centroid point back to the surface of the sphere. The final result are expressed in latitude/longitude coordinates. Describe how this centroid has varied over the decades from 1700 to the present.
+
+> The longitude has been shifting to the West, while the latitude has been hovering withn a range. In general the centroid is hovering around the atlantic ocean beteen west Eaurope and east North America, and as north as the south coast of Greenland.
+
+## Question 3
+
+Merge the two files to create a single Stata dataset, using the SEQN variable for merging. Then select all subjects between 30 and 50 years of age. Calculate the proportion of people who are missing each of the 32 teeth represented in the data file. Finally, create a clean table showing the rate that each tooth is missing for each gender.
+
+For this problem the data files can be downloaded by running the following commands, or following the links.
+
+> wget http://wwwn.cdc.gov/Nchs/Nhanes/2005-2006/OHX_D.XPT
+> wget http://wwwn.cdc.gov/Nchs/Nhanes/2005-2006/DEMO_D.XPT
+
+> Teeth 1,16,17, and 32 are ones that are most frequently missing. These are not surprisingly the Wisdom teeth.
+
+The following is the resultant table
+
+```{}
+riagendr |  mi~07htc  mi~06htc  mi~05htc  mi~04htc  mi~03htc  mi~02htc
+---------+------------------------------------------------------------
+       1 |  .0588235  .0415225  .0934256  .0911188  .1084198  .1280277
+       2 |   .050494  .0450055  .1196487  .0933041  .1064764  .1503842
+---------+------------------------------------------------------------
+   Total |  .0545557  .0433071  .1068616  .0922385  .1074241  .1394826
+----------------------------------------------------------------------
+
+riagendr |  mi~01htc  mi~09htc  mi~10htc  mi~11htc  mi~12htc  mi~13htc
+---------+------------------------------------------------------------
+       1 |  .6205306  .0553633  .0576701  .0449827   .094579  .1014994
+       2 |  .6926454  .0428101  .0493963  .0439078  .1284303  .1064764
+---------+------------------------------------------------------------
+   Total |  .6574803  .0489314  .0534308  .0444319  .1119235  .1040495
+----------------------------------------------------------------------
+
+riagendr |  mi~14htc  mi~15htc  mi~16htc  mi~24htc  mi~23htc  mi~22htc
+---------+------------------------------------------------------------
+       1 |    .11188  .1418685  .5997693  .0380623  .0322953  .0253749
+       2 |  .1284303  .1591658  .6915477  .0230516  .0241493  .0197585
+---------+------------------------------------------------------------
+   Total |    .12036  .1507312  .6467942  .0303712  .0281215  .0224972
+----------------------------------------------------------------------
+
+riagendr |  mi~21htc  mi~20htc  mi~19htc  mi~18htc  mi~17htc  mi~25htc
+---------+------------------------------------------------------------
+       1 |  .0565167  .0761246   .160323  .1487889  .5801615  .0369089
+       2 |  .0735456  .0867179   .183315  .1646542  .6641054   .025247
+---------+------------------------------------------------------------
+   Total |  .0652418  .0815523  .1721035  .1569179  .6231721  .0309336
+----------------------------------------------------------------------
+
+riagendr |  mi~26htc  mi~27htc  mi~28htc  mi~29htc  mi~30htc  mi~31htc
+---------+------------------------------------------------------------
+       1 |  .0288351   .017301  .0599769  .0726644  .1568627  .1580161
+       2 |  .0263447  .0219539  .0878156   .104281   .180022  .1635565
+---------+------------------------------------------------------------
+   Total |  .0275591   .019685  .0742407  .0888639  .1687289  .1608549
+----------------------------------------------------------------------
+        
+riagendr |  mi~32htc
+---------+----------
+       1 |   .567474
+       2 |  .6772777
+---------+----------
+   Total |  .6237345
+--------------------
+```

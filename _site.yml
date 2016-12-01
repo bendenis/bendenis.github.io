@@ -24,6 +24,8 @@ navbar:
           menu:
             - text: "About"
               href: about_comp.html
+            - text: "HW_1"
+              href: STATS_506_HW_1.html
         - text: "BIOSTAT 696"
           icon: fa-map
           menu:
