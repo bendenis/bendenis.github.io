@@ -33,6 +33,8 @@ navbar:
               href: about_spatial.html
             - text: "HW1"
               href: BIOSTAT_HW_1.html
+            - text: "HW4"
+              href: BIOSTAT_696_HW4.html
   right:
       - text: "Blog"
         icon: fa-medium
