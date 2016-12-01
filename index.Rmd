@@ -1,6 +1,15 @@
 ---
-title: "Topics"
+title: "Applied Statistics and More"
 ---
+
+#About
+The purpouse of this website is to document and showcase...
+
+
+#About Me
+
+
+#Courses
 
 - Statistical Learning I: Regression [STATS:500]
 - Statistical Learning II: Multivariate Analysis [STATS:503]

@@ -32,8 +32,12 @@ navbar:
             - text: "HW1"
               href: BIOSTAT_HW_1.html
   right:
-      - text: "Data Blog"
-        icon: fa-book
-        href: sample_page.html
+      - text: "Blog"
+        icon: fa-medium
+        href: https://medium.com/@bendenisshaffer
+      - text: "LinkedIn"
+        icon: fa-linkedin
+        href: https://www.linkedin.com/in/ben-denis-shaffer-16291140
+        
   
       
