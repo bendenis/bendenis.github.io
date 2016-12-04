@@ -1,7 +1,7 @@
 name: "my-website"
 output_dir: "."
 navbar:
-  title: "Portfolio"
+  title: "Home"
   type: inverse
   left:
         - text: "STATS 500"
@@ -19,6 +19,8 @@ navbar:
               href: Diagnostics.html
             - text: "Robust Regression"
               href: Robust_Regression.html
+            - text: "Transformations"
+              href: Response_Transformations.html
         - text: "STATS 506"
           icon: fa-laptop 
           menu:

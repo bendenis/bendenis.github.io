@@ -1,0 +1,92 @@
+---
+title: "Response_Transformations"
+author: "Ben Denis Shaffer"
+date: "December 4, 2016"
+output: html_document
+---
+
+#Introduction:
+
+When preforming regression analysis you might find issues when doing EDA or diagnistics. Transforming the response variable can be used to remedy some of the problmes you might run into. For example, you might find that your response variable doesn't look normally distributed, or the variance of the residuals doens't appear to be constant. 
+
+Some of the remedial methods can seem adhoc, however most of the time there is very elegant theory behind them. For example the log-transformatio can magically make your responce look normally distributed and residuals have constant variance. In reality the method is an application of the Delat-Method from Mathematical Statistics and uses Asymptotics. 
+
+#Topics:
+
+- Log-Transfrom
+- Box-Cox 
+- Logit
+
+##Log-Transform:
+
+```{r, message=FALSE, fig.width=9}
+library(faraway)
+library(ggplot2)
+library(ggthemes)
+library(plotly)
+data("teengamb")
+
+g_density = ggplot(teengamb, aes(gamble)) + geom_density(fill = "gold", col = "blue") + labs(title = "Teen Gamble Density", x = "Pounds Gambled") + theme_economist()
+ggplotly()
+
+g_desnity_log = ggplot(teengamb, aes( log(gamble + 1))) + geom_density(fill = "gold", col = "blue") + xlim(-3,8) + labs(title = "Log Teen Gamble Density", x = "Log(Pounds Gambled)") + theme_economist()
+ggplotly()
+
+```
+
+```{r, fig.width=9, fig.height=9}
+
+model <- lm(gamble ~ sex + status + income + verbal, data = teengamb)
+par(mfrow = c(2,2))
+plot(model)
+
+model_log <- lm(log(gamble + 1) ~ sex + status + income + verbal, data = teengamb)
+
+par(mfrow = c(2,2))
+plot(model_log)
+
+```
+
+##Box-Cox:
+
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+library(faraway)
+library(MASS)
+library(leaps)
+```
+
+We use the box-cox method for finding an optimal power transformation on the response variable. The optimization is done such that the most constant variance is achieved for a given regression model. That is, if we detect heteroscedasticity in residuals, we stabilize variance by applying a power transformation to the depended variable.
+```{r}
+
+data(ozone)
+attach(ozone)
+model <- lm(O3 ~ temp + humidity + ibh)
+bx <-boxcox(model, lambda = seq(0,0.7, by = 0.2))
+bx$x[56:58]
+
+```
+
+We get an optimal value around `0.263`. For interpretability we can take a value of `0.25` which is a `sqrt` function applied twice. We can compare the residuals vs. fitted plots for the two models:
+
+```{r, fig.height=5}
+q1 = qplot(model$residuals, model$fitted.values) + theme_economist()
+ggplotly()
+
+tm = lm(O3^(0.25) ~ temp + humidity + ibh)
+q2 = qplot(tm$residuals,tm$fitted.values) + theme_economist()
+ggplotly()
+```
+
+We can see that the transformation noticeably remedied the non-linear trend that we can observe in the plot for the model with no transformation.
+
+```{r}
+summary(model)
+summary(tm)
+```
+
+When comparing the model fits we see that RSE decreases noticeably, so the t-values are also larger for the parameter estimates. We also have a greater $R^2$.
+
+
+##Topic 3:
+
+#Conclusion:

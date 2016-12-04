@@ -4,7 +4,6 @@ title: "Statistical Learning I"
 
 Topics Explored:
 
-- Mathematical Foundations
 - Regression Model Framework
 - Parameter Estimation
 - Inferences
@@ -12,6 +11,15 @@ Topics Explored:
 - Problems with Predictors
 - Robust Regression
 - Variable Transformations
+    - Response Transformations
+        - Log Transfromation
+        - Box-Cox
+        - Logit Transfromation
+    - Predictor Transformations
+        - Broken-Stick Model
+        - Polynomial Model
+        - Splines Model
+        - Addetive Model
 - Model Selection
 - Shrinkage Methods
 - Missing Values
