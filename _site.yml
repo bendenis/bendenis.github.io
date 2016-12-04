@@ -20,7 +20,7 @@ navbar:
             - text: "Robust Regression"
               href: Robust_Regression.html
             - text: "Transformations"
-              href: Response_Transformations.html
+              href: Response_Transpormations.html
         - text: "STATS 506"
           icon: fa-laptop 
           menu:
