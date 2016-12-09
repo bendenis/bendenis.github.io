@@ -11,16 +11,24 @@ navbar:
               href: about_stl1.html
             - text: "EDA"
               href: EDA.html
-            - text: "SLM"
+            - text: "Simple Linear Regression"
               href: SLM.html
-            - text: "MLM"
+            - text: "Multivariate Linear Regression"
               href: MLM.html
             - text: "Diagnostics"
               href: Diagnostics.html
             - text: "Robust Regression"
               href: Robust_Regression.html
-            - text: "Transformations"
+            - text: "Response Transformations"
               href: Response_Transpormations.html
+            - text: "Predictor Transformations"
+              href: Predictor_Transfromations.html
+            - text: "Variable Selection"
+              href: Variable_Selection.html
+            - text: "Dimonsionality Reduction"
+              href: Dimensionality_Reduction.html
+            - text: "Regularization"
+              href:
         - text: "STATS 506"
           icon: fa-laptop 
           menu:

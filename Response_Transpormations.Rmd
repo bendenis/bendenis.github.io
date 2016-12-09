@@ -87,6 +87,6 @@ summary(tm)
 When comparing the model fits we see that RSE decreases noticeably, so the t-values are also larger for the parameter estimates. We also have a greater $R^2$.
 
 
-##Topic 3:
+##Logit Transformation:
 
 #Conclusion:

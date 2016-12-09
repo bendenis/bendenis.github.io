@@ -21,7 +21,17 @@ Topics Explored:
         - Splines Model
         - Addetive Model
 - Model Selection
-- Shrinkage Methods
+    - F-Test
+    - Stepwise Selection
+    - Information Criteria
+    - $R^2_{Adj}$
+- Dimentionality Reduction
+    - Principal Component Analysis
+    - Partial Least Squares
+- Regularization
+    - Ridge
+    - Lasso 
+    - Elastic
 - Missing Values
 - Analysis of Covariance
 

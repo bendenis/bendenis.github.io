@@ -9,9 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Ben Denis Shaffer" />
 
 
-<title>Spatial Statistics</title>
+<title>Variable Selection</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -281,12 +282,76 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Spatial Statistics</h1>
+<h1 class="title toc-ignore">Variable Selection</h1>
+<h4 class="author"><em>Ben Denis Shaffer</em></h4>
+<h4 class="date"><em>December 5, 2016</em></h4>
 
 </div>
 
 
-<p>Topics - 1 - 2 - 3</p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Given a dataset there are often many predictor variable, not all of which should be included in a model. There are two main reasons. The one that is most offten brough up is parsimoniousness, which basically suggests that the simplest model is best. In the case of regression it’s the model that explains the most variation with the least number of variables. The second reason is that you want to avoid overfitting, especially if your intention is to predict using the model. If you have the same number of predictors as observations you will have a perfect fit, but the model will be usless for either prediction or interpritation due to collinearity and inflated variances.</p>
+<p>Including too little of the predictors is also undesirbale becasue you do want to have a reasonable fit, and you want to avoid confounding variables. All this suggests that there has to be some optimal set of variables to select for the model. Some subset of the given or enginnered variables that will result in a most useful model for you. And, of course there are different methedologies avaliable to meet this end.</p>
+</div>
+<div id="topics" class="section level1">
+<h1>Topics</h1>
+<ul>
+<li>Stepwise Regression</li>
+<li>Information Criteria</li>
+<li>Adjusted <span class="math inline">\(R^2\)</span> and Mallows <span class="math inline">\(C_p\)</span></li>
+</ul>
+<div id="stepwise-procedure" class="section level2">
+<h2>Stepwise Procedure</h2>
+<pre class="r"><code>library(faraway)
+data(&quot;teengamb&quot;)
+model = lm(gamble ~ ., data = teengamb)         #Initial Full Model Fit.
+which.max(summary(model)$coefficients[,4])      #1st Step: `status`.</code></pre>
+<pre><code>## status 
+##      3</code></pre>
+<pre class="r"><code>summary(model)$coefficients[3,4]                #Has this p-value.</code></pre>
+<pre><code>## [1] 0.8534869</code></pre>
+<pre class="r"><code>model = update(model, .~. - status)             #Update the model by subtracting `status`.
+which.max(summary(model)$coefficients[,4])      #2nd Step: `verbal`.</code></pre>
+<pre><code>## verbal 
+##      4</code></pre>
+<pre class="r"><code>summary(model)$coefficients[4,4]                #Has this p-value.</code></pre>
+<pre><code>## [1] 0.1396672</code></pre>
+<pre class="r"><code>model = update(model, .~. - verbal)             #Update the model by subtracting `verbal`.
+which.max(summary(model)$coefficients[,4])      #Got to the intercept so end proceedure</code></pre>
+<pre><code>## (Intercept) 
+##           1</code></pre>
+<pre class="r"><code>summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = gamble ~ sex + income, data = teengamb)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -49.757 -11.649   0.844   8.659 100.243 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    4.041      6.394   0.632  0.53070    
+## sex          -21.634      6.809  -3.177  0.00272 ** 
+## income         5.172      0.951   5.438 2.24e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 22.75 on 44 degrees of freedom
+## Multiple R-squared:  0.5014, Adjusted R-squared:  0.4787 
+## F-statistic: 22.12 on 2 and 44 DF,  p-value: 2.243e-07</code></pre>
+</div>
+<div id="information-criteria" class="section level2">
+<h2>Information Criteria</h2>
+</div>
+<div id="adjusted-r2-and-mallows-c_p" class="section level2">
+<h2>Adjusted <span class="math inline">\(R^2\)</span> and Mallows <span class="math inline">\(C_p\)</span></h2>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+</div>
 
 
 

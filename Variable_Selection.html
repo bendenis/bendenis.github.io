@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Ben Denis Shaffer" />
+
+
+<title>Variable Selection</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="ion ion-ios-pulse"></span>
+     
+    STATS 500
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about_stl1.html">About</a>
+    </li>
+    <li>
+      <a href="EDA.html">EDA</a>
+    </li>
+    <li>
+      <a href="SLM.html">Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="MLM.html">Multivariate Linear Regression</a>
+    </li>
+    <li>
+      <a href="Diagnostics.html">Diagnostics</a>
+    </li>
+    <li>
+      <a href="Robust_Regression.html">Robust Regression</a>
+    </li>
+    <li>
+      <a href="Response_Transpormations.html">Response Transformations</a>
+    </li>
+    <li>
+      <a href="Predictor_Transfromations.html">Predictor Transformations</a>
+    </li>
+    <li>
+      <a href="Variable_Selection.html">Variable Selection</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    STATS 506
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about_comp.html">About</a>
+    </li>
+    <li>
+      <a href="STATS_506_HW_1.html">HW_1</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-map"></span>
+     
+    BIOSTAT 696
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about_spatial.html">About</a>
+    </li>
+    <li>
+      <a href="BIOSTAT_HW_1.html">HW1</a>
+    </li>
+    <li>
+      <a href="BIOSTAT_696_HW4.html">HW4</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://medium.com/@bendenisshaffer">
+    <span class="fa fa-medium"></span>
+     
+    Blog
+  </a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/ben-denis-shaffer-16291140">
+    <span class="fa fa-linkedin"></span>
+     
+    LinkedIn
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Variable Selection</h1>
+<h4 class="author"><em>Ben Denis Shaffer</em></h4>
+<h4 class="date"><em>December 5, 2016</em></h4>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Given a dataset there are often many predictor variable, not all of which should be included in a model. There are two main reasons. The one that is most offten brough up is parsimoniousness, which basically suggests that the simplest model is best. In the case of regression it’s the model that explains the most variation with the least number of variables. The second reason is that you want to avoid overfitting, especially if your intention is to predict using the model. If you have the same number of predictors as observations you will have a perfect fit, but the model will be usless for either prediction or interpritation due to collinearity and inflated variances.</p>
+<p>Including too little of the predictors is also undesirbale becasue you do want to have a reasonable fit, and you want to avoid confounding variables. All this suggests that there has to be some optimal set of variables to select for the model. Some subset of the given or enginnered variables that will result in a most useful model for you. And, of course there are different methedologies avaliable to meet this end.</p>
+</div>
+<div id="topics" class="section level1">
+<h1>Topics</h1>
+<ul>
+<li>Stepwise Regression</li>
+<li>Information Criteria</li>
+<li>Adjusted <span class="math inline">\(R^2\)</span></li>
+</ul>
+<div id="stepwise-regression" class="section level2">
+<h2>Stepwise Regression</h2>
+<p>The first methed is really a collection of stepwise procedures, which are kind of algorithmic. The method is simple, but its problematic and restricted in so many ways that in reality it is discouraged unless used for a very spesific set of models. In any case we can demonstraight one of the variants: Backward Stepwise Elimination. First we make an initial fit with all of the avaliable variables and procede as follows:</p>
+<pre class="r"><code>library(faraway)
+data(&quot;teengamb&quot;)
+model = lm(gamble ~ ., data = teengamb)         #Initial Full Model Fit.
+summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = gamble ~ ., data = teengamb)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -51.082 -11.320  -1.451   9.452  94.252 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  22.55565   17.19680   1.312   0.1968    
+## sex         -22.11833    8.21111  -2.694   0.0101 *  
+## status        0.05223    0.28111   0.186   0.8535    
+## income        4.96198    1.02539   4.839 1.79e-05 ***
+## verbal       -2.95949    2.17215  -1.362   0.1803    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 22.69 on 42 degrees of freedom
+## Multiple R-squared:  0.5267, Adjusted R-squared:  0.4816 
+## F-statistic: 11.69 on 4 and 42 DF,  p-value: 1.815e-06</code></pre>
+<pre class="r"><code>which.max(summary(model)$coefficients[,4])      #1st Step: `status`.</code></pre>
+<pre><code>## status 
+##      3</code></pre>
+<pre class="r"><code>summary(model)$coefficients[3,4]                #Has this p-value.</code></pre>
+<pre><code>## [1] 0.8534869</code></pre>
+<pre class="r"><code>model = update(model, .~. - status)             #Update the model by subtracting `status`.
+which.max(summary(model)$coefficients[,4])      #2nd Step: `verbal`.</code></pre>
+<pre><code>## verbal 
+##      4</code></pre>
+<pre class="r"><code>summary(model)$coefficients[4,4]                #Has this p-value.</code></pre>
+<pre><code>## [1] 0.1396672</code></pre>
+<pre class="r"><code>model = update(model, .~. - verbal)             #Update the model by subtracting `verbal`.
+which.max(summary(model)$coefficients[,4])      #Got to the intercept so end proceedure</code></pre>
+<pre><code>## (Intercept) 
+##           1</code></pre>
+<pre class="r"><code>summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = gamble ~ sex + income, data = teengamb)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -49.757 -11.649   0.844   8.659 100.243 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    4.041      6.394   0.632  0.53070    
+## sex          -21.634      6.809  -3.177  0.00272 ** 
+## income         5.172      0.951   5.438 2.24e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 22.75 on 44 degrees of freedom
+## Multiple R-squared:  0.5014, Adjusted R-squared:  0.4787 
+## F-statistic: 22.12 on 2 and 44 DF,  p-value: 2.243e-07</code></pre>
+<p>So as you can tell we got rid of two variables and the fit of the model decreased only a little bit from <code>0.527</code> to <code>0.501</code>, so we achieved exactly what we wanted. Imagine you had <code>100</code> predictor variables instead of <code>4</code> like in the example. You can write an algorithm that will implement the method so the quantity is not really an issue. The real issue is simultanious testing.</p>
+</div>
+<div id="information-criteria" class="section level2">
+<h2>Information Criteria</h2>
+<p>In the most simplest terms and information criteria is a function of your models goodness of fit measure and the number of parameters/variables used to fit the model. One of the avaliable criterions is the Akaike Information Criteria, or AIC. The function is as follows. The optimal selection of variables is based on the minimum computed AIC.</p>
+<p><span class="math display">\[AIC = nlog(\frac{RSS}{n}) + c\]</span></p>
+<p>Intuitively the formula makes sense, becasue smaller RSS indicates a better fit, while a larger number of parameters increases the measure. n increases faster than <span class="math inline">\(log(1/n)\)</span>.</p>
+<p>To demo the method we can look at all of the possible subsets of the predictors from the earlier dataset and select the subset of variables that yilds the minimum AIC.</p>
+<pre class="r"><code># First make a list of all the possible subsets 
+f1 &lt;- gamble ~ sex + status + income + verbal ; f2 &lt;- gamble ~ sex + status + income
+f3 &lt;- gamble ~ sex + status + verbal ; f4 &lt;- gamble ~ sex + verbal + income
+f5 &lt;- gamble ~ verbal + status + income ; f6 &lt;- gamble ~ sex + status
+f7 &lt;- gamble ~ sex + income ; f8 &lt;- gamble ~ sex + verbal
+f9 &lt;- gamble ~ status + income ; f10 &lt;- gamble ~ status + verbal
+f11 &lt;- gamble ~ income + status ; f12 &lt;- gamble ~ sex
+f13 &lt;- gamble ~ status ; f14 &lt;- gamble ~ income ; f15 &lt;- gamble ~ verbal
+
+f &lt;- sapply(paste0(&quot;f&quot;,1:14), as.symbol)
+f &lt;- sapply(f, eval)</code></pre>
+<p>We fit each model, compute the AIC using the <code>AIC</code> function, find the one with the min, and extract the formula.</p>
+<pre class="r"><code>attach(teengamb)
+AIC &lt;- sapply(f, function(x) {AIC(lm(x))})
+eval(as.symbol(names(which.min(AIC)))) ; AIC[which.min(AIC)]</code></pre>
+<pre><code>## gamble ~ sex + verbal + income</code></pre>
+<pre><code>##       f4 
+## 431.5947</code></pre>
+<p>The minimum computed AIC is displayed, though by itself it is not very meaningful. The resultant model is different from the one we got via backward elimenation, but both methods agree that the variable <code>status</code> doesn’t add significant explenatory power to the model.</p>
+</div>
+<div id="adjusted-r2" class="section level2">
+<h2>Adjusted <span class="math inline">\(R^2\)</span></h2>
+<p>Another standard criteria is based on the measure of linear goods of fit <span class="math inline">\(R^2\)</span> itself. Maximizing <span class="math inline">\(R^2\)</span> leads to overfitting becaseu it always increases with the addition of a variable to the model. So there is an Adjusted version: <span class="math display">\[R^{2}_{Adj} = 1 - (\frac{n-p}{n-1})(1-R^2)\]</span> We can check out how it campares to the AIC method we used above. Firts, fit each model, then compute the Adjusted <span class="math inline">\(R^2\)</span> and find the one with the maximum, and extract the formula.</p>
+<pre class="r"><code>attach(teengamb)
+adj_R2 &lt;- sapply(f, function(x) { s = summary(lm(x)) ; return(s$adj.r.squared) })
+eval(as.symbol(names(which.max(adj_R2)))) ; adj_R2[which.max(adj_R2)]</code></pre>
+<pre><code>## gamble ~ sex + verbal + income</code></pre>
+<pre><code>##        f4 
+## 0.4932879</code></pre>
+<p>So both AIC and <span class="math inline">\(R^{2}_{Adj}\)</span> selected the same subset of variables. The actual computed value is aslo printed. One thing to note is that <span class="math inline">\(R^{2}_{Adj}\)</span> is always less then <span class="math inline">\(R^{2}\)</span> which isn’t really surprising. If the difference between the two looks large there might be good reason to believe that some overfitting is occuring.</p>
+<div id="excluded-mallows-cp-becasue-it-is-equivalent-to-aic-in-the-context-of-ols." class="section level4">
+<h4>Excluded Mallows Cp becasue it is equivalent to AIC in the context of OLS.</h4>
+</div>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>All of the included methods are sensitive to outlieres and influential points. (Interesting question for a simulation study)</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

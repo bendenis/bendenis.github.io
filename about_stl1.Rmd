@@ -15,16 +15,33 @@ Topics Explored:
     + Huber Regression
     + Least Trimmed Squares
 * Variable Transformations
+    + Response
+        - Log Transfromation
+        - Box-Cox
+        - Logit Transfromation
+    + Predictor
+        - Broken-Stick
+        - Polynomial
+        - Splines
+        - Addetive
 * Model Selection
     + Information Criteria
     + Stepwise Regression
     + Adjusted $R^2$
-    + Mallows Cp
-* Shrinkage Methods
-    + Principal Component Regression
-    + Partial Least Squares
-    + Ridge Regression
-    + Lasso Regression
-* Missing Values
-* Analysis of Covariance
+    + Mallows $C_p$
+* Variable Selection
+    + Subset Selection
+    + Dimention Reduction
+        - Principal Component Regression
+        - Partial Least Squares
+    + Shrinkage Methods
+        - Ridge Regression
+        - Lasso Regression
+* Missing Data
+    + Deletion
+    + Imputation
+    + Expectation-Maximization
+* Qualitative Predictors
+    + Categorical Variables
+    + ANOVA
 

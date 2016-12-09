@@ -1,0 +1,27 @@
+---
+title: "Predictor_Transfromations"
+author: "Ben Denis Shaffer"
+date: "December 5, 2016"
+output: html_document
+---
+
+#Introduction
+
+
+
+#Topics
+
+- Broken-Stick
+- Polynomial
+- Splines
+- Addetive Models
+
+##Broken-Stick
+
+##Plynomial
+
+##Splines
+
+##Addetive Models
+
+#Conclusion

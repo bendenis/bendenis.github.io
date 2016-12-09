@@ -195,10 +195,10 @@ $(document).ready(function () {
       <a href="EDA.html">EDA</a>
     </li>
     <li>
-      <a href="SLM.html">SLM</a>
+      <a href="SLM.html">Simple Linear Regression</a>
     </li>
     <li>
-      <a href="MLM.html">MLM</a>
+      <a href="MLM.html">Multivariate Linear Regression</a>
     </li>
     <li>
       <a href="Diagnostics.html">Diagnostics</a>
@@ -207,8 +207,18 @@ $(document).ready(function () {
       <a href="Robust_Regression.html">Robust Regression</a>
     </li>
     <li>
-      <a href="Response_Transpormations.html">Transformations</a>
+      <a href="Response_Transpormations.html">Response Transformations</a>
     </li>
+    <li>
+      <a href="Predictor_Transfromations.html">Predictor Transformations</a>
+    </li>
+    <li>
+      <a href="Variable_Selection.html">Variable Selection</a>
+    </li>
+    <li>
+      <a href="Dimensionality_Reduction.html">Dimonsionality Reduction</a>
+    </li>
+    <li class="dropdown-header">Regularization</li>
   </ul>
 </li>
 <li class="dropdown">
@@ -336,8 +346,13 @@ qplot(dt$Verbal, fill = dt$Sex, ylab = &quot;Verbal Test Score&quot;, xlab = &qu
 <pre class="r"><code>qplot(1:length(log(dt$Income)),log(dt$Income) , col=dt$Sex, ylab = &quot;Log Income&quot;, xlab = &quot;&quot;)</code></pre>
 <p><img src="EDA_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Next we look at the correlation among the covariates themselves. We are hoping for low covariances, because high covariance among pairs of covariates might suggest that they carry the same information and only one should be used for modeling. In the plot we see that <code>Status</code> and <code>Income</code> are positively correlated with a coefficient slightly above <code>0.5</code>. While not dramatic, this calls for attention during the modeling stage of analysis.</p>
-<pre class="r"><code>library(corrplot)
-corrplot.mixed(corr, upper = &quot;ellipse&quot;)</code></pre>
+<pre class="r"><code>library(corrplot)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;corrplot&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:pls&#39;:
+## 
+##     corrplot</code></pre>
+<pre class="r"><code>corrplot.mixed(corr, upper = &quot;ellipse&quot;)</code></pre>
 <p><img src="EDA_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 

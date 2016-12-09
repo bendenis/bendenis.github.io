@@ -1,0 +1,99 @@
+---
+title: "Variable Selection"
+author: "Ben Denis Shaffer"
+date: "December 5, 2016"
+output: html_document
+---
+
+#Introduction
+
+Given a dataset there are often many predictor variable, not all of which should be included in a model. There are two main reasons. The one that is most offten brough up is parsimoniousness, which basically suggests that the simplest model is best. In the case of regression it's the model that explains the most variation with the least number of variables. The second reason is that you want to avoid overfitting, especially if your intention is to predict using the model. If you have the same number of predictors as observations you will have a perfect fit, but the model will be usless for either prediction or interpritation due to collinearity and inflated variances. 
+
+Including too little of the predictors is also undesirbale becasue you do want to have a reasonable fit, and you want to avoid confounding variables. All this suggests that there has to be some optimal set of variables to select for the model. Some subset of the given or enginnered variables that will result in a most useful model for you. And, of course there are different methedologies avaliable to meet this end.
+
+
+#Topics
+
+- Stepwise Regression
+- Information Criteria
+- Adjusted $R^2$
+
+##Stepwise Regression
+
+The first methed is really a collection of stepwise procedures, which are kind of algorithmic. The method is simple, but its problematic and restricted in so many ways that in reality it is discouraged unless used for a very spesific set of models. In any case we can demonstraight one of the variants: Backward Stepwise Elimination. First we make an initial fit with all of the avaliable variables and procede as follows:
+
+```{r}
+library(faraway)
+data("teengamb")
+model = lm(gamble ~ ., data = teengamb)         #Initial Full Model Fit.
+summary(model)
+which.max(summary(model)$coefficients[,4])      #1st Step: `status`.
+summary(model)$coefficients[3,4]                #Has this p-value.
+model = update(model, .~. - status)             #Update the model by subtracting `status`.
+which.max(summary(model)$coefficients[,4])      #2nd Step: `verbal`.
+summary(model)$coefficients[4,4]                #Has this p-value.
+model = update(model, .~. - verbal)             #Update the model by subtracting `verbal`.
+which.max(summary(model)$coefficients[,4])      #Got to the intercept so end proceedure
+summary(model)
+
+```
+
+So as you can tell we got rid of two variables and the fit of the model decreased only a little bit from `0.527` to `0.501`, so we achieved exactly what we wanted. Imagine you had `100` predictor variables instead of `4` like in the example. You can write an algorithm that will implement the method so the quantity is not really an issue. The real issue is simultanious testing. 
+
+##Information Criteria
+
+In the most simplest terms and information criteria is a function of your models goodness of fit measure and the number of parameters/variables used to fit the model. One of the avaliable criterions is the Akaike Information Criteria, or AIC. The function is as follows. The optimal selection of variables is based on the minimum computed AIC. 
+
+$$AIC = nlog(\frac{RSS}{n}) + c$$ 
+
+Intuitively the formula makes sense, becasue smaller RSS indicates a better fit, while a larger number of parameters increases the measure. n increases faster than $log(1/n)$. 
+
+To demo the method we can look at all of the possible subsets of the predictors from the earlier dataset and select the subset of variables that yilds the minimum AIC.
+
+```{r}
+
+# First make a list of all the possible subsets 
+f1 <- gamble ~ sex + status + income + verbal ; f2 <- gamble ~ sex + status + income
+f3 <- gamble ~ sex + status + verbal ; f4 <- gamble ~ sex + verbal + income
+f5 <- gamble ~ verbal + status + income ; f6 <- gamble ~ sex + status
+f7 <- gamble ~ sex + income ; f8 <- gamble ~ sex + verbal
+f9 <- gamble ~ status + income ; f10 <- gamble ~ status + verbal
+f11 <- gamble ~ income + status ; f12 <- gamble ~ sex
+f13 <- gamble ~ status ; f14 <- gamble ~ income ; f15 <- gamble ~ verbal
+
+f <- sapply(paste0("f",1:14), as.symbol)
+f <- sapply(f, eval)
+
+```
+
+We fit each model, compute the AIC using the `AIC` function, find the one with the min, and extract the formula.
+```{r}
+
+attach(teengamb)
+AIC <- sapply(f, function(x) {AIC(lm(x))})
+eval(as.symbol(names(which.min(AIC)))) ; AIC[which.min(AIC)]
+
+```
+
+The minimum computed AIC is displayed, though by itself it is not very meaningful. The resultant model is different from the one we got via backward elimenation, but both methods agree that the variable `status` doesn't add significant explenatory power to the model.
+
+##Adjusted $R^2$
+
+Another standard criteria is based on the measure of linear goods of fit $R^2$ itself. Maximizing $R^2$ leads to overfitting becaseu it always increases with the addition of a variable to the model. So there is an Adjusted version: 
+$$R^{2}_{Adj} = 1 - (\frac{n-p}{n-1})(1-R^2)$$
+We can check out how it campares to the AIC method we used above. Firts, fit each model, then compute the Adjusted $R^2$ and find the one with the maximum, and extract the formula.
+```{r, message=FALSE}
+attach(teengamb)
+adj_R2 <- sapply(f, function(x) { s = summary(lm(x)) ; return(s$adj.r.squared) })
+eval(as.symbol(names(which.max(adj_R2)))) ; adj_R2[which.max(adj_R2)]
+
+```
+
+So both AIC and $R^{2}_{Adj}$ selected the same subset of variables. The actual computed value is aslo printed. One thing to note is that $R^{2}_{Adj}$ is always less then $R^{2}$ which isn't really surprising. If the difference between the two looks large there might be good reason to believe that some overfitting is occuring.
+
+#### Excluded Mallows Cp becasue it is equivalent to AIC in the context of OLS.
+
+
+#Conclusion
+
+All of the included methods are sensitive to outlieres and influential points. (Interesting question for a simulation study)
