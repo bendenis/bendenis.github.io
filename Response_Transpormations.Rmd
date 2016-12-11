@@ -7,13 +7,13 @@ output: html_document
 
 #Introduction:
 
-When preforming regression analysis you might find issues when doing EDA or diagnistics. Transforming the response variable can be used to remedy some of the problmes you might run into. For example, you might find that your response variable doesn't look normally distributed, or the variance of the residuals doens't appear to be constant. 
+When preforming regression analysis you might find issues when doing EDA or diagnostics. Transforming the response variable can be used to remedy some of the problems you might run into. For example, you might find that your response variable doesn't look normally distributed, or the variance of the residuals doesn't appear to be constant. 
 
-Some of the remedial methods can seem adhoc, however most of the time there is very elegant theory behind them. For example the log-transformatio can magically make your responce look normally distributed and residuals have constant variance. In reality the method is an application of the Delat-Method from Mathematical Statistics and uses Asymptotics. 
+Some of the remedial methods can seem adhoc, however most of the time there is very elegant theory behind them. For example the log-transformation can magically make your response look normally distributed and residuals have constant variance. In reality the method is an application of the Delta-Method from Mathematical Statistics and uses Asymptotics. 
 
 #Topics:
 
-- Log-Transfrom
+- Log-Transform
 - Box-Cox 
 - Logit
 

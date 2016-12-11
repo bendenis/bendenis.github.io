@@ -214,6 +214,10 @@ $(document).ready(function () {
     <li>
       <a href="Variable_Selection.html">Variable Selection</a>
     </li>
+    <li>
+      <a href="Dimensionality_Reduction.html">Dimonsionality Reduction</a>
+    </li>
+    <li class="dropdown-header">Regularization</li>
   </ul>
 </li>
 <li class="dropdown">
@@ -287,19 +291,19 @@ $(document).ready(function () {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Given a dataset there are often many predictor variable, not all of which should be included in a model. There are two main reasons. The one that is most offten brough up is parsimoniousness, which basically suggests that the simplest model is best. In the case of regression it’s the model that explains the most variation with the least number of variables. The second reason is that you want to avoid overfitting, especially if your intention is to predict using the model. If you have the same number of predictors as observations you will have a perfect fit, but the model will be usless for either prediction or interpritation due to collinearity and inflated variances.</p>
-<p>Including too little of the predictors is also undesirbale becasue you do want to have a reasonable fit, and you want to avoid confounding variables. All this suggests that there has to be some optimal set of variables to select for the model. Some subset of the given or enginnered variables that will result in a most useful model for you. And, of course there are different methedologies avaliable to meet this end.</p>
+<p>Given a data set there are often many predictor variable, not all of which should be included in a model. There are two main reasons. The one that is most often brought up is parsimoniousness, which basically suggests that the simplest model is best. In the case of regression it’s the model that explains the most variation with the least number of variables. The second reason is that you want to avoid over-fitting, especially if your intention is to predict using the model. If you have the same number of predictors as observations you will have a perfect fit, but the model will be useless for either prediction or interpretation due to collinearity and inflated variances.</p>
+<p>Including too little of the predictors is also undesirable because you do want to have a reasonable fit, and you want to avoid confounding variables. All this suggests that there has to be some optimal set of variables to select for the model. Some subset of the given or engineered variables that will result in a most useful model for you. And, of course there are different methodologies available to meet this end.</p>
 </div>
 <div id="topics" class="section level1">
 <h1>Topics</h1>
 <ul>
-<li>Stepwise Regression</li>
+<li>Step-wise Regression</li>
 <li>Information Criteria</li>
 <li>Adjusted <span class="math inline">\(R^2\)</span></li>
 </ul>
 <div id="stepwise-regression" class="section level2">
 <h2>Stepwise Regression</h2>
-<p>The first methed is really a collection of stepwise procedures, which are kind of algorithmic. The method is simple, but its problematic and restricted in so many ways that in reality it is discouraged unless used for a very spesific set of models. In any case we can demonstraight one of the variants: Backward Stepwise Elimination. First we make an initial fit with all of the avaliable variables and procede as follows:</p>
+<p>The first method is really a collection of step-wise procedures, which are kind of algorithmic. The method is simple, but its problematic and restricted in so many ways that in reality it is discouraged unless used for a very specific set of models. In any case we can demonstrate one of the variants: Backward Step-wise Elimination. First we make an initial fit with all of the available variables and proceed as follows:</p>
 <pre class="r"><code>library(faraway)
 data(&quot;teengamb&quot;)
 model = lm(gamble ~ ., data = teengamb)         #Initial Full Model Fit.
@@ -360,14 +364,14 @@ which.max(summary(model)$coefficients[,4])      #Got to the intercept so end pro
 ## Residual standard error: 22.75 on 44 degrees of freedom
 ## Multiple R-squared:  0.5014, Adjusted R-squared:  0.4787 
 ## F-statistic: 22.12 on 2 and 44 DF,  p-value: 2.243e-07</code></pre>
-<p>So as you can tell we got rid of two variables and the fit of the model decreased only a little bit from <code>0.527</code> to <code>0.501</code>, so we achieved exactly what we wanted. Imagine you had <code>100</code> predictor variables instead of <code>4</code> like in the example. You can write an algorithm that will implement the method so the quantity is not really an issue. The real issue is simultanious testing.</p>
+<p>So as you can tell we got rid of two variables and the fit of the model decreased only a little bit from <code>0.527</code> to <code>0.501</code>, so we achieved exactly what we wanted. Imagine you had <code>100</code> predictor variables instead of <code>4</code> like in the example. You can write an algorithm that will implement the method so the quantity is not really an issue. The real issue is simultaneous testing.</p>
 </div>
 <div id="information-criteria" class="section level2">
 <h2>Information Criteria</h2>
-<p>In the most simplest terms and information criteria is a function of your models goodness of fit measure and the number of parameters/variables used to fit the model. One of the avaliable criterions is the Akaike Information Criteria, or AIC. The function is as follows. The optimal selection of variables is based on the minimum computed AIC.</p>
+<p>In the most simplest terms and information criteria is a function of your models goodness of fit measure and the number of parameters/variables used to fit the model. One of the available criterion is the Akaike Information Criteria, or AIC. The function is as follows. The optimal selection of variables is based on the minimum computed AIC.</p>
 <p><span class="math display">\[AIC = nlog(\frac{RSS}{n}) + c\]</span></p>
-<p>Intuitively the formula makes sense, becasue smaller RSS indicates a better fit, while a larger number of parameters increases the measure. n increases faster than <span class="math inline">\(log(1/n)\)</span>.</p>
-<p>To demo the method we can look at all of the possible subsets of the predictors from the earlier dataset and select the subset of variables that yilds the minimum AIC.</p>
+<p>Intuitively the formula makes sense, because smaller RSS indicates a better fit, while a larger number of parameters increases the measure. n increases faster than <span class="math inline">\(log(1/n)\)</span>.</p>
+<p>To demo the method we can look at all of the possible subsets of the predictors from the earlier data-set and select the subset of variables that yields the minimum AIC.</p>
 <pre class="r"><code># First make a list of all the possible subsets 
 f1 &lt;- gamble ~ sex + status + income + verbal ; f2 &lt;- gamble ~ sex + status + income
 f3 &lt;- gamble ~ sex + status + verbal ; f4 &lt;- gamble ~ sex + verbal + income
@@ -380,24 +384,27 @@ f13 &lt;- gamble ~ status ; f14 &lt;- gamble ~ income ; f15 &lt;- gamble ~ verba
 f &lt;- sapply(paste0(&quot;f&quot;,1:14), as.symbol)
 f &lt;- sapply(f, eval)</code></pre>
 <p>We fit each model, compute the AIC using the <code>AIC</code> function, find the one with the min, and extract the formula.</p>
-<pre class="r"><code>attach(teengamb)
-AIC &lt;- sapply(f, function(x) {AIC(lm(x))})
+<pre class="r"><code>attach(teengamb)</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 15):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre class="r"><code>AIC &lt;- sapply(f, function(x) {AIC(lm(x))})
 eval(as.symbol(names(which.min(AIC)))) ; AIC[which.min(AIC)]</code></pre>
 <pre><code>## gamble ~ sex + verbal + income</code></pre>
 <pre><code>##       f4 
 ## 431.5947</code></pre>
-<p>The minimum computed AIC is displayed, though by itself it is not very meaningful. The resultant model is different from the one we got via backward elimenation, but both methods agree that the variable <code>status</code> doesn’t add significant explenatory power to the model.</p>
+<p>The minimum computed AIC is displayed, though by itself it is not very meaningful. The resultant model is different from the one we got via backward elimination, but both methods agree that the variable <code>status</code> doesn’t add significant exploratory power to the model.</p>
 </div>
 <div id="adjusted-r2" class="section level2">
 <h2>Adjusted <span class="math inline">\(R^2\)</span></h2>
-<p>Another standard criteria is based on the measure of linear goods of fit <span class="math inline">\(R^2\)</span> itself. Maximizing <span class="math inline">\(R^2\)</span> leads to overfitting becaseu it always increases with the addition of a variable to the model. So there is an Adjusted version: <span class="math display">\[R^{2}_{Adj} = 1 - (\frac{n-p}{n-1})(1-R^2)\]</span> We can check out how it campares to the AIC method we used above. Firts, fit each model, then compute the Adjusted <span class="math inline">\(R^2\)</span> and find the one with the maximum, and extract the formula.</p>
+<p>Another standard criteria is based on the measure of linear goods of fit <span class="math inline">\(R^2\)</span> itself. Maximizing <span class="math inline">\(R^2\)</span> leads to over-fitting because it always increases with the addition of a variable to the model. So there is an Adjusted version: <span class="math display">\[R^{2}_{Adj} = 1 - (\frac{n-p}{n-1})(1-R^2)\]</span> We can check out how it compares to the AIC method we used above. First, fit each model, then compute the Adjusted <span class="math inline">\(R^2\)</span> and find the one with the maximum, and extract the formula.</p>
 <pre class="r"><code>attach(teengamb)
 adj_R2 &lt;- sapply(f, function(x) { s = summary(lm(x)) ; return(s$adj.r.squared) })
 eval(as.symbol(names(which.max(adj_R2)))) ; adj_R2[which.max(adj_R2)]</code></pre>
 <pre><code>## gamble ~ sex + verbal + income</code></pre>
 <pre><code>##        f4 
 ## 0.4932879</code></pre>
-<p>So both AIC and <span class="math inline">\(R^{2}_{Adj}\)</span> selected the same subset of variables. The actual computed value is aslo printed. One thing to note is that <span class="math inline">\(R^{2}_{Adj}\)</span> is always less then <span class="math inline">\(R^{2}\)</span> which isn’t really surprising. If the difference between the two looks large there might be good reason to believe that some overfitting is occuring.</p>
+<p>So both AIC and <span class="math inline">\(R^{2}_{Adj}\)</span> selected the same subset of variables. The actual computed value is also printed. One thing to note is that <span class="math inline">\(R^{2}_{Adj}\)</span> is always less then <span class="math inline">\(R^{2}\)</span> which isn’t really surprising. If the difference between the two looks large there might be good reason to believe that some over-fitting is occurring.</p>
 <div id="excluded-mallows-cp-becasue-it-is-equivalent-to-aic-in-the-context-of-ols." class="section level4">
 <h4>Excluded Mallows Cp becasue it is equivalent to AIC in the context of OLS.</h4>
 </div>

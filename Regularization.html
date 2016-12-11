@@ -11,9 +11,8 @@
 
 <meta name="author" content="Ben Denis Shaffer" />
 
-<meta name="date" content="2016-09-26" />
 
-<title>STATS_500_HW_2</title>
+<title>Regularization</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -283,39 +282,31 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">STATS_500_HW_2</h1>
+<h1 class="title toc-ignore">Regularization</h1>
 <h4 class="author"><em>Ben Denis Shaffer</em></h4>
-<h4 class="date"><em>September 26, 2016</em></h4>
+<h4 class="date"><em>December 9, 2016</em></h4>
 
 </div>
 
 
-<p>Here we use a model to evaluate the multivariate relationship between our response of interest, the amount gambled, and covariates that include gender, social status, income, and the verbal test score. We implicitly assume a linear relationship between the response and the covariates.</p>
-<p>What percentage of variation in the response is explained by these predictors? <span class="math inline">\(R^2\)</span> is the measure for how much variability is explained by the included predictors:</p>
-<pre><code>## [1] 0.5267234</code></pre>
-<p>Our model explains about 30% of the variation in the amount that teens gamble. This shows that our model is better than simply guessing using how much a teen would gamble using the overall average. Still this might not be satisfying and we might wish to include more variables or features(functions of variables) that we believe impact the amount gambled.</p>
-<p>Which observation has the largest (positive) residual? Give the case number. For this we just print the last value from the array of sorted residuals obtained from the model fit. Residuals are the vertical deviations of the observed value from the fitted line produced by the model. They show the statistical error of the model at each point where data is observed and help us evaluate how well the model fits the data, and whether the model is appropriate for the problem at hand.</p>
-<pre><code>##       24 
-## 94.25222</code></pre>
-<p>24th residual is the largest positive residual with an error over 94 £/month which is quite large from a practical point of view.</p>
-<p>Compute the mean and median of the residuals. Explain what the difference between the mean and the median indicates.</p>
-<pre><code>## [1] -3.065293e-17</code></pre>
-<pre><code>## [1] -1.451392</code></pre>
-<pre><code>## [1] 1.451392</code></pre>
-<p>The difference suggests that the distribution of the residuals is not symmetric. However if you compare this difference to the spread of the residuals it’s clear that the difference is relatively small:</p>
-<pre><code>## [1] 0.009986554</code></pre>
-<p>This is important because we once we begin to make inferences from the model we will need to make the assumption that the residuals are normally distributed, which is a symmetric distribution. Otherwise we would need to look for outliers or employ remedial measures to normalize the data.</p>
-<p>Compute the correlation of the residuals with the fitted values. Plot residuals against fitted values.</p>
-<pre><code>## [1] -1.070659e-16</code></pre>
-<p><img src="SLM_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>Here we see that the correlation between the fitted values based on the fitted model and the residuals is quite small. While this doesn’t imply that they are independent, it makes a stronger case for that assumption. From the plot however we see a bit of a pattern which is undesirable. We want a completely random plot basque that would suggest independent errors. It seems that the point in the top right corner is influential, and could be an <code>outlier</code>.</p>
-<p>Compute the correlation of the residuals with the income.</p>
-<pre><code>## [1] -7.242382e-17</code></pre>
-<p>The correlation between the response and the residuals is very small which is desirable because we hope that the error is independent of the observed value i.e. the error is random.</p>
-<p>For all other predictors held constant, what would be the difference in predicted expenditure on gambling for a male compared to a female?</p>
-<p>The estimated parameter for the dummy variable <code>sex</code> is the adjusted difference in the mean of gambling expenditure between males and females. The estimate indicates the amount by which (about 22£/month) a female, all else equal, would spend less then a male.</p>
-<pre><code>## teengamb$sex 
-##    -22.11833</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+</div>
+<div id="topics" class="section level1">
+<h1>Topics</h1>
+<div id="ridge-regression" class="section level2">
+<h2>Ridge Regression</h2>
+</div>
+<div id="lasso-regression" class="section level2">
+<h2>Lasso Regression</h2>
+</div>
+<div id="elastic-nets" class="section level2">
+<h2>Elastic Nets</h2>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+</div>
 
 
 

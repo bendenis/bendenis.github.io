@@ -1,0 +1,18 @@
+---
+title: "Regularization"
+author: "Ben Denis Shaffer"
+date: "December 9, 2016"
+output: html_document
+---
+
+#Introduction
+
+#Topics
+
+##Ridge Regression
+
+##Lasso Regression
+
+##Elastic Nets
+
+#Conclusion
