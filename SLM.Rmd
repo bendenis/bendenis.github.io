@@ -1,8 +1,44 @@
 ---
-title: "STATS_500_HW_2"
+title: "Linear Regression"
 author: "Ben Denis Shaffer"
 date: "September 26, 2016"
 ---
+
+#Introduction
+
+Linear Regression is a tool for analysing data with a qunatitative response. For example energy consumption in Watts, or maximum speed of a car. One might want to understand whether enrgy consumption from a house depends on when it was built, or if the car speed depends on its weight and horspower. Age, weight and horspower in these cases are reffered to as predictos, covariates, independent variables, or factors. 
+
+Its important to understand that when using linear regression you are already assuming that you know how the response depends on the predictors. You implicitly assume that the relationship _is linear_. The model does two things for you. 
+
+- Estimates the quantitative relationship.
+- Tests the validity of the estimates.
+
+For example, we assume that increasing or decreasing the age of a house will increase or decrease the quantity of energy it uses consumes. We want to know numerically how much more energy an older house would use. This aspect of the model is most useful in practice because numbers effectivly communicate infomration. It is easy to get excited about having a formula that will tell you how much electricity a house will consume, and use it to make decisions and propose policy. _However_, the most important aspect of the model is the statistical validity/significance.
+
+The plot below illustrates the idea of statistical validity. We have three sets of points labeld as `Population`, `Random Sample`, `Biased Sample`. If you fit a model using the random sample you would be more confident in the regression because there are many more red points and they are scattered all over. If you use the blue data the regression would be wrong, and even if they were correct you would be less confident in them because there are many less observations.
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(ggthemes)
+library(plotly)
+
+set.seed(1234)
+dfp = data.frame(x = rnorm(875), y = rnorm(875), Sample = "Population")
+df1 = data.frame(x = rnorm(300), y = rnorm(300), Sample = "Random Sample")
+df2 = data.frame(x = rnorm(20,-1), y = rnorm(20,1), Sample = "Biased Sample")
+
+df = rbind(dfp,df1,df2)
+df$Sample = as.factor(df$Sample)
+g = ggplot(df, aes(x = x, y = y)) + geom_point(aes(colour = Sample), alpha = 0.7) + scale_colour_manual(values = c("#000000","#FF0000","#0000FF")) + theme_economist()
+ggplotly()
+
+```
+
+
+#Topics
+
+- Simple Linear Regression
+- Residuals
 
 Here we use a model to evaluate the multivariate relationship between our response of interest, the amount gambled, and covariates that include gender, social status, income, and the verbal test score. We implicitly assume a linear relationship between the response and the covariates.
 

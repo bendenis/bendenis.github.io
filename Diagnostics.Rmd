@@ -1,5 +1,5 @@
 ---
-title: "STATS_500_HW_4"
+title: "Diagnostics"
 author: "Ben Denis Shaffer"
 date: "October 7, 2016"
 ---

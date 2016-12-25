@@ -9,9 +9,7 @@ navbar:
           menu:
             - text: "About"
               href: about_stl1.html
-            - text: "EDA"
-              href: EDA.html
-            - text: "Simple Linear Regression"
+            - text: "Linear Regression"
               href: SLM.html
             - text: "Multivariate Linear Regression"
               href: MLM.html

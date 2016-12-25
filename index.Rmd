@@ -2,6 +2,8 @@
 title: 'Applied Statistics: _Analytical and Computational Methods_'
 ---
 
+
+
 #What You Might Find Here:
 
 This website is built from R Markdown documents, so for the most part you can expect to see statistical and computational methods implemented and explained using R. STATA and SAS might also be included. I will also do my best to include Linux workflow because I found that effective use of the terminal is very important for productivity, especially when talking about "Big Data". That being said, the website for the most part serves as kind of a notebook. Most of the content will be based on my graduate coursework at the University of Michigan. However, I am not planning to simply upload my homework solutions. The homeworks are restricted in scope, and I want to go deeper into the ideas and some of the theory behind the methods. Additionally I have an interest of dedicating a section of the website to full analysis cases, perhaps from [Kaggle](https://www.kaggle.com/competitions) or [DrivenData](https://www.drivendata.org/).

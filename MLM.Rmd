@@ -1,5 +1,5 @@
 ---
-title: "STATS_500_HW_3"
+title: "Multiple Linear Regression"
 author: "Ben Denis Shaffer"
 date: "October 5, 2016"
 ---
@@ -60,7 +60,7 @@ confint(m1)
 
 ```
 
-Next we plot the confidence region for the `H2S , Lactic` variables which produces a region bounded by an ellipse. 
+Next we plot the confidence region for the `H2S , Lactic` variables which produces a region bounded by an ellipse.
 
 
 ```{r, echo=F}
