@@ -10,7 +10,7 @@ navbar:
             - text: "About"
               href: about_stl1.html
             - text: "Linear Regression"
-              href: SLM.html
+              href: SLM.nb.html
             - text: "Multivariate Linear Regression"
               href: MLM.html
             - text: "Diagnostics"

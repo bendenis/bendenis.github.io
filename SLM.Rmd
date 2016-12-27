@@ -2,22 +2,25 @@
 title: "Linear Regression"
 author: "Ben Denis Shaffer"
 date: "September 26, 2016"
+output:
+  html_notebook: default
+  html_document: default
 ---
 
 #Introduction
 
-Linear Regression is a tool for analysing data with a qunatitative response. For example energy consumption in Watts, or maximum speed of a car. One might want to understand whether enrgy consumption from a house depends on when it was built, or if the car speed depends on its weight and horspower. Age, weight and horspower in these cases are reffered to as predictos, covariates, independent variables, or factors. 
+Linear Regression is a tool for analysing data with a qunatitative response. For example energy consumption in Watts, or maximum speed of a car. One might want to understand whether enrgy consumption from a house depends on when it was built, or if the car speed depends on its weight and horspower. Age, weight and horspower in these cases are reffered to as predictos, covariates, independent variables, or factors.
 
 Its important to understand that when using linear regression you are already assuming that you know how the response depends on the predictors. You implicitly assume that the relationship _is linear_. The model does two things for you. 
 
-- Estimates the quantitative relationship.
+- Estimates the relationship quantitativly.
 - Tests the validity of the estimates.
 
-For example, we assume that increasing or decreasing the age of a house will increase or decrease the quantity of energy it uses consumes. We want to know numerically how much more energy an older house would use. This aspect of the model is most useful in practice because numbers effectivly communicate infomration. It is easy to get excited about having a formula that will tell you how much electricity a house will consume, and use it to make decisions and propose policy. _However_, the most important aspect of the model is the statistical validity/significance.
+For example, we assume that increasing or decreasing the age of a house will increase or decrease the quantity of energy it uses. We want to know numerically how much more energy an older house would use. This aspect of the model is most useful in practice because numbers effectivly communicate infomration. It is easy to get excited about having a formula that will tell you how much electricity a house will consume, and use it to make decisions and propose policy. _However_, the most important aspect of the model is the statistical validity/significance.
 
 The plot below illustrates the idea of statistical validity. We have three sets of points labeld as `Population`, `Random Sample`, `Biased Sample`. If you fit a model using the random sample you would be more confident in the regression because there are many more red points and they are scattered all over. If you use the blue data the regression would be wrong, and even if they were correct you would be less confident in them because there are many less observations.
 
-```{r, echo=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(ggplot2)
 library(ggthemes)
 library(plotly)
@@ -34,23 +37,92 @@ ggplotly()
 
 ```
 
+Understanding the data in terms of what it represents and how it came about is essential if you want to do statistics. However fitting a regression model is nothing but an optimization problem for which you don't need any statistics.
 
 #Topics
 
 - Simple Linear Regression
 - Residuals
+- Parameter Estimation
+- Interpritation
 
-Here we use a model to evaluate the multivariate relationship between our response of interest, the amount gambled, and covariates that include gender, social status, income, and the verbal test score. We implicitly assume a linear relationship between the response and the covariates.
+### Simple Linear Regression
 
-```{r, echo=FALSE}
+Smiple linear regression refers to a regression where there is just one predictor and one response. As an example you can take a measurment of body fat percentage and analyse its relatonship with chest circumference. You can look at the scatter plot of the data. You can see that it looks that greater chest circumference corresponds to greater bodyfat percentage. You assume that there is an equation 
+
+$$\boldsymbol{Y} = \beta_0 + \beta_1 \boldsymbol{X} + \boldsymbol{\epsilon}$$
+Where Y is bodyfat percentage and X is chest circumference. This is just an equation of a straight line with an additional epsilon at the very end. $\beta_0$ is the intercept and $\beta_1$ is the slope. These are unkown and are called model parameters that need to be estimated. $\boldsymbol{\epsilon}$ represents error. The reason why there must be an error term is because it is impossible to draw a straight line through the scatter plot below, such that each point is on the line.
+
+```{r}
 library(faraway)
-data(teengamb)
-model <- lm(teengamb$gamble ~ teengamb$sex + teengamb$status + teengamb$income + teengamb$verbal)
+data("fat")
+data = data.frame(y = fat$brozek, x = fat$chest)
+g = ggplot(data, aes(y = y, x = x)) + geom_point() + theme_economist()
+ggplotly()
+
 ```
+
+### Residuals
+
+So you have a model and next you need to somehow estimate the unknown parameters. You want to do so in an optimal way. It makes sense to define these estimates as optimal if the errors as small as can be. If we knew the true parameters from nature then we could simply calculate each error. 
+
+$$\boldsymbol{\epsilon}  = \boldsymbol{Y} - (\beta_0 + \beta_1 \boldsymbol{X})$$
+
+This computation give you the error only if you know the true parameters. If you choose a parameter then what you are computing is called a residual. Note that residuals can be both positive and negative. 
+
+$$\boldsymbol{r}  = \boldsymbol{Y} - (\tilde{\beta_0} + \tilde{\beta_1} \boldsymbol{X})$$
+
+$\tilde{\beta_0}$ and $\tilde{\beta_1}$ are the chosen parameters that you pick.
+
+Graphically you can imagine rubber strings conecting a straight stick to each point.
+When choosing the parameters we want the tenssion in the strings to be minimal, or in other words for the distances between the points and the stick to be as samll as can be.
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+g = ggplot(data, aes(x = x, y = y)) + geom_point() + geom_segment(aes(x = x, y = y, xend = x, yend = mean(y), color = -(y - mean(y))^2)) + geom_segment(aes(x = min(x), y = mean(y), xend = max(x), yend = mean(y)), color = 2) + theme_economist() + guides(color = FALSE) + ggtitle("Residuals")
+ggplotly()
+
+```
+
+### Parameter Estimation
+
+Looking at the plot above you see that points on the bottom left will pull the line down and points on the top right will pull it up. The goal is to minomize the residuals, or total distances between the points and a line. You can't measure the distances as just the vertical distances you see in the plot because some are negative and some are positive. To compute total distances we need to sum positive numbers. To achive this you square every residual. So the optimal parameters are those that minimize the squared residuals. This sum is called the Residual Sum of Squares (RSS).
+
+$$ RSS = \sum_{i=1}^{n} r_i^2 = \sum_{i=1}^{n} [y_i - (\tilde{\beta_0} + \tilde{\beta_1} x_i)]^2 $$
+
+The reason why we take $r_i^2$ and not for example $|r_i|$ is the Gaus-Markov theorem. This is the classical approach called Ordinary Least Squares (OLS), but any other approach is also valid and can be used and studied. If a different approach is chosen however its not refered to as Simple Linear Regression.
+
+The solution to the minimization of RSS with respect to $(\tilde{\beta_0}, \tilde{\beta_1})$ yeilds the OLS estimated optimal parameters, denoted as $(\hat{\beta_0}, \hat{\beta_1})$.
+
+$$ \hat{\beta_1} = \frac{\sum (x_i -\bar{x}) (y_i - \bar{y})}{\sum (x_i -\bar{x})^2}  = \frac{Cov(X,Y)}{Var(X)}$$
+$$ \hat{\beta_0} = \bar{y} - \hat{\beta_1}\bar{x} $$
+
+Now given the data we have been looping at we fit the model, get the parameters and plot the line using the estimated parameters as the intercept and slope. You can see the summary and the plot below.
+
+```{r}
+library(knitr)
+model = lm(y ~ x, data)
+kable(summary(model)$coef)
+
+```
+
+Now that we use thse paramters as the slope and intercept of the line we get the following picture
+
+```{r}
+
+g = ggplot(data, aes(y = y, x = x)) + geom_point() + theme_economist() + geom_smooth(method = "lm", se= FALSE, col = 2) + ggtitle("Linear Model")
+ggplotly()
+
+```
+
+
+
+
+
 
 What percentage of variation in the response is explained by these predictors?
 $R^2$ is the measure for how much variability is explained by the included predictors:
-```{r, echo=FALSE}
+```{r}
+summary(model)
 summary(model)$r.squared
 ```
 
@@ -59,21 +131,21 @@ Our model explains about 30% of the variation in the amount that teens gamble. T
 Which observation has the largest (positive) residual? Give the case number.
 For this we just print the last value from the array of sorted residuals obtained from the model fit. Residuals are the vertical deviations of the observed value from the fitted line produced by the model. They show the statistical error of the model at each point where data is observed and help us evaluate how well the model fits the data, and whether the model is appropriate for the problem at hand.
 
-```{r, echo=FALSE}
+```{r}
 sort(model$residuals)[length(model$residuals)]
 ```
 24th residual is the largest positive residual with an error over 94 £/month which is quite large from a practical point of view.
 
 
 Compute the mean and median of the residuals. Explain what the difference between the mean and the median indicates.
-```{r,echo=FALSE}
+```{r}
 mean(model$residuals)                           #mean
 median(model$residuals)                         #median
 mean(model$residuals) - median(model$residuals) #difference
 ```
 The difference suggests that the distribution of the residuals is not symmetric. However if you compare this difference to the spread of the residuals it's clear that the difference is relatively small:
 
-```{r, echo=FALSE}
+```{r}
 
 mean(model$residuals) - median(model$residuals) / (range(model$residuals)[2] - range(model$residuals)[1])
 
@@ -82,7 +154,7 @@ mean(model$residuals) - median(model$residuals) / (range(model$residuals)[2] - r
 This is important because we once we begin to make inferences from the model we will need to make the assumption that the residuals are normally distributed, which is a symmetric distribution. Otherwise we would need to look for outliers or employ remedial measures to normalize the data.
 
 Compute the correlation of the residuals with the fitted values. Plot residuals against fitted values.
-```{r, echo=FALSE}
+```{r}
 
 cor(model$residuals,model$fitted.values)
 plot(model$fitted.values,model$residuals)
@@ -92,9 +164,9 @@ plot(model$fitted.values,model$residuals)
 Here we see that the correlation between the fitted values based on the fitted model and the residuals is quite small. While this doesn't imply that they are independent, it makes a stronger case for that assumption. From the plot however we see a bit of a pattern which is undesirable. We want a completely random plot basque that would suggest independent errors. It seems that the point in the top right corner is influential, and could be an `outlier`.
 
 Compute the correlation of the residuals with the income.
-```{r, echo=FALSE}
+```{r}
 
-cor(model$residuals,teengamb$income)
+cor(model$residuals,data$y)
 
 ```
 
@@ -104,6 +176,6 @@ For all other predictors held constant, what would be the difference in predicte
 
 The estimated parameter for the dummy variable `sex` is the adjusted difference in the mean of gambling expenditure between males and females. The estimate indicates the amount by which (about 22£/month) a female, all else equal, would spend less then a male.
 
-```{r, echo=FALSE}
+```{r}
 model$coefficients[2]
 ```
