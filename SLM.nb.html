@@ -355,6 +355,22 @@ $(document).ready(function () {
 <p>The plot below illustrates the idea of statistical validity. We have three sets of points labeld as <code>Population</code>, <code>Random Sample</code>, <code>Biased Sample</code>. If you fit a model using the random sample you would be more confident in the regression because there are many more red points and they are scattered all over. If you use the blue data the regression would be wrong, and even if they were correct you would be less confident in them because there are many less observations.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShnZ3RoZW1lcylcbmxpYnJhcnkocGxvdGx5KVxuXG5zZXQuc2VlZCgxMjM0KVxuZGZwID0gZGF0YS5mcmFtZSh4ID0gcm5vcm0oODc1KSwgeSA9IHJub3JtKDg3NSksIFNhbXBsZSA9IFwiUG9wdWxhdGlvblwiKVxuZGYxID0gZGF0YS5mcmFtZSh4ID0gcm5vcm0oMzAwKSwgeSA9IHJub3JtKDMwMCksIFNhbXBsZSA9IFwiUmFuZG9tIFNhbXBsZVwiKVxuZGYyID0gZGF0YS5mcmFtZSh4ID0gcm5vcm0oMjAsLTEpLCB5ID0gcm5vcm0oMjAsMSksIFNhbXBsZSA9IFwiQmlhc2VkIFNhbXBsZVwiKVxuXG5kZiA9IHJiaW5kKGRmcCxkZjEsZGYyKVxuZGYkU2FtcGxlID0gYXMuZmFjdG9yKGRmJFNhbXBsZSlcbmcgPSBnZ3Bsb3QoZGYsIGFlcyh4ID0geCwgeSA9IHkpKSArIGdlb21fcG9pbnQoYWVzKGNvbG91ciA9IFNhbXBsZSksIGFscGhhID0gMC43KSArIHNjYWxlX2NvbG91cl9tYW51YWwodmFsdWVzID0gYyhcIiMwMDAwMDBcIixcIiNGRjAwMDBcIixcIiMwMDAwRkZcIikpICsgdGhlbWVfZWNvbm9taXN0KClcbmdncGxvdGx5KClcblxuYGBgIn0= -->
+<pre class="r"><code>library(ggplot2)
+library(ggthemes)
+library(plotly)
+
+set.seed(1234)
+dfp = data.frame(x = rnorm(875), y = rnorm(875), Sample = &quot;Population&quot;)
+df1 = data.frame(x = rnorm(300), y = rnorm(300), Sample = &quot;Random Sample&quot;)
+df2 = data.frame(x = rnorm(20,-1), y = rnorm(20,1), Sample = &quot;Biased Sample&quot;)
+
+df = rbind(dfp,df1,df2)
+df$Sample = as.factor(df$Sample)
+g = ggplot(df, aes(x = x, y = y)) + geom_point(aes(colour = Sample), alpha = 0.7) + scale_colour_manual(values = c(&quot;#000000&quot;,&quot;#FF0000&quot;,&quot;#0000FF&quot;)) + theme_economist()
+ggplotly()
+</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Understanding the data in terms of what it represents and how it came about is essential if you want to do statistics. However fitting a regression model is nothing but an optimization problem for which you don’t need any statistics.</p>
