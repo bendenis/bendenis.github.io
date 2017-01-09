@@ -1,0 +1,25 @@
+---
+title: "overview_503"
+author: "Ben Denis Shaffer"
+date: "January 5, 2017"
+output: html_document
+---
+
+#Stats 503: Statistical Learning II 
+
+- Dimension Reduction
+    - PCA
+    - MDS (Multinomial Scaling)
+    - Non-Linear Techniques
+- Classification
+    - LDA (Linear Discriminant Analysis)
+    - Logistic Regression (Generalized Linear Model)
+    - Tree based methods
+    - SVM
+    - KNN
+    - Nural Networks
+- Clustering
+    - K-Means
+    - Model Based Clustering (Mixture Model)
+- Categorical Data
+        

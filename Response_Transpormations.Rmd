@@ -2,7 +2,7 @@
 title: "Response_Transformations"
 author: "Ben Denis Shaffer"
 date: "December 4, 2016"
-output: html_document
+output: html_notebook
 ---
 
 #Introduction:
@@ -49,7 +49,7 @@ plot(model_log)
 
 ##Box-Cox:
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(faraway)
 library(MASS)
 library(leaps)

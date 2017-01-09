@@ -44,7 +44,10 @@ Understanding the data in terms of what it represents and how it came about is e
 - Simple Linear Regression
 - Residuals
 - Parameter Estimation
-- Interpritation
+- Interpretation
+- Goodness of Fit
+- Prediction Accuracy
+- Inferencial Statistics
 
 ### Simple Linear Regression
 
@@ -77,10 +80,18 @@ $\tilde{\beta_0}$ and $\tilde{\beta_1}$ are the chosen parameters that you pick.
 Graphically you can imagine rubber strings conecting a straight stick to each point.
 When choosing the parameters we want the tenssion in the strings to be minimal, or in other words for the distances between the points and the stick to be as samll as can be.
 
-```{r, warning=FALSE, message=FALSE, echo=FALSE}
+```{r, warning=FALSE, message=FALSE}
 g = ggplot(data, aes(x = x, y = y)) + geom_point() + geom_segment(aes(x = x, y = y, xend = x, yend = mean(y), color = -(y - mean(y))^2)) + geom_segment(aes(x = min(x), y = mean(y), xend = max(x), yend = mean(y)), color = 2) + theme_economist() + guides(color = FALSE) + ggtitle("Residuals")
 ggplotly()
 
+```
+
+For example the largest residual in the above picture is for the 216th point at about 26 units. The largest negative residual is for the 182nd poin at about negative 19. Note that in the plot the 182nd and 216th data points are not 182nd and 216th from the right since the data is not sorted in anyway. So the 182nd residual is actually the leftmost residual in the plot.
+
+```{r}
+m = lm(data$y ~ 1)
+m$residuals[which.max(m$residuals)]
+m$residuals[which.min(m$residuals)]
 ```
 
 ### Parameter Estimation
@@ -114,68 +125,73 @@ ggplotly()
 
 ```
 
+### Interpretation
 
+One of the greatest practical advanatges of linear models is their simple interpretability. The estimated slope is a chnage in Y given a unit change in X. The intercept is the value of Y when X is zero. So for example if someone tells you that an individuals chest measurment decreased by 12 units, you could predict that that individual experienced a decrease in bodyfat percentage of `-12*0.6462 = -7.7544`.The next quastion to answer is how certain you are about this prediction. For this inferencial statistics will need to be used.
 
+### Goodness of Fit
 
+How well a model is fit is evaluated relative to a model that doesn't use data for choosing the parameters. This model is a horizontal line going through the mean of Y. When you compute the mean of Y you don't use X at all. On the otherhand when you fit a linear model you are computing the mean of Y conditional on X.
 
+The goal of the fitting was to minimize the squared residuals between the line and the points. So a measure of how well a model fits would be a comparison of the RSS of the two models. For the simplest model the RSS is called Total Sum of Squares (TSS). Instead of simply taking the ratio of the two, the ratio is subtracted from 1 and given the name $R^2$. The reson fot this is the interpritation.
 
-What percentage of variation in the response is explained by these predictors?
-$R^2$ is the measure for how much variability is explained by the included predictors:
+$$ R^2 = 1 - \frac{RSS}{TSS} $$
+
+$R^2$ is a measure of linear association. If the model is a better linear fit the RSS is lower and $R^2$ is greater. RSS is always lower than TSS which you can see from the figure with the residuals, so $R^2$ is always between 1 and 0. The interpriation is that $R^2$ is the percent of variation in Y explained by X, assuming that X and Y are linearly related.
+
+In the current model the $R^2$ is `0.4940475` so you would say that chest circumference explains about 50% of variation in bodyfat percenatge measurment.
+
 ```{r}
-summary(model)
 summary(model)$r.squared
 ```
 
-Our model explains about 30% of the variation in the amount that teens gamble. This shows that our model is better than simply guessing using how much a teen would gamble using the overall average. Still this might not be satisfying and we might wish to include more variables or features(functions of variables) that we believe impact the amount gambled.
+This measurment of fit can be used to compare models so a model with lower RSS and greater $R^2$ is the one with a better linear fit.
 
-Which observation has the largest (positive) residual? Give the case number.
-For this we just print the last value from the array of sorted residuals obtained from the model fit. Residuals are the vertical deviations of the observed value from the fitted line produced by the model. They show the statistical error of the model at each point where data is observed and help us evaluate how well the model fits the data, and whether the model is appropriate for the problem at hand.
+### Prediction Accuracy
 
-```{r}
-sort(model$residuals)[length(model$residuals)]
-```
-24th residual is the largest positive residual with an error over 94 £/month which is quite large from a practical point of view.
+A possible use of the fitted model is prediction. If you are given a new measurment of chest circumference you can use the model to predict the bodyfat percentage. This is practical because measuring chest circumference is much easier and cheaper then accuratly measuring bodyfat percentage.
 
+So then you want to evaluate how accurate the predictions would be if you used your fitted model. The initial way of doing this is evaluating how well you predict, or how closely reconstruct the data that you had using your model. For this we use the model to predict the existing Y using only X, and call each prediction the fitted value $\boldsymbol{\hat{Y}}$ where
 
-Compute the mean and median of the residuals. Explain what the difference between the mean and the median indicates.
-```{r}
-mean(model$residuals)                           #mean
-median(model$residuals)                         #median
-mean(model$residuals) - median(model$residuals) #difference
-```
-The difference suggests that the distribution of the residuals is not symmetric. However if you compare this difference to the spread of the residuals it's clear that the difference is relatively small:
+$$ \boldsymbol{\hat{Y}} =  \hat{\beta_0} + \hat{\beta_1} \boldsymbol{X} $$
+Then you compute the mean of the squared differences in the predicted and observed values which is called the Mean Squared Error (MSE). MSE is not a measure used uniquely for regression. It's a general concept, but in the case of linrea regression it is very simple which is related to Gauss-Markov theorem mention earlier.
+
+$$ MSE = \frac{1}{n}\sum (Y_i - \hat Y_i)^2 $$
+
+For out model the MSE is 30.27486. This means that on average the squared error of your prediction will be about 30 units, or about 5.5% of bodyfat. As you can tell this is not very good at all.
 
 ```{r}
-
-mean(model$residuals) - median(model$residuals) / (range(model$residuals)[2] - range(model$residuals)[1])
-
+MSE = (1/dim(data)[1])*sum((data$y - model$fitted.values)^2)
+MSE
 ```
 
-This is important because we once we begin to make inferences from the model we will need to make the assumption that the residuals are normally distributed, which is a symmetric distribution. Otherwise we would need to look for outliers or employ remedial measures to normalize the data.
+In practice prediction accuracy would not be evaluated in this way. The data would be divided into a training set for fitting the model and a training set for computing MSE.
 
-Compute the correlation of the residuals with the fitted values. Plot residuals against fitted values.
+### Inferencial Statistics
+
+The model is fit, interpreted, and even evaluated in terms of how well it fits the data. The important question is how confident you can be about these results given the data that you have. Using your data you found a relationship between bodyfat percentage and chest circumference. If you got a different set of data would you find the same relationship? Imagine you found it to be negative (not impossible).
+
+If you make a couple of assumptions you can begin to do inferencial statistics which means that you can deturmine whether the model is valid, and evaluate how confident you can be in your predictions. The assumtion are summarised in the follwing statment:
+
+$$ \epsilon_i \sim^{iid} N(0,\sigma^2) $$
+In words this means that the error terms, the deviation from the line, are 
+
+- Normally distributed.
+- Have mean 0.
+- Have the same constant variance $\sigma^2$.
+- Are all mutually independent of one another.
+
+Of course these assumptions can be a good idea, a not so good idea, or unacceptible all together. Deturmining whether these assumptions are acceptible is one of the roles of model diagnostics. The OLS algorithm for estimating parameters technically follows these assumptions about the data, but mathematically the model fitting can be done for any dataset. Sometimes your data can be transformed in acceptible ways to make it better fit these assumptions. Also, these assumptions can be relaxed and modified which leads to different algorithms that are more appropriate for different data.
+
+These assumptions imply that the response of interest is also normally distributed:
+
+$$ Y_i \sim^{iid} N(\beta_0 + \beta_1 X_i, \sigma^2) $$
+
+The mean $\beta_0 + \beta_1 X_i$ is already estimtated when fitting the regression. The variance $\sigma^2$ needs to be estimated still. When you have both you can test how likely it is that given these estimated parameters the slope of the line is actually zero. In other words, you can hypothesise that the slope is zero and that there is no relationship between bodyfat percentage and chest circumference, and then use the data to either validate this hypothesis, or reject it. 
+
 ```{r}
 
-cor(model$residuals,model$fitted.values)
-plot(model$fitted.values,model$residuals)
+summary(model)
 
 ```
 
-Here we see that the correlation between the fitted values based on the fitted model and the residuals is quite small. While this doesn't imply that they are independent, it makes a stronger case for that assumption. From the plot however we see a bit of a pattern which is undesirable. We want a completely random plot basque that would suggest independent errors. It seems that the point in the top right corner is influential, and could be an `outlier`.
-
-Compute the correlation of the residuals with the income.
-```{r}
-
-cor(model$residuals,data$y)
-
-```
-
-The correlation between the response and the residuals is very small which is desirable because we hope that the error is independent of the observed value i.e. the error is random.
-
-For all other predictors held constant, what would be the difference in predicted expenditure on gambling for a male compared to a female?
-
-The estimated parameter for the dummy variable `sex` is the adjusted difference in the mean of gambling expenditure between males and females. The estimate indicates the amount by which (about 22£/month) a female, all else equal, would spend less then a male.
-
-```{r}
-model$coefficients[2]
-```

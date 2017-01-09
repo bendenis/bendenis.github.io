@@ -1,24 +1,34 @@
 ---
-title: 'Applied Statistics: _Analytical and Computational Methods_'
+title: 'Applied Statistics'
 ---
 
 
+#About the Website:
 
-#What You Might Find Here:
-
-This website is built from R Markdown documents, so for the most part you can expect to see statistical and computational methods implemented and explained using R. STATA and SAS might also be included. I will also do my best to include Linux workflow because I found that effective use of the terminal is very important for productivity, especially when talking about "Big Data". That being said, the website for the most part serves as kind of a notebook. Most of the content will be based on my graduate coursework at the University of Michigan. However, I am not planning to simply upload my homework solutions. The homeworks are restricted in scope, and I want to go deeper into the ideas and some of the theory behind the methods. Additionally I have an interest of dedicating a section of the website to full analysis cases, perhaps from [Kaggle](https://www.kaggle.com/competitions) or [DrivenData](https://www.drivendata.org/).
+This website is built from R Markdown documents, so for the most part you can expect to see statistical and computational methods implemented and explained using R. STATA and SAS might also be included. I will also do my best to include Linux workflow because I found that effective use of the terminal is very important for productivity, especially when talking about "Big Data". That being said, the website for the most part serves as kind of a notebook. Most of the content will be based on my graduate coursework at the University of Michigan. Additionally I have an interest in dedicating a section of the website to full analysis cases, perhaps from [Kaggle](https://www.kaggle.com/competitions) or [DrivenData](https://www.drivendata.org/).
 
 
 #About Me:
 
-Currently I am pursuing a [M.S. in Applied Statistics at the University of Michigan](https://lsa.umich.edu/stats/graduate-students/graduate-degree-programs/appliedmasterprogram.html) and expect to graduate either December 2017 or April 2018, depending on what I decide. Previously I have completed my B.A. at Boston University where I double majored in Mathematics and Economics. My career interests are in tech and management consulting. I am particularly interested in the domains of personal health, online education, but more generally innovation which is most often driven by tech these days. R programming is perhaps my greatest technical competency at this point. Slowly getting into web-development. Other then that, I love to travel and try to always stay active doing sports and fitness. 
+Currently I am pursuing a [M.S. in Applied Statistics at the University of Michigan](https://lsa.umich.edu/stats/graduate-students/graduate-degree-programs/appliedmasterprogram.html) and expect to graduate either December 2017 or April 2018. Previously I have completed my B.A. at Boston University where I double majored in Mathematics and Economics. 
+
+My career interests are in management consulting, project management and entrepreneurship. I am particularly interested in the domains of healthcare, education, mobile and home technology, urban informatics and security. Generally I am get excited about anything where I see an opportunity to innovate and leverage data as a useful resource.
+
+R programming is perhaps my greatest technical competency at this point. Right now I am committed to mastering Python and I am also interested in learning Julia later on. Other then that, I love to travel and try to always stay active doing sports and fitness. 
 
 
 #Courses:
 
-These are the courses based on which I am building the content of the website. I'll be adding courses as I progress with my studies, and after completing a course I'll append a description.
+These are the courses based on which I am building the content of the website.
 
-- Statistical Learning I: Regression [STATS:500]
+- Statistical Learning I: Regression [STATS:500](http://lsa.umich.edu/stats/graduate-students/statistics-courses.html)
+This course focused mainly on the classical statistical analysis of data. That involves regression analysis, model diagnostics and  inferential statistics. Some more advanced topics included transformations, dimension reduction, regularized regression, robust regression and logistic regression. 
+
 - Statistical Learning II: Multivariate Analysis [STATS:503]
-- Computational Methods & Tools [STATS:506]
-- Spatial Statistics [BIOSTAT:696]
+Currently taking.
+
+- Computational Methods & Tools [STATS:506](http://dept.stat.lsa.umich.edu/~kshedden/Courses/Stat506/)
+In this course we were developing practical skills for working with data using statistical software packages including STATA, R, and SAS. The focus has been on understanding how the data is represented and used by computers when worked with in a given language. The emphasis was not of writing code that just works, but writing code that works efficiently. Some advanced topics included parallel/concurrent programming and distributed computing in Spark.
+
+
+
