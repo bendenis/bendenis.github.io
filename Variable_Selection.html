@@ -191,10 +191,7 @@ $(document).ready(function () {
       <a href="about_stl1.html">About</a>
     </li>
     <li>
-      <a href="EDA.html">EDA</a>
-    </li>
-    <li>
-      <a href="SLM.html">Simple Linear Regression</a>
+      <a href="SLR.html">Linear Regression</a>
     </li>
     <li>
       <a href="MLM.html">Multivariate Linear Regression</a>
@@ -218,6 +215,21 @@ $(document).ready(function () {
       <a href="Dimensionality_Reduction.html">Dimonsionality Reduction</a>
     </li>
     <li class="dropdown-header">Regularization</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="ion ion-ios-pulse"></span>
+     
+    STATS 503
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Overview</li>
+    <li>
+      <a href="overview_503.html"></a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -250,10 +262,7 @@ $(document).ready(function () {
       <a href="about_spatial.html">About</a>
     </li>
     <li>
-      <a href="BIOSTAT_HW_1.html">HW1</a>
-    </li>
-    <li>
-      <a href="BIOSTAT_696_HW4.html">HW4</a>
+      <a href="BIOSTAT_1.html">PM 2.5 Concentrations</a>
     </li>
   </ul>
 </li>
@@ -385,7 +394,10 @@ f &lt;- sapply(paste0(&quot;f&quot;,1:14), as.symbol)
 f &lt;- sapply(f, eval)</code></pre>
 <p>We fit each model, compute the AIC using the <code>AIC</code> function, find the one with the min, and extract the formula.</p>
 <pre class="r"><code>attach(teengamb)</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 15):
+<pre><code>## The following objects are masked from teengamb (pos = 11):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 18):
 ## 
 ##     gamble, income, sex, status, verbal</code></pre>
 <pre class="r"><code>AIC &lt;- sapply(f, function(x) {AIC(lm(x))})

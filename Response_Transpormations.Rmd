@@ -2,7 +2,7 @@
 title: "Response_Transformations"
 author: "Ben Denis Shaffer"
 date: "December 4, 2016"
-output: html_notebook
+output: html_document
 ---
 
 #Introduction:

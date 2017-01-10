@@ -10,7 +10,7 @@ navbar:
             - text: "About"
               href: about_stl1.html
             - text: "Linear Regression"
-              href: SLM.nb.html
+              href: SLR.html
             - text: "Multivariate Linear Regression"
               href: MLM.html
             - text: "Diagnostics"
@@ -18,7 +18,7 @@ navbar:
             - text: "Robust Regression"
               href: Robust_Regression.html
             - text: "Response Transformations"
-              href: Response_Transpormations.nb.html
+              href: Response_Transpormations.html
             - text: "Predictor Transformations"
               href: Predictor_Transfromations.html
             - text: "Variable Selection"
@@ -45,7 +45,7 @@ navbar:
             - text: "About"
               href: about_spatial.html
             - text: "PM 2.5 Concentrations"
-              href: BIOSTAT_1.nb.html
+              href: BIOSTAT_1.html
   right:
       - text: "Blog"
         icon: fa-medium
