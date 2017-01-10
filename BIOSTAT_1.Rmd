@@ -1,0 +1,206 @@
+---
+title: "BIOSTAT_1"
+output:
+  html_notebook: default
+  html_document: default
+---
+
+PM 2.5 Concentrations
+
+```{r, echo=F, message=F, warning=F}
+library(ggplot2)
+library(maps)
+library(RgoogleMaps)
+library(sp)
+library(rgdal)
+library(fields)
+library(RColorBrewer)
+library(classInt)
+library(gstat)
+library(manipulate)
+library(MASS)
+library(fields)
+library(akima)
+library(geoR)
+library(ggthemes)
+library(plotly)
+
+setwd("/Users/bendenisshaffer/Box Sync/UM Fall 2016/BIOSTAT 696/Data")
+data <- read.table("Particulate_matter_aug22_midwest.txt", header = T)
+attach(data)
+```
+
+```{r, message=FALSE, warning=FALSE}
+
+plotclr = brewer.pal(9, "PuBuGn")
+
+class = classIntervals(Obs_value, 
+                       9, 
+                       style = "fixed", 
+                       fixedBreaks = seq(min(Obs_value),
+                       max(Obs_value), 
+                       length = 9+1))
+
+colcode <- findColours(class,plotclr)
+
+plot(Longitude, Latitude, pch=20, col = colcode, main = "PM2.5 Measumrments on Select Sates")
+US(xlim = range(Longitude),
+   ylim = range(Latitude),
+   add = T,
+   lwd = 1,
+   col = "gray")
+
+map = GetMap.bbox(lonR = range(Longitude),
+                  latR = range(Latitude), 
+                  size = c(640,640), 
+                  maptype = "hybrid")
+
+PlotOnStaticMap(map)
+
+convert_points = LatLon2XY.centered(map,
+                                    Latitude,
+                                    Longitude)
+points(convert_points$newX,
+       convert_points$newY, 
+       col = colcode, 
+       pch = 19)
+
+
+
+```
+
+```{r, message=FALSE,warning=FALSE}
+
+x = Longitude
+y = Latitude
+
+model = lm(log(Obs_value) ~ x + y + State)
+
+surf_est_surface = interp(x,
+                          y,
+                          model$fitted.values)
+
+plotvar = surf_est_surface$z[!is.na(surf_est_surface$z)]
+
+class = classIntervals(plotvar,
+                       9,
+                       style = "fixed",
+                       fixedBreaks = seq(min(plotvar),
+                       max(plotvar),
+                       length = 9+1))
+
+colcode = findColours(class, plotclr)
+
+image.plot(surf_est_surface$x, 
+           surf_est_surface$y, 
+           surf_est_surface$z, 
+           col = plotclr,
+           breaks = seq(1.5,2.5, length = 10),
+           zlim = c(1.5,2.5),
+           xlab = "X", 
+           ylab = "Y",
+           main = "Estimated spatial trend")
+
+US(xlim = range(Longitude),
+   ylim = range(Latitude),
+   add = T,
+   lwd = 1,
+   col = "red")
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+
+
+g = ggplot(data, aes(log(Obs_value))) + geom_density(aes(group = State, fill = State), alpha = 0.4) + ggtitle("Estimated Density of PM2.5 Concentration") + theme_economist()
+ggplotly()
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+
+n = nrow(data)
+dist_matrix = matrix(0 , nrow = n , ncol = n)
+diff_matrix = matrix(0, nrow = n , ncol = n)
+
+coordinates = matrix(cbind(Longitude , Latitude), nrow = n , ncol=2)
+
+dist_matrix = rdist(coordinates, coordinates)
+
+for(i in 1:n){
+        for(j in 1:n){
+                diff_matrix[i,j] <- (1/2)*(model$residuals[i]-model$residuals[j])^2	
+        }
+}
+
+
+
+plot(as.numeric(dist_matrix), 
+     as.numeric(diff_matrix), 
+     type = "p", 
+     pch = 20,
+     col = "black",
+     xlab = "Distance",
+     ylab = "Squared differences",
+     main = "Variogram Cloud Plot for PM2.5 Concentrations")
+```
+
+
+```{r}
+
+bins = (0.1)*((1:10)^1.8)
+dt = data.frame(cbind(x, y, (model$residuals)))
+
+empirical_variogram = variogram(model$residuals ~ 1 ,
+                                locations = ~ x + y, 
+                                dt,
+                                boundaries = bins)
+
+plot(empirical_variogram,
+     col = "black",
+     type = "p",
+     pch = 20,
+     main = "Empirical Semi-Variogram")
+
+```
+
+
+```{r}
+directional_empirical_variogram = variogram(model$residuals ~ 1,
+                                            locations = ~ x + y, 
+                                            dt,
+                                            alpha = c(0,45,90,135),
+                                            boundaries = bins)
+
+plot(directional_empirical_variogram, main = "Directional Empirical Semi-Variogram")
+
+```
+
+
+```{r}
+
+exp_veriogram_model = fit.variogram(empirical_variogram,
+                                    vgm(psill = 0.03, "Exp", 1, 0.01),
+                                    fit.method = 2)
+
+sph_veriogram_model = fit.variogram(empirical_variogram,
+                                    vgm(psill = 0.03, "Sph", 1, 0.01),
+                                    fit.method = 2)
+
+gau_veriogram_model = fit.variogram(empirical_variogram,
+                                    vgm(psill = 0.03, "Gau", 1, 0.01),
+                                    fit.method = 2)
+
+mat_veriogram_model = fit.variogram(empirical_variogram,
+                                    vgm(psill = 0.03, "Mat", 1, 0.01, kappa = 1),
+                                    fit.method = 2)
+
+
+plot(empirical_variogram, exp_veriogram_model, main = "Exponential Model")
+plot(empirical_variogram, sph_veriogram_model, main = "Spherical Model")
+plot(empirical_variogram, gau_veriogram_model, main = "Gaussian Model")
+plot(empirical_variogram, mat_veriogram_model, main = "Matern Model")
+
+```
+
+

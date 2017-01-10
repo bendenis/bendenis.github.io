@@ -12,7 +12,7 @@ This website is built from R Markdown documents, so for the most part you can ex
 
 Currently I am pursuing a [M.S. in Applied Statistics at the University of Michigan](https://lsa.umich.edu/stats/graduate-students/graduate-degree-programs/appliedmasterprogram.html) and expect to graduate either December 2017 or April 2018. Previously I have completed my B.A. at Boston University where I double majored in Mathematics and Economics. 
 
-My career interests are in management consulting, project management and entrepreneurship. I am particularly interested in the domains of healthcare, education, mobile and home technology, urban informatics and security. Generally I am get excited about anything where I see an opportunity to innovate and leverage data as a useful resource.
+My career interests are in management consulting, project management and entrepreneurship. I am particularly interested in the domains of healthcare, education, mobile and home technology, urban informatics and security. Generally I get excited about anything where I see an opportunity to innovate and leverage data as a useful resource.
 
 R programming is perhaps my greatest technical competency at this point. Right now I am committed to mastering Python and I am also interested in learning Julia later on. Other then that, I love to travel and try to always stay active doing sports and fitness. 
 

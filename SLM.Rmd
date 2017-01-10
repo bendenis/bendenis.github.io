@@ -194,4 +194,3 @@ The mean $\beta_0 + \beta_1 X_i$ is already estimtated when fitting the regressi
 summary(model)
 
 ```
-
