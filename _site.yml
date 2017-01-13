@@ -11,15 +11,15 @@ navbar:
               href: overview_501.html
             - text: "Linear Regression"
               href: SLR.html
-            - text: #"Multivariate Linear Regression"
+            - text: "Multivariate Linear Regression"
               href: MLM.html
-            - text: #"Diagnostics"
+            - text: "Diagnostics"
               href: Diagnostics.html
-            - text: #"Robust Regression"
+            - text: "Robust Regression"
               href: Robust_Regression.html
             - text: "Response Transformations"
               href: Response_Transpormations.html
-            - text: #"Predictor Transformations"
+            - text: "Predictor Transformations"
               href: Predictor_Transfromations.html
             - text: "Variable Selection"
               href: Variable_Selection.html
