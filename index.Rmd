@@ -2,6 +2,7 @@
 title: 'Applied Statistics'
 ---
 
+###_By Ben Denis Shaffer_###
 
 #About the Website:
 

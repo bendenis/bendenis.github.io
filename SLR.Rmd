@@ -1,7 +1,6 @@
 ---
 title: "Linear Regression"
 author: "Ben Denis Shaffer"
-date: "September 26, 2016"
 output: html_document
 ---
 
@@ -185,10 +184,24 @@ These assumptions imply that the response of interest is also normally distribut
 
 $$ Y_i \sim^{iid} N(\beta_0 + \beta_1 X_i, \sigma^2) $$
 
-The mean $\beta_0 + \beta_1 X_i$ is already estimtated when fitting the regression. The variance $\sigma^2$ needs to be estimated still. When you have both you can test how likely it is that given these estimated parameters the slope of the line is actually zero. In other words, you can hypothesise that the slope is zero and that there is no relationship between bodyfat percentage and chest circumference, and then use the data to either validate this hypothesis, or reject it. 
+The mean $\beta_0 + \beta_1 X_i$ is already estimtated when fitting the regression. The variance $\sigma^2$ needs to be estimated still. When you have both you can test how likely it is that given these estimated parameters the slope of the line is actually zero. In other words, you can hypothesise that the slope is zero and that there is no relationship between bodyfat percentage and chest circumference, and then use the data to either validate this hypothesis, or reject it.
+
+This part of regression is quite mathematical and whole courses in mathematical statistics are dedicated to discussing how 'sampling distributions', 'tests', and inferences are derived depending on the assumptions made. But this doesn't mean that you can't interpret the inferences without having taken such courses. The results of the bodyfat example can be summurized in the model summary output.
 
 ```{r}
 
 summary(model)
 
 ```
+
+The first line is just the model call that was input. The second portion of the output shows the range and the interquartile range of the residuals from the model. This is a quick first diagnostic because you want the residulas to be symmetric around 0.
+
+The next portion is more interesting. You have the estimates of the parameters/coefficients that you saw before, and next to them are the inferencial statistics. To the immediate right you have the `Standard Error` which can be though of as variation of the actual coefficient. In short, you want the SE to be small relative to the coefficient. The t-value and p-value are derived from the SE and the coefficient. You want the t-value to be large and p-value to be small. P-value in particular is the probability of the 'true' coeefficient being 0 given the observed data. So in this example the estimate is `0.64622` and the probability that it is actually 0 given the the data is 0. In this case the results is said to be 'statistically significant'.
+
+
+
+
+
+
+
+

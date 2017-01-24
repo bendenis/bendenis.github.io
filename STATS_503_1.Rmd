@@ -1,0 +1,16 @@
+---
+title: "Principal Component Analysis"
+author: "Ben Denis Shaffer"
+output: html_document
+---
+
+#Introduction
+
+#Topics
+
+- Principal Component Analysis
+- Bootstrap
+- Permutation Test
+- Visualization
+
+#Conclusion

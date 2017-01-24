@@ -32,6 +32,10 @@ navbar:
           menu:
             - text: "Overview"
             - href: overview_503.html
+            - text: "Principal Component Analysis"
+            - href: STATS_503_1.html
+            - text: "Factor Analysis"
+            - href:
         - text: "STATS 506"
           icon: fa-laptop 
           menu:
