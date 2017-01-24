@@ -23,7 +23,7 @@ navbar:
               href: Predictor_Transfromations.html
             - text: "Variable Selection"
               href: Variable_Selection.html
-            - text: "Dimonsionality Reduction"
+            - text: "Dimensionality Reduction"
               href: Dimensionality_Reduction.html
             - text: "Regularization"
               href:
