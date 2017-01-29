@@ -6,11 +6,89 @@ output: html_document
 
 #Introduction
 
+Principal Component Analysis (PCA) is an unsupervised dimention-reduction technique used on multidimentional numerical data. Dimention reduction can be useful in many ways including exploratory data analysis and regression. Using PCA you construct covariates out of the given covariates in a way that preserves as much information as possible. You can think of data as living in a multidimentional space. A lot of that space can be empty (think of a scatter plot with high correlation and empty corners). For a 2D space you can find a line which will be close to most of the data. PCA is a technique that solves this problem in high-dimentions too.
+
+PCA gives you principal component directions that consist of weights. These weights allow you to construct the new covariates. If you have a responce variable you can use these covariates as predictors. This is called Principal Component Regression. For visualization you can chose 2 or three of the principal complonents and project the data onto that subspace that you found. 
+
 #Topics
 
-- Principal Component Analysis
-- Bootstrap
-- Permutation Test
+- PCA Algorithm
 - Visualization
+- Statistical Validity
+
+# PCA Algorithm
+
+In Data Science the words algorithm and model are offten used interchangably, which is ok. It is however possible to make a distinction. If we are assuming something about the nature of relationships between variables then we are dealing with a model. For example regression analysis can be considered a model based technique because we are implicitly assuming a linear relationship. If on the other hand we are not assuming any relationship we are dealing with an algorithm. Algorithms are instructions for solving a set problem. PCA is exactly that. 
+
+### PCA Problem
+
+In words the set problem that PCA solves is the following: Find a set of orthogonal linear combinations of variables that maximizes the variance of these linear combinations. A linear combination is just a weighted sum of the variables, which are vectors. In other words, given your variables, you construct other variables which are weighted sums of the ones you are given. You do it such that the constructed variables ahve the greatest variance possible, but making sure that resultant variables are uncorrelated.
+
+Mathematically the problem is an optimization problem that can be formulated in the following way:
+
+We have a list of random variables $X = X_1, X_2, ... , X_p$, which is just a representation of data, with $Var(X) = \Sigma$. We want to derive a list $Z = Z_1, Z_2, ... Z_k$ such that 
+
+$$Z_i = w_{1i}X_1 + w_{2i}X_2 + ... + w_{pi}X_p  = w_i^TX$$
+So $Z_i$ which are caller *Pricipal Components* is a linear combination of $X$, and the weights $w_i$ which are called *Principal Component Directions* have two constraints:
+
+$$ w_i^Tw_i = 1 \ \forall i \\w_i^Tw_j = 0 \ \forall i\neq j $$
+
+There will be a PC directions for each Principal Component and they can be put in a matrix where each PC direction is a column:
+
+$$ W = \begin{pmatrix}
+  w_{11} & w_{12} & \cdots & w_{1k} \\
+  w_{21} & w_{22} & \cdots & w_{2k} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  w_{p1} & w_{p2} & \cdots & w_{pk} 
+ \end{pmatrix} $$
+ 
+ This way you can write the list of PCs as $Z = W^TX$ and the constraints on $W$ is simply $W^TW = I$.
+ 
+The optimization problem is to find $W$ such that variance of each $Z_i$ is maximized sequentially. That means that we want to $Z_1$ to have the largest variance, $Z_2$ the second largest variance and so on. Since $Z = W_TX$
+
+$$Var(Z) = Var(W^TX) = W^TVar(X)W = W^T\Sigma W$$
+
+So the PCA problem becomes
+
+$$ max \ W^T \Sigma W, \\ W^TW = I$$
+Where you need to find the $W$ that solves this.
+
+###Analytical PCA Solution
+
+The solution involves setting up a Lagrangian and differentiating it with respect to $W$
+
+$$ \mathscr{L}(W) = W^T\Sigma W - \Lambda(I - W^TW) $$
+where $\Lambda$ is a diagonal matrix of lagrangian multipliers:
+
+$$\Lambda = \begin{pmatrix}
+  \lambda_{1} & 0 & \cdots & 0 \\
+  0 & \lambda_{2} & \cdots & 0 \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  0 & 0 & \cdots & \lambda_{p} 
+ \end{pmatrix} $$
+ 
+These are just sums of terms where $w_i$s don't cross multiply, which means each derivative will only contain the $w_i$ with respect to which the derivative is taken.
+
+So for example you can focus on $w_1$ and the solution becomes
+$$\mathscr{L}(w_1) = w_{1}^T\Sigma w_1 - \lambda_1(1 - w_{1}^Tw_1)$$
+$$\frac{\partial\mathscr{L}(w_1)}{\partial w_1} = 2\Sigma w_1 - 2\lambda_1w_1 = 0 $$
+And so you get that 
+
+$$ \Sigma w_1 = \lambda_1 w_1 $$
+Given the matrix $\Sigma$ this defines an eigenvalue $\lambda_1$ and $w_1$ is the corresponding eigenvector of the the $\Sigma$ matrix.
+
+So the solution to PCA biols down to finding the Eigendecomposition 
+
+$$\Sigma = W^T\Lambda W$$
+
+and then $Z = W^TX$
+
+### Computational PCA Solution
+
+So analytically to find the PCs for $X$ you need to find the Eigendecomposition of the covariance matrix of $X$, $\Sigma$.
+
+However $\Sigma$ is unkown and needs to be estimated with $\hat{\Sigma} = \frac{1}{n-1}X^TX$
+
+
 
 #Conclusion

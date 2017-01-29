@@ -304,15 +304,60 @@ $(document).ready(function () {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
+<p>Principal Component Analysis (PCA) is an unsupervised dimention-reduction technique used on multidimentional numerical data. Dimention reduction can be useful in many ways including exploratory data analysis and regression. Using PCA you construct covariates out of the given covariates in a way that preserves as much information as possible. You can think of data as living in a multidimentional space. A lot of that space can be empty (think of a scatter plot with high correlation and empty corners). For a 2D space you can find a line which will be close to most of the data. PCA is a technique that solves this problem in high-dimentions too.</p>
+<p>PCA gives you principal component directions that consist of weights. These weights allow you to construct the new covariates. If you have a responce variable you can use these covariates as predictors. This is called Principal Component Regression. For visualization you can chose 2 or three of the principal complonents and project the data onto that subspace that you found.</p>
 </div>
 <div id="topics" class="section level1">
 <h1>Topics</h1>
 <ul>
-<li>Principal Component Analysis</li>
-<li>Bootstrap</li>
-<li>Permutation Test</li>
+<li>PCA Algorithm</li>
 <li>Visualization</li>
+<li>Statistical Validity</li>
 </ul>
+</div>
+<div id="pca-algorithm" class="section level1">
+<h1>PCA Algorithm</h1>
+<p>In Data Science the words algorithm and model are offten used interchangably, which is ok. It is however possible to make a distinction. If we are assuming something about the nature of relationships between variables then we are dealing with a model. For example regression analysis can be considered a model based technique because we are implicitly assuming a linear relationship. If on the other hand we are not assuming any relationship we are dealing with an algorithm. Algorithms are instructions for solving a set problem. PCA is exactly that.</p>
+<div id="pca-problem" class="section level3">
+<h3>PCA Problem</h3>
+<p>In words the set problem that PCA solves is the following: Find a set of orthogonal linear combinations of variables that maximizes the variance of these linear combinations. A linear combination is just a weighted sum of the variables, which are vectors. In other words, given your variables, you construct other variables which are weighted sums of the ones you are given. You do it such that the constructed variables ahve the greatest variance possible, but making sure that resultant variables are uncorrelated.</p>
+<p>Mathematically the problem is an optimization problem that can be formulated in the following way:</p>
+<p>We have a list of random variables <span class="math inline">\(X = X_1, X_2, ... , X_p\)</span>, which is just a representation of data, with <span class="math inline">\(Var(X) = \Sigma\)</span>. We want to derive a list <span class="math inline">\(Z = Z_1, Z_2, ... Z_k\)</span> such that</p>
+<p><span class="math display">\[Z_i = w_{1i}X_1 + w_{2i}X_2 + ... + w_{pi}X_p  = w_i^TX\]</span> So <span class="math inline">\(Z_i\)</span> which are caller <em>Pricipal Components</em> is a linear combination of <span class="math inline">\(X\)</span>, and the weights <span class="math inline">\(w_i\)</span> which are called <em>Principal Component Directions</em> have two constraints:</p>
+<p><span class="math display">\[ w_i^Tw_i = 1 \ \forall i \\w_i^Tw_j = 0 \ \forall i\neq j \]</span></p>
+<p>There will be a PC directions for each Principal Component and they can be put in a matrix where each PC direction is a column:</p>
+<p><span class="math display">\[ W = \begin{pmatrix}
+  w_{11} &amp; w_{12} &amp; \cdots &amp; w_{1k} \\
+  w_{21} &amp; w_{22} &amp; \cdots &amp; w_{2k} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  w_{p1} &amp; w_{p2} &amp; \cdots &amp; w_{pk} 
+ \end{pmatrix} \]</span></p>
+<p>This way you can write the list of PCs as <span class="math inline">\(Z = W^TX\)</span> and the constraints on <span class="math inline">\(W\)</span> is simply <span class="math inline">\(W^TW = I\)</span>.</p>
+<p>The optimization problem is to find <span class="math inline">\(W\)</span> such that variance of each <span class="math inline">\(Z_i\)</span> is maximized sequentially. That means that we want to <span class="math inline">\(Z_1\)</span> to have the largest variance, <span class="math inline">\(Z_2\)</span> the second largest variance and so on. Since <span class="math inline">\(Z = W_TX\)</span></p>
+<p><span class="math display">\[Var(Z) = Var(W^TX) = W^TVar(X)W = W^T\Sigma W\]</span></p>
+<p>So the PCA problem becomes</p>
+<p><span class="math display">\[ max \ W^T \Sigma W, \\ W^TW = I\]</span> Where you need to find the <span class="math inline">\(W\)</span> that solves this.</p>
+</div>
+<div id="analytical-pca-solution" class="section level3">
+<h3>Analytical PCA Solution</h3>
+<p>The solution involves setting up a Lagrangian and differentiating it with respect to <span class="math inline">\(W\)</span></p>
+<p><span class="math display">\[ \mathscr{L}(W) = W^T\Sigma W - \Lambda(I - W^TW) \]</span> where <span class="math inline">\(\Lambda\)</span> is a diagonal matrix of lagrangian multipliers:</p>
+<p><span class="math display">\[\Lambda = \begin{pmatrix}
+  \lambda_{1} &amp; 0 &amp; \cdots &amp; 0 \\
+  0 &amp; \lambda_{2} &amp; \cdots &amp; 0 \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  0 &amp; 0 &amp; \cdots &amp; \lambda_{p} 
+ \end{pmatrix} \]</span></p>
+<p>These are just sums of terms where <span class="math inline">\(w_i\)</span>s don’t cross multiply, which means each derivative will only contain the <span class="math inline">\(w_i\)</span> with respect to which the derivative is taken.</p>
+<p>So for example you can focus on <span class="math inline">\(w_1\)</span> and the solution becomes <span class="math display">\[\mathscr{L}(w_1) = w_{1}^T\Sigma w_1 - \lambda_1(1 - w_{1}^Tw_1)\]</span> <span class="math display">\[\frac{\partial\mathscr{L}(w_1)}{\partial w_1} = 2\Sigma w_1 - 2\lambda_1w_1 = 0 \]</span> And so you get that</p>
+<p><span class="math display">\[ \Sigma w_1 = \lambda_1 w_1 \]</span> Given the matrix <span class="math inline">\(\Sigma\)</span> this defines an eigenvalue <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(w_1\)</span> is the corresponding eigenvector of the the <span class="math inline">\(\Sigma\)</span> matrix.</p>
+<p>So the solution to PCA biols down to finding the Eigendecomposition</p>
+<p><span class="math display">\[\Sigma = W^T\Lambda W\]</span></p>
+<p>and then <span class="math inline">\(Z = W^TX\)</span></p>
+</div>
+<div id="computational-pca-solution" class="section level3">
+<h3>Computational PCA Solution</h3>
+</div>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
