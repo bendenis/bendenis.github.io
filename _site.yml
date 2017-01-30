@@ -12,15 +12,15 @@ navbar:
             - text: "Linear Regression"
               href: SLR.html
             - text: "Multivariate Linear Regression"
-              href: MLM.html
+              href: 
             - text: "Diagnostics"
-              href: Diagnostics.html
+              href: 
             - text: "Robust Regression"
-              href: Robust_Regression.html
+              href: 
             - text: "Response Transformations"
               href: Response_Transpormations.html
             - text: "Predictor Transformations"
-              href: Predictor_Transfromations.html
+              href: 
             - text: "Variable Selection"
               href: Variable_Selection.html
             - text: "Dimensionality Reduction"
@@ -31,11 +31,11 @@ navbar:
           icon: ion-ios-pulse
           menu:
             - text: "Overview"
-            - href: overview_503.html
+              href: overview_503.html
             - text: "Principal Component Analysis"
-            - href: STATS_503_1.html
+              href: STATS_503_1.html
             - text: "Factor Analysis"
-            - href:
+              href:
         - text: "STATS 506"
           icon: fa-laptop 
           menu:

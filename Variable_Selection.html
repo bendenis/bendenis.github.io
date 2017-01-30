@@ -193,21 +193,13 @@ $(document).ready(function () {
     <li>
       <a href="SLR.html">Linear Regression</a>
     </li>
-    <li>
-      <a href="MLM.html">Multivariate Linear Regression</a>
-    </li>
-    <li>
-      <a href="Diagnostics.html">Diagnostics</a>
-    </li>
-    <li>
-      <a href="Robust_Regression.html">Robust Regression</a>
-    </li>
+    <li class="dropdown-header">Multivariate Linear Regression</li>
+    <li class="dropdown-header">Diagnostics</li>
+    <li class="dropdown-header">Robust Regression</li>
     <li>
       <a href="Response_Transpormations.html">Response Transformations</a>
     </li>
-    <li>
-      <a href="Predictor_Transfromations.html">Predictor Transformations</a>
-    </li>
+    <li class="dropdown-header">Predictor Transformations</li>
     <li>
       <a href="Variable_Selection.html">Variable Selection</a>
     </li>
@@ -226,18 +218,13 @@ $(document).ready(function () {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Overview</li>
     <li>
-      <a href="overview_503.html"></a>
+      <a href="overview_503.html">Overview</a>
     </li>
-    <li class="dropdown-header">Principal Component Analysis</li>
     <li>
-      <a href="STATS_503_1.html"></a>
+      <a href="STATS_503_1.html">Principal Component Analysis</a>
     </li>
     <li class="dropdown-header">Factor Analysis</li>
-    <li>
-      <a></a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -399,7 +386,37 @@ f &lt;- sapply(paste0(&quot;f&quot;,1:14), as.symbol)
 f &lt;- sapply(f, eval)</code></pre>
 <p>We fit each model, compute the AIC using the <code>AIC</code> function, find the one with the min, and extract the formula.</p>
 <pre class="r"><code>attach(teengamb)</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 12):
+<pre><code>## The following objects are masked from teengamb (pos = 6):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 8):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 9):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 13):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 15):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 16):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 20):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 22):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 24):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 25):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 35):
 ## 
 ##     gamble, income, sex, status, verbal</code></pre>
 <pre class="r"><code>AIC &lt;- sapply(f, function(x) {AIC(lm(x))})
