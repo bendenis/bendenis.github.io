@@ -5,6 +5,9 @@ date: "January 10, 2017"
 output: html_document
 ---
 
+
+
+
 PM 2.5 Concentrations
 
 ```{r, echo=F, message=F, warning=F}
@@ -203,6 +206,5 @@ plot(empirical_variogram, gau_veriogram_model, main = "Gaussian Model")
 plot(empirical_variogram, mat_veriogram_model, main = "Matern Model")
 
 ```
-
 
 

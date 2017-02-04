@@ -386,37 +386,7 @@ f &lt;- sapply(paste0(&quot;f&quot;,1:14), as.symbol)
 f &lt;- sapply(f, eval)</code></pre>
 <p>We fit each model, compute the AIC using the <code>AIC</code> function, find the one with the min, and extract the formula.</p>
 <pre class="r"><code>attach(teengamb)</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 6):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 8):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 9):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 13):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 15):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 16):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 20):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 22):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 24):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 25):
-## 
-##     gamble, income, sex, status, verbal</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 35):
+<pre><code>## The following objects are masked from teengamb (pos = 12):
 ## 
 ##     gamble, income, sex, status, verbal</code></pre>
 <pre class="r"><code>AIC &lt;- sapply(f, function(x) {AIC(lm(x))})
