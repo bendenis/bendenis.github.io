@@ -1,0 +1,278 @@
+---
+title: "STATS_701_HW1"
+author: "Ben Denis Shaffer"
+date: "March 23, 2017"
+output: html_document
+---
+
+# Exercise 1
+
+In this exercise we are doing some manual and semi-manual web-scraping. I decided to manual scrape the [death-row](http://www.tdcj.state.tx.us/death_row/dr_offenders_on_dr.html) data set.
+
+
+First we want to get the names of the columns in the data set. Finding the row number where the last and first column names are, and then saving those rows in a variable `colnames` is the next step. After that we just clean the needed strings from characters before and after them.
+```{r, message=FALSE, }
+
+setwd("~/Box_Sync/UM_Winter_2017/STATS 701")
+
+library(stringr)
+library(rvest)
+library(knitr)
+
+death_row = readLines("http://www.tdcj.state.tx.us/death_row/dr_offenders_on_dr.html")
+
+str_which(death_row, "TDCJ[:space:][Nn]umbers")
+str_which(death_row, "Date of Offense")
+
+```
+
+After that we just clean the needed strings from characters before and after them.
+
+```{r, message=FALSE}
+
+colname = str_trim(death_row[101:110])
+colname = str_replace(colname,"^<th[:print:]+\">","")
+colname = str_replace(colname,"</th>$","")
+
+```
+
+Next we move onto the body of the data. We find where it begins and where it ends by searching for the row numbers of the case number variable. 
+
+```{r, message=FALSE}
+
+str_which(death_row, "999604")
+str_which(death_row, "541")
+
+```
+
+Then by inspecting the rows from the data we can select the needed subset of the rows, and save them to a variable called `table`. After that we again clean the needed strings from the html characters before and after.
+
+```{r, message=FALSE}
+
+table = str_trim(death_row[113:2992])
+table = str_replace(table,"^<td>","")
+table = str_replace(table,"</td>$","")
+table = str_replace(table,"^<a[:print:]+\">","")
+table = str_replace(table,"</a>$","")
+table = str_subset(table,"[^</tr>$]")
+head(table,15)
+```
+
+Now we basically have everything we need but the data is stored as a bunch of strings. We went every 10 of the strings to be a row. So we slice and bind into a `matrix`, and then convert to a `data.frame`. The first 10 rows of the final data.frame a displayed.
+
+```{r, message=FALSE}
+dt1 = table[1:10]
+
+for(i in 2:240) { 
+        dt1 = rbind(dt1,table[(10*i - 9):(10*i)])
+}
+
+dt1 = as.data.frame(dt1)
+row.names(dt1) = 1:dim(dt1)[1]
+colnames(dt1) = colname
+
+kable(head(dt1,10))
+```
+
+
+For the second web-page we use the functionality of the `rvest` package. The first 10 rows of the second data set are also displayed below.
+
+```{r, message=FALSE}
+page = read_html("https://www.tsl.texas.gov/ref/abouttx/popcnty2010-11.html")
+html_nodes(page,"table")
+
+dt2 = html_table(html_nodes(page,"table"), header = T)[[1]]
+
+kable(head(dt2,10))
+
+```
+
+
+# Exercise 2
+
+Here we build a function that connects to an Movie API. The function returns the title of the movie, its run time, and year released.
+
+```{r, message=FALSE}
+
+library(jsonlite)
+library(stringr)
+
+getMovieData = function(movie_name = "Snatch") {
+        require(jsonlite)
+        require(stringr)
+        
+        #This block handles the case where only one title is passed on to the function.
+        if(length(movie_name) == 1) {
+        
+                name = str_replace_all(movie_name, " ", "+")    #this handles the case with spaces
+                url = str_c("http://www.omdbapi.com/?t=",name)  #form the correct url
+                movie_info = fromJSON(url)                      #connect to the API
+                
+                info = data.frame(Movie_Title = movie_info$Title,
+                                  Year = movie_info$Year,
+                                  Minutes = movie_info$Runtime)
+                
+                # if the movie is not found an empty result is returned by the API
+                if(nrow(info) == 0) {
+                        print("ERROR: Movie Not Found (>^<)")
+                }else if (nrow(info) >= 0){
+                
+                        return(info)
+                }
+                
+        #Now if multiple movies are requested
+        }else{
+                titles = movie_name
+                movie_info = as.list(movie_name)   #We will store the returned API info in a list of returns
+                
+                for(i in 1:length(movie_name)){
+                        movie_info[[i]] = fromJSON(str_c(
+                                "http://www.omdbapi.com/?t=",
+                                str_replace_all(titles[i], " ", "+")))
+                }
+                
+                #Here we check if at least one of the movies is not found
+                err = sum(!sapply(movie_info, function(x) as.logical(x["Response"])))
+                if(err > 0){
+                        err_index = which(!sapply(movie_info, function(x) as.logical(x["Response"])) == TRUE)
+                        print(paste("Movie '", paste0(titles[err_index]), "' not found."))
+                }else{
+                
+                        #Here extract the movie info from the list of API returned data.
+                        dt = data.frame(Title = sapply(movie_info,"[[", 1),
+                                       Year = sapply(movie_info,"[[", 2),
+                                       Length = sapply(movie_info,"[[", 5))
+                        
+                        return(dt)
+                }
+        }
+}
+
+```
+
+
+By default you get info of my favorite movie.
+```{r}
+
+getMovieData()
+
+```
+
+
+The simplest case works too.
+```{r}
+
+getMovieData("Cat")
+
+```
+
+If the movie is not found you get a error.
+```{r}
+
+getMovieData("jnbornvptorn")
+
+```
+
+Multiple requests can also be made.
+```{r}
+
+getMovieData(c("Cat","Dog","Frog"))
+
+```
+
+Spaces on titles are handled too.
+```{r}
+
+getMovieData("World War")
+
+```
+
+
+Even when multiple movies are requested.
+```{r}
+
+getMovieData(c("World War", "Dog"))
+
+```
+
+
+If multiple movies are requested by one of them is not found an error is returned saying which movie was not found.
+```{r}
+
+getMovieData(c("World War", "Dog", "Hat", "gjfdn"))
+
+```
+
+# Exercise 3
+
+
+In this exercise we load in a data set and use `SQL` to query it and answer some questions.
+```{r, message=FALSE}
+
+setwd("~/Box_Sync/UM_Winter_2017/STATS 701")
+
+library(sqldf)
+dt = read.csv("q3.csv", header = T, stringsAsFactors = F)
+
+v = str_replace_all(dt$Total.Construction.Cost..1.000...., ",","")
+dt$Total.Construction.Cost..1.000.... = sapply(v, function(x) as.numeric(str_sub(x,2)))
+
+vv = str_replace_all(dt$Annual.Production..MWh., ",","")
+dt$Annual.Production..MWh. = as.numeric(vv)
+
+```
+
+## i
+How many total sites are there in Colorado?
+
+```{r}
+
+sqldf("SELECT COUNT() Region FROM dt WHERE Region = 'UC' OR Region = 'LC'")
+
+```
+
+There are apparently `70` sites.
+
+#ii
+
+What would be the total cost of building all sites in Lower Colorado?
+
+```{r}
+
+sqldf('SELECT SUM("Total.Construction.Cost..1.000....") AS cost FROM dt WHERE Region = "LC"')
+
+```
+
+The total cost would be about $52.5 million.
+
+#iii
+
+What 3 sites in the Great Plains (Region “GP”) have the lowest Cost Per Installed Capacity, restricted
+to those whose total cost is under 5 millions dollars?
+
+```{r}
+sqldf('SELECT "Site.Name.Facility", "Total.Construction.Cost..1.000...." FROM dt WHERE (Region = "GP" AND "Total.Construction.Cost..1.000...." < 5000) ORDER BY "Total.Construction.Cost..1.000...." LIMIT 3 ')
+
+```
+
+The above returned sites are the sites of interest.
+
+#iv
+
+Which Region has the highest median estimated Annual Production?
+
+```{r}
+
+sqldf('SELECT Region, MEDIAN("Annual.Production..MWh.") as med_prod FROM dt GROUP BY Region ORDER BY med_prod DESC')
+
+```
+
+Lower Colorado evidently has the highest median annual production (of electricity?).
+
+
+
+
+
+
+
+

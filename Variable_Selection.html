@@ -258,6 +258,23 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    STATS 701
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STATS_701_1.html">Web-Scraping/APIs/and SQL</a>
+    </li>
+    <li>
+      <a href="STATS_701_2.html">Visulazation/Cleaning/Debugging</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -386,7 +403,16 @@ f &lt;- sapply(paste0(&quot;f&quot;,1:14), as.symbol)
 f &lt;- sapply(f, eval)</code></pre>
 <p>We fit each model, compute the AIC using the <code>AIC</code> function, find the one with the min, and extract the formula.</p>
 <pre class="r"><code>attach(teengamb)</code></pre>
-<pre><code>## The following objects are masked from teengamb (pos = 12):
+<pre><code>## The following objects are masked from teengamb (pos = 6):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 11):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 28):
+## 
+##     gamble, income, sex, status, verbal</code></pre>
+<pre><code>## The following objects are masked from teengamb (pos = 39):
 ## 
 ##     gamble, income, sex, status, verbal</code></pre>
 <pre class="r"><code>AIC &lt;- sapply(f, function(x) {AIC(lm(x))})

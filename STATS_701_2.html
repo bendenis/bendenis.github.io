@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Ben Denis Shaffer" />
+
+
+<title>STATS_701_HW2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="ion ion-ios-pulse"></span>
+     
+    STATS 500
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="overview_501.html">Overview</a>
+    </li>
+    <li>
+      <a href="SLR.html">Linear Regression</a>
+    </li>
+    <li class="dropdown-header">Multivariate Linear Regression</li>
+    <li class="dropdown-header">Diagnostics</li>
+    <li class="dropdown-header">Robust Regression</li>
+    <li>
+      <a href="Response_Transpormations.html">Response Transformations</a>
+    </li>
+    <li class="dropdown-header">Predictor Transformations</li>
+    <li>
+      <a href="Variable_Selection.html">Variable Selection</a>
+    </li>
+    <li>
+      <a href="Dimensionality_Reduction.html">Dimensionality Reduction</a>
+    </li>
+    <li class="dropdown-header">Regularization</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="ion ion-ios-pulse"></span>
+     
+    STATS 503
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="overview_503.html">Overview</a>
+    </li>
+    <li>
+      <a href="STATS_503_1.html">Principal Component Analysis</a>
+    </li>
+    <li class="dropdown-header">Factor Analysis</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    STATS 506
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="overview_506.html">Overview</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-map"></span>
+     
+    BIOSTAT 696
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="overview_696.html">Overview</a>
+    </li>
+    <li>
+      <a href="BIOSTAT_1.html">PM 2.5 Concentrations</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    STATS 701
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STATS_701_1.html">Web-Scraping/APIs/and SQL</a>
+    </li>
+    <li>
+      <a href="STATS_701_2.html">Visulazation/Cleaning/Debugging</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://medium.com/@bendenisshaffer">
+    <span class="fa fa-medium"></span>
+     
+    Blog
+  </a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/ben-denis-shaffer-16291140">
+    <span class="fa fa-linkedin"></span>
+     
+    LinkedIn
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">STATS_701_HW2</h1>
+<h4 class="author"><em>Ben Denis Shaffer</em></h4>
+<h4 class="date"><em>April 1, 2017</em></h4>
+
+</div>
+
+
+<div id="visualizing-text-editor-preformance" class="section level1">
+<h1>Visualizing Text Editor Preformance</h1>
+<p>For this exercise we are using the data from this <a href="%22https://github.com/jhallen/joes-sandbox/tree/master/editor-perf%22">github page</a>. The page contains a number of tables with data for how different test editors preform completing different tasks. One set of tasks tested how much memory a text editor uses, and the second set of tasks measures the time performance. We loaded the data by first creating <code>\.csv</code> files via copy-paste. The only one change made to the data was the exclusion of the <code>mcedit</code> text editor performance on the <code>D_Paragraph_120K</code> task because it crashed. Also the data for loading the 3GB files was not used only 5 editors managed to complete the task.</p>
+<p>For the purpose of visualization the time and memory measures were transformed to the log scale. Also we sometimes use the negative of the performance measure, in which case the more negative the measure the worse is the performance.</p>
+<div id="memory-preformance" class="section level2">
+<h2>Memory Preformance</h2>
+<pre class="r"><code>setwd(&quot;~/Box_Sync/UM_Winter_2017/STATS 701&quot;)
+
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(gridExtra)
+library(stringr)
+library(mice)
+
+dt = read.csv(&quot;hw2q1.csv&quot;, header = T)
+dt$Highlight = as.factor(dt$Highlight)
+dt$Loading = as.factor(dt$Loading)
+dt$RSS = log(dt$RSS + 1)
+
+
+mean_rss = dt %&gt;% group_by(Editor,Highlight) %&gt;%
+        summarise(mean_RSS = mean(RSS), n = n()) %&gt;%
+        arrange(desc(mean_RSS))
+
+mean_rss$Editor = factor(mean_rss$Editor, levels = as.character(unique(mean_rss$Editor)))
+
+g1 = ggplot(mean_rss, aes(x = Editor, y = -mean_RSS, label = Editor)) +
+        geom_col(aes(fill = Highlight), position=&quot;dodge&quot;) +
+        geom_text(angle = 45, check_overlap = TRUE, color = &quot;blue&quot;) +
+        scale_x_discrete(labels = rep(&quot;&quot;, nrow(mean_rss))) + 
+        labs(title = &quot;Mean RSS: Higlight vs no Highlight&quot;, y = &quot;-LOG(Mean RSS)&quot;)
+
+
+
+mean_rss2 = dt %&gt;% group_by(Editor,Loading) %&gt;%
+        summarise(mean_RSS = mean(RSS), n = n()) %&gt;%
+        arrange(desc(mean_RSS))
+
+mean_rss2$Editor = factor(mean_rss2$Editor, levels = as.character(unique(mean_rss2$Editor)))
+
+g2 = ggplot(mean_rss2, aes(x = Editor, y = -mean_RSS, label = Editor)) +
+        geom_col(aes(fill = Loading), position=&quot;dodge&quot;) +
+        geom_text(angle = 45, check_overlap = TRUE, color = &quot;blue&quot;) +
+        scale_x_discrete(labels = rep(&quot;&quot;,nrow(mean_rss))) + 
+        labs(title = &quot;Mean RSS: Loading hello.c vs Loading test.xml&quot;, y = &quot;-LOG(Mean RSS)&quot;)
+
+dt$Editor = factor(dt$Editor, levels = unique(dt$Editor[order(dt$RSS)]))
+
+g3 = ggplot(dt, aes(x = Editor, y = -RSS, label = Editor)) + 
+        facet_grid(Loading ~ .) + 
+        geom_col(aes(fill = Highlight), position=&quot;dodge&quot;) +
+        scale_x_discrete(labels = rep(&quot;&quot;,nrow(mean_rss))) +
+        geom_text(angle = 45, check_overlap = TRUE, color = &quot;blue&quot;) + 
+        labs(title = &quot;Total RSS&quot;, y = &quot;-LOG(Mean RSS)&quot;)
+
+
+grid.arrange(g1,g2, nrow = 2, ncol = 1)</code></pre>
+<p><img src="STATS_701_2_files/figure-html/unnamed-chunk-1-1.png" width="1152" /></p>
+<p>From the first two plots we can see that for non-highlighted loading <code>atom</code> uses the most memory while <code>ed</code> is the lightest on memory. For highlighted loading <code>atom</code> is again the heaviest and <code>ne</code> is the lightest. <code>ed</code> doesn’t support highlighting or a measure for a test is not in the data. We can also notice that for most editors highlighted loading task a little more memory. <code>atom</code> is an exception for this. This might be random error however; we font know how many tests were preformed.</p>
+<p>When comparing which editor is lightest or heaviest for loading either <code>hello.c</code> or <code>test.xml</code> we can see that <code>atom</code> is the heaviest for <code>test.xml</code>, code is heaviest for <code>hello.c</code>, <code>nvi</code> is lightest for <code>test.xml</code> and <code>ed</code> is lightest for <code>hello.c</code>.</p>
+<pre class="r"><code>g3</code></pre>
+<p><img src="STATS_701_2_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>In the second set of bar charts we can compare the interaction effects on memory use between highlighting and different files. <code>code</code> is the heaviest when loading <code>hello.c</code> both with and without highlighting. For loading <code>test.xml</code> we have a similar result, except <code>atom</code> is heavier highlighted text. <code>atom</code> might be worse for non-highlighted text too but we don’t have a measurement for that. <code>ne</code> is the lightest out of all editors where interactions are observed. However <code>nvi</code> is lightest with non-highlighted ‘test.xml’ while <code>ed</code> is lightest for non-highlighted <code>hello.c</code>.</p>
+</div>
+<div id="time-preformance" class="section level2">
+<h2>Time Preformance</h2>
+<pre class="r"><code>library(gridExtra)
+
+dt2 = read.csv(&quot;hw2q1b.csv&quot;, header = TRUE, nrows = 55)
+
+dt2$Editor = factor(dt2$Editor, levels = unique(dt2$Editor[order(dt2$Time)]))
+
+g4 = ggplot(dt2, aes(x = Editor, y = log(Time + 1), fill = Task, label = Editor)) +
+        geom_col(position = &quot;dodge&quot;) +
+        facet_grid(Task ~ .) +
+        geom_text(angle = 45, check_overlap = TRUE, color = &quot;blue&quot;) + 
+        labs(title = &quot;Time to Complete a Task&quot;, y = &quot;LOG(Seconds)&quot;)
+
+p1 = ggplot(dt2, aes(y = -log(Time+1), x = Editor, group = Task, fill = Task)) +
+        coord_polar()  +
+        geom_col(alpha = 0.5, position = &quot;dodge&quot;) + 
+        labs(title = &quot;Time to Complete a Task&quot;, y = &quot;-LOG(Seconds)&quot;)
+
+dtt2 = dt2 %&gt;% filter(Editor != &quot;atom&quot;) %&gt;%
+        filter(Editor != &quot;nano&quot;) %&gt;%
+        filter(Editor != &quot;mg&quot;) %&gt;%
+        filter(Editor != &quot;micro&quot;) %&gt;%
+        filter(Editor != &quot;notepad++&quot;)
+
+p2 = ggplot(dtt2, aes(y = -log(Time + 1), x = Editor, group = Task, fill = Task)) +
+        coord_polar()  +
+        geom_col(alpha = 0.5, position = &quot;dodge&quot;) + 
+        labs(title = &quot;Time to Complete a Task: Excluding 4 Slowest Editors&quot;, y = &quot;-LOG(Seconds)&quot;)
+
+dtt3 = dtt2 %&gt;% filter(Editor != &quot;code&quot;) %&gt;%
+        filter(Editor != &quot;gedit&quot;) %&gt;%
+        filter(Editor != &quot;vim&quot;) %&gt;%
+        filter(Editor != &quot;emacs&quot;) %&gt;%
+        filter(Editor != &quot;jedit&quot;)
+
+p3 = ggplot(dtt3, aes(y = -log(Time + 1), x = Editor, group = Task, fill = Task)) +
+        coord_polar()  +
+        geom_col(alpha = 0.5, position = &quot;dodge&quot;) +
+        labs(title = &quot;Time to Complete a Task: Excluding 8 Slowest Editors&quot;, y = &quot;-LOG(Seconds)&quot;)
+
+g4</code></pre>
+<p><img src="STATS_701_2_files/figure-html/unnamed-chunk-3-1.png" width="1152" /></p>
+<p>The above plot really shows how incomplete the time performance data is. Nonetheless we can see that for task A <code>atom</code> is the slowest while <code>ed</code> is the fastest. For task B <code>notepad++</code> is the slowest while <code>mcedit</code> is the fastest. For task C <code>nano</code> is the slowest while <code>ne</code> is the fastest. And finally for task D <code>nano</code> is the slowest while <code>jed</code> is the fastest. Visually <code>ne</code> and <code>joe</code> look like the all around quickest editors.</p>
+<p>The next three plots is just a different way to convey the same information, though the scale is negative here. To choose an editor you might want to look at the one that has the lowest bars but has all four colors.</p>
+<pre class="r"><code>p1</code></pre>
+<p><img src="STATS_701_2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>p2</code></pre>
+<p><img src="STATS_701_2_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>p3</code></pre>
+<p><img src="STATS_701_2_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
+</div>
+</div>
+<div id="imputation-and-regression" class="section level1">
+<h1>Imputation and Regression</h1>
+<p>Here we will be using this <a href="">data set</a> about the automotive facilities in Southeast Michigan. We download the data set and load the <code>\.csv</code> file into the environment. Furthermore we select the relevant columns.</p>
+<div id="loading-and-cleaning-the-data" class="section level2">
+<h2>Loading and Cleaning the Data</h2>
+<pre class="r"><code>auto = read.csv(&quot;Automotive_Facilities.csv&quot;, header = T)
+auto = auto[,c(11,12,13,16)]</code></pre>
+<p>Next we do a little bit of data cleaning. First we take out facilities that are said to be idle in the <code>COMMENTS</code> variable. Then we delete rows where the area of the facility is indicated to be <code>0</code> and where employment is indicated to be <code>0</code>. Lastly we are left with <code>NA</code> values in the <code>YEAR</code> variable which we plan to impute.</p>
+<pre class="r"><code>auto = auto[-str_which(auto$COMMENTS,&quot;[Ii]dle&quot;),]
+auto = auto[!auto$SQUAREFEET == 0 ,-4]
+auto = auto[!auto$EMPLOYMENT == 0, ]</code></pre>
+<p>Before imputing the values we first try to see if it is missing at random, or if there is reason to believe that it might be missing not at random. Do to this we create a factor variable that indicates whether the value is missing or not. Then we simply compare the means and medians within the missing and non-missing values for employment and square-footage.</p>
+</div>
+<div id="eda-for-nature-of-missingness" class="section level2">
+<h2>EDA for Nature of Missingness</h2>
+<pre class="r"><code>nas = is.na(auto$YEARBUILT) * 1
+
+dt = cbind(auto,nas)
+dt %&gt;% group_by(nas) %&gt;% summarise(med_emp = median(EMPLOYMENT), med_sqf = median(SQUAREFEET),mean_emp = mean(EMPLOYMENT), mean_sqf = mean(SQUAREFEET), n = n())</code></pre>
+<pre><code>## # A tibble: 2 × 6
+##     nas med_emp med_sqf mean_emp mean_sqf     n
+##   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
+## 1     0     733 2327000 2081.537 11810554    41
+## 2     1     200 1217956  289.000  1356263     5</code></pre>
+<p>It appears that missing values are associated with smaller facilities with less people employed. We can try and explore whether the size of the facilities and the number of people employed is in some way associated with the decade in which a facility was built.</p>
+<pre class="r"><code>per = ifelse(auto$YEARBUILT &lt; 1930, &quot;1920&quot;, NA)
+per[which(auto$YEARBUILT &lt; 1940 &amp; auto$YEARBUILT &gt; 1930)] = &quot;1930&quot;
+per[which(auto$YEARBUILT &lt; 1950 &amp; auto$YEARBUILT &gt; 1940)] = &quot;1940&quot;
+per[which(auto$YEARBUILT &lt; 1960 &amp; auto$YEARBUILT &gt; 1950)] = &quot;1950&quot;
+per[which(auto$YEARBUILT &lt; 1970 &amp; auto$YEARBUILT &gt; 1960)] = &quot;1960&quot;
+per[which(auto$YEARBUILT &lt; 1980 &amp; auto$YEARBUILT &gt; 1970)] = &quot;1970&quot;
+per[which(auto$YEARBUILT &lt; 1990 &amp; auto$YEARBUILT &gt; 1980)] = &quot;1980&quot;
+per[which(auto$YEARBUILT &lt; 2000 &amp; auto$YEARBUILT &gt; 1990)] = &quot;1990&quot;
+per[which(auto$YEARBUILT &lt; 2010 &amp; auto$YEARBUILT &gt; 2000)] = &quot;2000&quot;
+dtt = cbind(auto,per)
+
+dtt %&gt;% group_by(per) %&gt;% summarise(med_emp = median(EMPLOYMENT), med_sqf = median(SQUAREFEET),mean_emp = mean(EMPLOYMENT), mean_sqf = mean(SQUAREFEET), n = n())</code></pre>
+<pre><code>## # A tibble: 10 × 6
+##       per med_emp   med_sqf mean_emp  mean_sqf     n
+##    &lt;fctr&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
+## 1    1920  4500.0 174240000 4500.000 174240000     1
+## 2    1930   434.0   1200000 1218.000   1675000     5
+## 3    1940   581.0   2100000 3312.000   6732600     5
+## 4    1950  1684.5   3150000 2113.500   4700350     8
+## 5    1960   501.0   1980473  945.200   1917095     5
+## 6    1970   410.5   1400000  411.250   1436944     4
+## 7    1980  1683.5   4200000 1679.500  45096700     4
+## 8    1990  4623.0   3000000 6231.000   2820000     3
+## 9    2000   437.5   1950000 1583.833   4361977     6
+## 10     NA   200.0   1217956  289.000   1356263     5</code></pre>
+<p>Looking at the results there doesn’t appear to be any time associated trend. This leads us to hypothesize that the missigness in the <code>YEARBUILT</code> variable is not due to the decade within which it was built. Thus perhaps it is reasonable to impute these missing values using the <code>EMPLOYMENT</code> and <code>SQUAREFEET</code> variables.</p>
+</div>
+<div id="imputation-and-regression-1" class="section level2">
+<h2>Imputation and Regression</h2>
+<p>First we need to choose the number of imputations and the method to be used. We will use the <code>pmm</code> method because we don’t want to extrapolate out of the range of years that we have the data for. first we begin with <code>5</code> imputations to explore what happens to the regression coefficients for the following model: <code>lm(log(EMPLOYMENT) ~ log(SQUAREFEET) + YEARBUILT, data = ...)</code>. We will have 7 triplets of coefficients for the raw data, each of the 5 imputed data sets and pooled coefficients from the imputed data.</p>
+<pre class="r"><code>m = 5
+temp = auto
+auto_imputed = mice(auto, method = &quot;pmm&quot;, m = m, print = FALSE)
+res = matrix(nrow = m + 2, ncol = 3)
+res[1,] = coef(lm(log(EMPLOYMENT) ~ log(SQUAREFEET) + YEARBUILT, data = auto))
+
+for(i in 1:m) {
+        temp[42:46,2] = auto_imputed$imp$YEARBUILT[,i]
+        lm = lm(log(EMPLOYMENT) ~ log(SQUAREFEET) + YEARBUILT, data = temp)
+        res[i+1,] = coef(lm)
+}
+
+res[m+2,] = colMeans(res[1:m+1,])
+
+row.names(res) = c(&quot;raw&quot;,str_c(&quot;imp&quot;,1:5),&quot;pooled&quot;)
+colnames(res) = c(&quot;Intercept&quot;, &quot;SQUAREFEET&quot;, &quot;YEARBUILT&quot;)
+res</code></pre>
+<pre><code>##        Intercept SQUAREFEET    YEARBUILT
+## raw     8.951091  0.4450624 -0.004425463
+## imp1   11.327495  0.4810031 -0.005940576
+## imp2   10.252264  0.4863770 -0.005433879
+## imp3    6.386349  0.4850031 -0.003463812
+## imp4    7.622018  0.4874785 -0.004111027
+## imp5    7.290555  0.4866257 -0.003935461
+## pooled  8.575736  0.4852975 -0.004576951</code></pre>
+<p>From the output we can see that the intercept shifts around the <code>raw</code> coefficients, and the coefficient for the year shifts with it. The slope generally increases. To better see what us happening it is helpful to do many more imputations and look at the densities Ala bootstrap and compare the locations of the raw and the pooled coefficients. Here we do <code>150</code> imputations.</p>
+<pre class="r"><code>m = 150
+temp = auto
+auto_imputed = mice(auto, method = &quot;pmm&quot;, m = m, print = FALSE)
+res = matrix(nrow = m + 2, ncol = 3)
+res[1,] = coef(lm(log(EMPLOYMENT) ~ log(SQUAREFEET) + YEARBUILT, data = auto))
+
+for(i in 1:m) {
+        temp[42:46,2] = auto_imputed$imp$YEARBUILT[,i]
+        lm = lm(log(EMPLOYMENT) ~ log(SQUAREFEET) + YEARBUILT, data = temp)
+        res[i+1,] = coef(lm)
+}
+
+res[m+2,] = colMeans(res[1:m+1,])
+
+par(mfrow = c(1,3))
+plot(density(res[,1]), main = &quot;Intercept&quot;)
+abline(v = res[1,1], col = 2)
+abline(v = res[m+2,1], col = 3)
+plot(density(res[,2]), &quot;Slope&quot;)
+abline(v = res[1,2], col =2)
+abline(v = res[m+2,2], col = 3)
+plot(density(res[,3]), &quot;YEARBUILT&quot;)
+abline(v = res[1,3], col = 2)
+abline(v = res[m+2,3], col = 3)</code></pre>
+<p><img src="STATS_701_2_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
+<p>The main take away here is that the slope coefficient which is what we are interested in shift up quite a bit after the imputation. At the same time other coefficients shift a lot less, however the impact is important because the scale for year is in thousands, while employment and square-feet have been log transformed.</p>
+<p>Lastly, we want to actually see what happens to the regression line after the imputation. Here we also use the <code>150</code> repetitions and highlight only the <code>raw</code> and the <code>pooled</code> models.</p>
+<pre class="r"><code>c = matrix(nrow = m+2, ncol = 2)
+c[1,] = c(res[1,1] + res[1,3]*mean(auto$YEARBUILT, na.rm = TRUE), res[1,2])
+
+for(i in 1:m) {
+        c[i+1,] = c(res[i+1,1] + res[i+1,3]*mean(auto_imputed$imp$YEARBUILT[,1]), res[i+1,2])
+}
+
+c[m+2,] = c(res[m+2,1] + res[m+2,3]*mean(colMeans(auto_imputed$imp$YEARBUILT)), res[m+2,2])
+
+plot(log(auto$EMPLOYMENT) ~ log(auto$SQUAREFEET), main = &quot;Imputed and Pooled Regression&quot;, xlab = &#39;LOG(SQUARFEET)&#39;, ylab = &quot;LOG(EMPLOYMENT)&quot;)
+apply(c[2:m+1,],1, function(x) abline(coef = x, col = 7, lty = &quot;longdash&quot;))</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>abline(coef = c[1,], col = 2, lwd = 3)
+abline(coef = c[m+2,], col = 3, lwd = 3)</code></pre>
+<p><img src="STATS_701_2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>From the plot we can see that the pooled model has a lower intercept and a larger slope, as do all of the imputed models in yellow. Overall though, it looks like the normality assumption for the square feet, even after log transformation doesn’t work very well and the extreme values are influencing the model significantly.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

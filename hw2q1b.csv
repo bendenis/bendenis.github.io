@@ -1,0 +1,56 @@
+Editor,Time,Task
+mcedit,0.343,B_Rehighlight
+ne,0.349,B_Rehighlight
+joe,0.627,B_Rehighlight
+nedit,3.389,B_Rehighlight
+sublime,5,B_Rehighlight
+emacs -nw,8.036,B_Rehighlight
+jedit,9.114,B_Rehighlight
+vim,10.01,B_Rehighlight
+gedit,17.431,B_Rehighlight
+code,28,B_Rehighlight
+micro,34.9,B_Rehighlight
+atom,82,B_Rehighlight
+notepad++,300,B_Rehighlight
+joe,0.683,A_Simple_Search_Replace
+ed,0.685,A_Simple_Search_Replace
+mcedit,1.009,A_Simple_Search_Replace
+jed,1.02,A_Simple_Search_Replace
+ne,2.67,A_Simple_Search_Replace
+nvi,3.44,A_Simple_Search_Replace
+nedit,4.228,A_Simple_Search_Replace
+vim,4.613,A_Simple_Search_Replace
+sublime,6,A_Simple_Search_Replace
+jedit,9.152,A_Simple_Search_Replace
+emacs,9.354,A_Simple_Search_Replace
+emacs -nw,9.738,A_Simple_Search_Replace
+notepad++,31.3,A_Simple_Search_Replace
+gedit,44.016,A_Simple_Search_Replace
+code,72,A_Simple_Search_Replace
+mg,467.989,A_Simple_Search_Replace
+micro,600,A_Simple_Search_Replace
+nano,600,A_Simple_Search_Replace
+atom,600,A_Simple_Search_Replace
+ne,0.307,C_Regular_Expression_Search_Replace
+mcedit,0.565,C_Regular_Expression_Search_Replace
+joe,0.683,C_Regular_Expression_Search_Replace
+nvi,1.146,C_Regular_Expression_Search_Replace
+notepad++,1.7,C_Regular_Expression_Search_Replace
+nedit,4.638,C_Regular_Expression_Search_Replace
+vim,4.647,C_Regular_Expression_Search_Replace
+emacs -nw,4.76,C_Regular_Expression_Search_Replace
+jedit,6.911,C_Regular_Expression_Search_Replace
+sublime,9,C_Regular_Expression_Search_Replace
+code,24,C_Regular_Expression_Search_Replace
+gedit,24.28,C_Regular_Expression_Search_Replace
+micro,176.4,C_Regular_Expression_Search_Replace
+nano,185.6,C_Regular_Expression_Search_Replace
+jed,0.047,D_Paragraph_120K
+nedit,0.11,D_Paragraph_120K
+joe,0.142,D_Paragraph_120K
+emacs -nw,1.811,D_Paragraph_120K
+ne,3.025,D_Paragraph_120K
+jedit,6.242,D_Paragraph_120K
+vim,29.632,D_Paragraph_120K
+mg,35.552,D_Paragraph_120K
+nano,54.502,D_Paragraph_120K

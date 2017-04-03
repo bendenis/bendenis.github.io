@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Ben Denis Shaffer" />
+
+<meta name="date" content="2017-03-23" />
+
+<title>STATS_701_HW1</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="ion ion-ios-pulse"></span>
+     
+    STATS 500
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="overview_501.html">Overview</a>
+    </li>
+    <li>
+      <a href="SLR.html">Linear Regression</a>
+    </li>
+    <li class="dropdown-header">Multivariate Linear Regression</li>
+    <li class="dropdown-header">Diagnostics</li>
+    <li class="dropdown-header">Robust Regression</li>
+    <li>
+      <a href="Response_Transpormations.html">Response Transformations</a>
+    </li>
+    <li class="dropdown-header">Predictor Transformations</li>
+    <li>
+      <a href="Variable_Selection.html">Variable Selection</a>
+    </li>
+    <li>
+      <a href="Dimensionality_Reduction.html">Dimensionality Reduction</a>
+    </li>
+    <li class="dropdown-header">Regularization</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="ion ion-ios-pulse"></span>
+     
+    STATS 503
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="overview_503.html">Overview</a>
+    </li>
+    <li>
+      <a href="STATS_503_1.html">Principal Component Analysis</a>
+    </li>
+    <li class="dropdown-header">Factor Analysis</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    STATS 506
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="overview_506.html">Overview</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-map"></span>
+     
+    BIOSTAT 696
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="overview_696.html">Overview</a>
+    </li>
+    <li>
+      <a href="BIOSTAT_1.html">PM 2.5 Concentrations</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    STATS 701
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STATS_701_1.html">Web-Scraping/APIs/and SQL</a>
+    </li>
+    <li>
+      <a href="STATS_701_2.html">Visulazation/Cleaning/Debugging</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://medium.com/@bendenisshaffer">
+    <span class="fa fa-medium"></span>
+     
+    Blog
+  </a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/ben-denis-shaffer-16291140">
+    <span class="fa fa-linkedin"></span>
+     
+    LinkedIn
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">STATS_701_HW1</h1>
+<h4 class="author"><em>Ben Denis Shaffer</em></h4>
+<h4 class="date"><em>March 23, 2017</em></h4>
+
+</div>
+
+
+<div id="exercise-1" class="section level1">
+<h1>Exercise 1</h1>
+<p>In this exercise we are doing some manual and semi-manual web-scraping. I decided to manual scrape the <a href="http://www.tdcj.state.tx.us/death_row/dr_offenders_on_dr.html">death-row</a> data set.</p>
+<p>First we want to get the names of the columns in the data set. Finding the row number where the last and first column names are, and then saving those rows in a variable <code>colnames</code> is the next step. After that we just clean the needed strings from characters before and after them.</p>
+<pre class="r"><code>setwd(&quot;~/Box_Sync/UM_Winter_2017/STATS 701&quot;)
+
+library(stringr)
+library(rvest)
+library(knitr)
+
+death_row = readLines(&quot;http://www.tdcj.state.tx.us/death_row/dr_offenders_on_dr.html&quot;)
+
+str_which(death_row, &quot;TDCJ[:space:][Nn]umbers&quot;)</code></pre>
+<pre><code>## integer(0)</code></pre>
+<pre class="r"><code>str_which(death_row, &quot;Date of Offense&quot;)</code></pre>
+<pre><code>## [1] 110</code></pre>
+<p>After that we just clean the needed strings from characters before and after them.</p>
+<pre class="r"><code>colname = str_trim(death_row[101:110])
+colname = str_replace(colname,&quot;^&lt;th[:print:]+\&quot;&gt;&quot;,&quot;&quot;)
+colname = str_replace(colname,&quot;&lt;/th&gt;$&quot;,&quot;&quot;)</code></pre>
+<p>Next we move onto the body of the data. We find where it begins and where it ends by searching for the row numbers of the case number variable.</p>
+<pre class="r"><code>str_which(death_row, &quot;999604&quot;)</code></pre>
+<pre><code>## [1] 113</code></pre>
+<pre class="r"><code>str_which(death_row, &quot;541&quot;)</code></pre>
+<pre><code>## [1]   41  822 2970</code></pre>
+<p>Then by inspecting the rows from the data we can select the needed subset of the rows, and save them to a variable called <code>table</code>. After that we again clean the needed strings from the html characters before and after.</p>
+<pre class="r"><code>table = str_trim(death_row[113:2992])
+table = str_replace(table,&quot;^&lt;td&gt;&quot;,&quot;&quot;)
+table = str_replace(table,&quot;&lt;/td&gt;$&quot;,&quot;&quot;)
+table = str_replace(table,&quot;^&lt;a[:print:]+\&quot;&gt;&quot;,&quot;&quot;)
+table = str_replace(table,&quot;&lt;/a&gt;$&quot;,&quot;&quot;)
+table = str_subset(table,&quot;[^&lt;/tr&gt;$]&quot;)
+head(table,15)</code></pre>
+<pre><code>##  [1] &quot;999604&quot;               &quot;Offender Information&quot; &quot;Wells, III&quot;          
+##  [4] &quot;Amos&quot;                 &quot;08/20/1990&quot;           &quot;M&quot;                   
+##  [7] &quot;Black&quot;                &quot;11/22/2016&quot;           &quot;Tarrant&quot;             
+## [10] &quot;07/01/2013&quot;           &quot;999603&quot;               &quot;Offender Information&quot;
+## [13] &quot;Brownlow&quot;             &quot;Charles&quot;              &quot;09/16/1977&quot;</code></pre>
+<p>Now we basically have everything we need but the data is stored as a bunch of strings. We went every 10 of the strings to be a row. So we slice and bind into a <code>matrix</code>, and then convert to a <code>data.frame</code>. The first 10 rows of the final data.frame a displayed.</p>
+<pre class="r"><code>dt1 = table[1:10]
+
+for(i in 2:240) { 
+        dt1 = rbind(dt1,table[(10*i - 9):(10*i)])
+}
+
+dt1 = as.data.frame(dt1)
+row.names(dt1) = 1:dim(dt1)[1]
+colnames(dt1) = colname
+
+kable(head(dt1,10))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">TDCJ Number</th>
+<th align="left">Link</th>
+<th align="left">Last Name</th>
+<th align="left">First Name</th>
+<th align="left">Date of Birth</th>
+<th align="left">Gender</th>
+<th align="left">Race</th>
+<th align="left">Date Received</th>
+<th align="left">County</th>
+<th align="left">Date of Offense</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">999604</td>
+<td align="left">Offender Information</td>
+<td align="left">Wells, III</td>
+<td align="left">Amos</td>
+<td align="left">08/20/1990</td>
+<td align="left">M</td>
+<td align="left">Black</td>
+<td align="left">11/22/2016</td>
+<td align="left">Tarrant</td>
+<td align="left">07/01/2013</td>
+</tr>
+<tr class="even">
+<td align="left">999603</td>
+<td align="left">Offender Information</td>
+<td align="left">Brownlow</td>
+<td align="left">Charles</td>
+<td align="left">09/16/1977</td>
+<td align="left">M</td>
+<td align="left">Black</td>
+<td align="left">05/23/2016</td>
+<td align="left">Kaufman</td>
+<td align="left">10/28/2013</td>
+</tr>
+<tr class="odd">
+<td align="left">999602</td>
+<td align="left">Offender Information</td>
+<td align="left">Bluntson</td>
+<td align="left">Demond</td>
+<td align="left">11/25/1975</td>
+<td align="left">M</td>
+<td align="left">Black</td>
+<td align="left">05/10/2016</td>
+<td align="left">Webb</td>
+<td align="left">06/19/2012</td>
+</tr>
+<tr class="even">
+<td align="left">999601</td>
+<td align="left">Offender Information</td>
+<td align="left">Gonzalez</td>
+<td align="left">Mark</td>
+<td align="left">10/23/1969</td>
+<td align="left">M</td>
+<td align="left">Hispanic</td>
+<td align="left">01/28/2016</td>
+<td align="left">Bexar</td>
+<td align="left">05/28/2011</td>
+</tr>
+<tr class="odd">
+<td align="left">999600</td>
+<td align="left">Offender Information</td>
+<td align="left">Calvert</td>
+<td align="left">James</td>
+<td align="left">12/03/1970</td>
+<td align="left">M</td>
+<td align="left">White</td>
+<td align="left">10/16/2015</td>
+<td align="left">Smith</td>
+<td align="left">10/31/2012</td>
+</tr>
+<tr class="even">
+<td align="left">999599</td>
+<td align="left">Offender Information</td>
+<td align="left">Hall</td>
+<td align="left">Paul</td>
+<td align="left">02/18/1993</td>
+<td align="left">M</td>
+<td align="left">Asian</td>
+<td align="left">10/09/2015</td>
+<td align="left">Brazos</td>
+<td align="left">10/20/2011</td>
+</tr>
+<tr class="odd">
+<td align="left">999598</td>
+<td align="left">Offender Information</td>
+<td align="left">Williams</td>
+<td align="left">Eric</td>
+<td align="left">04/07/1967</td>
+<td align="left">M</td>
+<td align="left">White</td>
+<td align="left">12/18/2014</td>
+<td align="left">Kaufman</td>
+<td align="left">03/30/2013</td>
+</tr>
+<tr class="even">
+<td align="left">999597</td>
+<td align="left">Offender Information</td>
+<td align="left">Thomas</td>
+<td align="left">Steven</td>
+<td align="left">09/21/1958</td>
+<td align="left">M</td>
+<td align="left">White</td>
+<td align="left">12/05/2014</td>
+<td align="left">Williamson</td>
+<td align="left">11/04/1980</td>
+</tr>
+<tr class="odd">
+<td align="left">999596</td>
+<td align="left">Offender Information</td>
+<td align="left">Suniga</td>
+<td align="left">Brian</td>
+<td align="left">12/27/1979</td>
+<td align="left">M</td>
+<td align="left">White</td>
+<td align="left">10/30/2014</td>
+<td align="left">Lubbock</td>
+<td align="left">12/26/2011</td>
+</tr>
+<tr class="even">
+<td align="left">999595</td>
+<td align="left">Offender Information</td>
+<td align="left">Lewis, III</td>
+<td align="left">Harlem</td>
+<td align="left">07/05/1991</td>
+<td align="left">M</td>
+<td align="left">Black</td>
+<td align="left">08/01/2014</td>
+<td align="left">Harris</td>
+<td align="left">12/24/2012</td>
+</tr>
+</tbody>
+</table>
+<p>For the second web-page we use the functionality of the <code>rvest</code> package. The first 10 rows of the second data set are also displayed below.</p>
+<pre class="r"><code>page = read_html(&quot;https://www.tsl.texas.gov/ref/abouttx/popcnty2010-11.html&quot;)
+html_nodes(page,&quot;table&quot;)</code></pre>
+<pre><code>## {xml_nodeset (1)}
+## [1] &lt;table border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; style=&quot;width: 572p ...</code></pre>
+<pre class="r"><code>dt2 = html_table(html_nodes(page,&quot;table&quot;), header = T)[[1]]
+
+kable(head(dt2,10))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">COUNTY</th>
+<th align="left">7/1/2010</th>
+<th align="left">7/1/2011</th>
+<th align="left">7/1/2012</th>
+<th align="left">7/1/2013</th>
+<th align="left">7/1/2014</th>
+<th align="left">7/1/2015</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Anderson County, Texas</td>
+<td align="left">58,485</td>
+<td align="left">58,355</td>
+<td align="left">58,010</td>
+<td align="left">57,889</td>
+<td align="left">57,742</td>
+<td align="left">57,580</td>
+</tr>
+<tr class="even">
+<td align="left">Andrews County, Texas</td>
+<td align="left">14,835</td>
+<td align="left">15,393</td>
+<td align="left">16,121</td>
+<td align="left">16,800</td>
+<td align="left">17,457</td>
+<td align="left">18,105</td>
+</tr>
+<tr class="odd">
+<td align="left">Angelina County, Texas</td>
+<td align="left">86,917</td>
+<td align="left">87,325</td>
+<td align="left">87,623</td>
+<td align="left">87,661</td>
+<td align="left">87,875</td>
+<td align="left">88,255</td>
+</tr>
+<tr class="even">
+<td align="left">Aransas County, Texas</td>
+<td align="left">23,200</td>
+<td align="left">23,325</td>
+<td align="left">23,688</td>
+<td align="left">24,162</td>
+<td align="left">24,933</td>
+<td align="left">25,350</td>
+</tr>
+<tr class="odd">
+<td align="left">Archer County, Texas</td>
+<td align="left">9,108</td>
+<td align="left">8,836</td>
+<td align="left">8,781</td>
+<td align="left">8,754</td>
+<td align="left">8,808</td>
+<td align="left">8,715</td>
+</tr>
+<tr class="even">
+<td align="left">Armstrong County, Texas</td>
+<td align="left">1,899</td>
+<td align="left">1,931</td>
+<td align="left">1,945</td>
+<td align="left">1,957</td>
+<td align="left">1,948</td>
+<td align="left">1,947</td>
+</tr>
+<tr class="odd">
+<td align="left">Atascosa County, Texas</td>
+<td align="left">44,964</td>
+<td align="left">45,473</td>
+<td align="left">46,452</td>
+<td align="left">47,077</td>
+<td align="left">47,812</td>
+<td align="left">48,435</td>
+</tr>
+<tr class="even">
+<td align="left">Austin County, Texas</td>
+<td align="left">28,379</td>
+<td align="left">28,598</td>
+<td align="left">28,560</td>
+<td align="left">28,713</td>
+<td align="left">28,994</td>
+<td align="left">29,563</td>
+</tr>
+<tr class="odd">
+<td align="left">Bailey County, Texas</td>
+<td align="left">7,154</td>
+<td align="left">7,192</td>
+<td align="left">7,136</td>
+<td align="left">7,130</td>
+<td align="left">6,960</td>
+<td align="left">7,210</td>
+</tr>
+<tr class="even">
+<td align="left">Bandera County, Texas</td>
+<td align="left">20,551</td>
+<td align="left">20,556</td>
+<td align="left">20,616</td>
+<td align="left">20,621</td>
+<td align="left">20,916</td>
+<td align="left">21,269</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="exercise-2" class="section level1">
+<h1>Exercise 2</h1>
+<p>Here we build a function that connects to an Movie API. The function returns the title of the movie, its run time, and year released.</p>
+<pre class="r"><code>library(jsonlite)
+library(stringr)
+
+getMovieData = function(movie_name = &quot;Snatch&quot;) {
+        require(jsonlite)
+        require(stringr)
+        
+        #This block handles the case where only one title is passed on to the function.
+        if(length(movie_name) == 1) {
+        
+                name = str_replace_all(movie_name, &quot; &quot;, &quot;+&quot;)    #this handles the case with spaces
+                url = str_c(&quot;http://www.omdbapi.com/?t=&quot;,name)  #form the correct url
+                movie_info = fromJSON(url)                      #connect to the API
+                
+                info = data.frame(Movie_Title = movie_info$Title,
+                                  Year = movie_info$Year,
+                                  Minutes = movie_info$Runtime)
+                
+                # if the movie is not found an empty result is returned by the API
+                if(nrow(info) == 0) {
+                        print(&quot;ERROR: Movie Not Found (&gt;^&lt;)&quot;)
+                }else if (nrow(info) &gt;= 0){
+                
+                        return(info)
+                }
+                
+        #Now if multiple movies are requested
+        }else{
+                titles = movie_name
+                movie_info = as.list(movie_name)   #We will store the returned API info in a list of returns
+                
+                for(i in 1:length(movie_name)){
+                        movie_info[[i]] = fromJSON(str_c(
+                                &quot;http://www.omdbapi.com/?t=&quot;,
+                                str_replace_all(titles[i], &quot; &quot;, &quot;+&quot;)))
+                }
+                
+                #Here we check if at least one of the movies is not found
+                err = sum(!sapply(movie_info, function(x) as.logical(x[&quot;Response&quot;])))
+                if(err &gt; 0){
+                        err_index = which(!sapply(movie_info, function(x) as.logical(x[&quot;Response&quot;])) == TRUE)
+                        print(paste(&quot;Movie &#39;&quot;, paste0(titles[err_index]), &quot;&#39; not found.&quot;))
+                }else{
+                
+                        #Here extract the movie info from the list of API returned data.
+                        dt = data.frame(Title = sapply(movie_info,&quot;[[&quot;, 1),
+                                       Year = sapply(movie_info,&quot;[[&quot;, 2),
+                                       Length = sapply(movie_info,&quot;[[&quot;, 5))
+                        
+                        return(dt)
+                }
+        }
+}</code></pre>
+<p>By default you get info of my favorite movie.</p>
+<pre class="r"><code>getMovieData()</code></pre>
+<pre><code>##   Movie_Title Year Minutes
+## 1      Snatch 2000 102 min</code></pre>
+<p>The simplest case works too.</p>
+<pre class="r"><code>getMovieData(&quot;Cat&quot;)</code></pre>
+<pre><code>##            Movie_Title Year Minutes
+## 1 Black Cat, White Cat 1998 127 min</code></pre>
+<p>If the movie is not found you get a error.</p>
+<pre class="r"><code>getMovieData(&quot;jnbornvptorn&quot;)</code></pre>
+<pre><code>## [1] &quot;ERROR: Movie Not Found (&gt;^&lt;)&quot;</code></pre>
+<p>Multiple requests can also be made.</p>
+<pre class="r"><code>getMovieData(c(&quot;Cat&quot;,&quot;Dog&quot;,&quot;Frog&quot;))</code></pre>
+<pre><code>##                  Title Year  Length
+## 1 Black Cat, White Cat 1998 127 min
+## 2    Dog Day Afternoon 1975 125 min
+## 3                 Frog 1987  54 min</code></pre>
+<p>Spaces on titles are handled too.</p>
+<pre class="r"><code>getMovieData(&quot;World War&quot;)</code></pre>
+<pre><code>##   Movie_Title Year Minutes
+## 1 World War Z 2013 116 min</code></pre>
+<p>Even when multiple movies are requested.</p>
+<pre class="r"><code>getMovieData(c(&quot;World War&quot;, &quot;Dog&quot;))</code></pre>
+<pre><code>##               Title Year  Length
+## 1       World War Z 2013 116 min
+## 2 Dog Day Afternoon 1975 125 min</code></pre>
+<p>If multiple movies are requested by one of them is not found an error is returned saying which movie was not found.</p>
+<pre class="r"><code>getMovieData(c(&quot;World War&quot;, &quot;Dog&quot;, &quot;Hat&quot;, &quot;gjfdn&quot;))</code></pre>
+<pre><code>## [1] &quot;Movie &#39; gjfdn &#39; not found.&quot;</code></pre>
+</div>
+<div id="exercise-3" class="section level1">
+<h1>Exercise 3</h1>
+<p>In this exercise we load in a data set and use <code>SQL</code> to query it and answer some questions.</p>
+<pre class="r"><code>setwd(&quot;~/Box_Sync/UM_Winter_2017/STATS 701&quot;)
+
+library(sqldf)
+dt = read.csv(&quot;q3.csv&quot;, header = T, stringsAsFactors = F)
+
+v = str_replace_all(dt$Total.Construction.Cost..1.000...., &quot;,&quot;,&quot;&quot;)
+dt$Total.Construction.Cost..1.000.... = sapply(v, function(x) as.numeric(str_sub(x,2)))
+
+vv = str_replace_all(dt$Annual.Production..MWh., &quot;,&quot;,&quot;&quot;)
+dt$Annual.Production..MWh. = as.numeric(vv)</code></pre>
+<div id="i" class="section level2">
+<h2>i</h2>
+<p>How many total sites are there in Colorado?</p>
+<pre class="r"><code>sqldf(&quot;SELECT COUNT() Region FROM dt WHERE Region = &#39;UC&#39; OR Region = &#39;LC&#39;&quot;)</code></pre>
+<pre><code>##   Region
+## 1     70</code></pre>
+<p>There are apparently <code>70</code> sites.</p>
+</div>
+</div>
+<div id="ii" class="section level1">
+<h1>ii</h1>
+<p>What would be the total cost of building all sites in Lower Colorado?</p>
+<pre class="r"><code>sqldf(&#39;SELECT SUM(&quot;Total.Construction.Cost..1.000....&quot;) AS cost FROM dt WHERE Region = &quot;LC&quot;&#39;)</code></pre>
+<pre><code>##      cost
+## 1 52663.1</code></pre>
+<p>The total cost would be about $52.5 million.</p>
+</div>
+<div id="iii" class="section level1">
+<h1>iii</h1>
+<p>What 3 sites in the Great Plains (Region “GP”) have the lowest Cost Per Installed Capacity, restricted to those whose total cost is under 5 millions dollars?</p>
+<pre class="r"><code>sqldf(&#39;SELECT &quot;Site.Name.Facility&quot;, &quot;Total.Construction.Cost..1.000....&quot; FROM dt WHERE (Region = &quot;GP&quot; AND &quot;Total.Construction.Cost..1.000....&quot; &lt; 5000) ORDER BY &quot;Total.Construction.Cost..1.000....&quot; LIMIT 3 &#39;)</code></pre>
+<pre><code>##      Site.Name.Facility Total.Construction.Cost..1.000....
+## 1        Dickinson Dam                               229.3
+## 2           Norton Dam                               232.0
+## 3 Whalen Diversion Dam                               549.3</code></pre>
+<p>The above returned sites are the sites of interest.</p>
+</div>
+<div id="iv" class="section level1">
+<h1>iv</h1>
+<p>Which Region has the highest median estimated Annual Production?</p>
+<pre class="r"><code>sqldf(&#39;SELECT Region, MEDIAN(&quot;Annual.Production..MWh.&quot;) as med_prod FROM dt GROUP BY Region ORDER BY med_prod DESC&#39;)</code></pre>
+<pre><code>##   Region med_prod
+## 1     LC   5325.0
+## 2     PN   2937.5
+## 3     UC   1844.0
+## 4     GP   1399.0
+## 5     MP    945.5</code></pre>
+<p>Lower Colorado evidently has the highest median annual production (of electricity?).</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

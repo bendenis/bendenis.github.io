@@ -258,6 +258,23 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    STATS 701
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STATS_701_1.html">Web-Scraping/APIs/and SQL</a>
+    </li>
+    <li>
+      <a href="STATS_701_2.html">Visulazation/Cleaning/Debugging</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -291,6 +308,15 @@ $(document).ready(function () {
 
 
 <p>We begin by fitting a linear model based on the <code>Acetic , H2S , Lactic</code> covariates to see how they relate to the taste of cheddar.</p>
+<pre><code>## The following objects are masked from dt (pos = 7):
+## 
+##     Acetic, H2S, Lactic, taste</code></pre>
+<pre><code>## The following objects are masked from dt (pos = 24):
+## 
+##     Acetic, H2S, Lactic, taste</code></pre>
+<pre><code>## The following objects are masked from dt (pos = 32):
+## 
+##     Acetic, H2S, Lactic, taste</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = taste ~ Acetic + H2S + Lactic)

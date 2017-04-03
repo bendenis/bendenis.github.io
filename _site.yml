@@ -48,6 +48,13 @@ navbar:
               href: overview_696.html
             - text: "PM 2.5 Concentrations"
               href: BIOSTAT_1.html
+        - text: "STATS 701"
+          icon: fa-laptop
+          menu:
+             - text: "Web-Scraping/APIs/and SQL"
+               href: STATS_701_1.html
+             - text: "Visulazation/Cleaning/Debugging"
+               href: STATS_701_2.html
   right:
       - text: "Blog"
         icon: fa-medium

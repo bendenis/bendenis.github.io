@@ -31,6 +31,10 @@ Currently taking.
 - Computational Methods & Tools [STATS:506](http://dept.stat.lsa.umich.edu/~kshedden/Courses/Stat506/)
 In this course we were developing practical skills for working with data using statistical software packages including STATA, R, and SAS. The focus has been on understanding how the data is represented and used by computers when worked with in a given language. The emphasis was not of writing code that just works, but writing code that works efficiently. Some advanced topics included parallel/concurrent programming and distributed computing in Spark.
 
+- Special Topics in Applied Statistics II: [STATS:701](http://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/syllabus.html)
+This course focuses on issues surrounding the handling of raw data. So of the topics included web-scraping, data cleaning, software development in R, visualization, among others.
+
+
 #Contact:
 
 email: [bdshaff@umich.edu](bdshaff@umich.edu)
